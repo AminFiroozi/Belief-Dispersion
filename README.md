@@ -29,14 +29,8 @@ dataset = load_dataset("ashraq/financial-news")
 ```
 .
 ├── main.ipynb          # Main analysis notebook
-├── data/              # Data directory (to be added)
-│   ├── raw/          # Raw news data
-│   └── processed/    # Processed sentiment data
-├── src/              # Source code (to be added)
-│   ├── data/        # Data processing scripts
-│   ├── analysis/    # Analysis modules
-│   └── utils/       # Utility functions
-└── results/         # Analysis results and visualizations (to be added)
+├── requirements.txt    # Project dependencies
+└── .gitignore         # Git ignore file
 ```
 
 ## Setup and Installation
@@ -44,6 +38,13 @@ dataset = load_dataset("ashraq/financial-news")
 ### Prerequisites
 - Python 3.8+
 - pip (Python package installer)
+- Git
+
+### Dependencies
+The project requires the following main packages:
+- pandas (>=2.0.0): For data manipulation and analysis
+- nltk (>=3.8.1): For natural language processing
+- datasets (>=2.14.0): For accessing the Hugging Face dataset
 
 ### Installation
 1. Clone the repository:
@@ -54,8 +55,13 @@ cd belief-dispersion
 
 2. Create and activate a virtual environment (recommended):
 ```bash
+# On Windows
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+venv\Scripts\activate
+
+# On Unix/MacOS
+python -m venv venv
+source venv/bin/activate
 ```
 
 3. Install required packages:
@@ -63,13 +69,37 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## Usage
-1. Download the dataset using the Hugging Face datasets library
-2. Process and analyze the data using the provided notebooks and scripts
-3. Run the analysis notebook:
-```bash
-jupyter notebook main.ipynb
+## Dataset Usage
+The project uses the Financial News Dataset from Hugging Face. To get started:
+
+1. Install the required packages (see Installation section)
+2. Access the dataset using the Hugging Face datasets library:
+```python
+from datasets import load_dataset
+
+# Load the dataset
+dataset = load_dataset("ashraq/financial-news")
+
+# The dataset contains the following columns:
+# - headline: The news headline
+# - url: Source URL of the article
+# - publisher: Name of the news publisher
+# - date: Publication date
+# - stock_symbol: Associated stock symbol
 ```
+
+## Usage
+1. Start Jupyter Notebook:
+```bash
+jupyter notebook
+```
+
+2. Open `main.ipynb` to begin the analysis
+3. Follow the notebook cells to:
+   - Load and preprocess the data
+   - Perform sentiment analysis
+   - Calculate belief dispersion metrics
+   - Generate visualizations
 
 ## Research Methodology
 The project employs natural language processing (NLP) techniques to:
