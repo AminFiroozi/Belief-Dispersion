@@ -1,3 +1,19 @@
-pandas>=2.0.0
-nltk>=3.8.1
-datasets>=2.14.0 
+# requirements.txt (Updated May 31, 2025)
+
+# Core data handling and NLP
+pandas
+nltk
+datasets
+google-generativeai
+python-dotenv # For loading .env files
+
+# Dependencies pinned to resolve conflicts:
+protobuf==4.23.4
+websockets==8.1
+tensorboard==2.15.1
+tensorflow-intel==2.15.0
+tradermade==0.5.0
+
+# For running Jupyter Notebooks (if you are using Jupyter Lab or Notebook)
+jupyter
+ipykernel
