@@ -9,6 +9,22 @@ This research project focuses on analyzing belief dispersion in stock market new
 - Investigate the relationship between sentiment dispersion and market movements
 - Develop quantitative metrics for belief heterogeneity in financial news
 
+## Dataset
+This project uses the Financial News Dataset from Hugging Face, which contains over 1.8 million financial news articles. The dataset includes:
+- Headlines
+- Article URLs
+- Publisher information
+- Publication dates
+- Stock symbols
+
+You can access the dataset here: [Financial News Dataset](https://huggingface.co/datasets/ashraq/financial-news)
+
+To use the dataset:
+```python
+from datasets import load_dataset
+dataset = load_dataset("ashraq/financial-news")
+```
+
 ## Project Structure
 ```
 .
@@ -48,8 +64,9 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-1. Place your news data in the `data/raw` directory
-2. Run the analysis notebook:
+1. Download the dataset using the Hugging Face datasets library
+2. Process and analyze the data using the provided notebooks and scripts
+3. Run the analysis notebook:
 ```bash
 jupyter notebook main.ipynb
 ```
