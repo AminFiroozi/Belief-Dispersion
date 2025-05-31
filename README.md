@@ -30,7 +30,8 @@ dataset = load_dataset("ashraq/financial-news")
 .
 ├── main.ipynb          # Main analysis notebook
 ├── requirements.txt    # Project dependencies
-└── .gitignore         # Git ignore file
+├── .gitignore         # Git ignore file
+└── .env              # Environment variables (not tracked in git)
 ```
 
 ## Setup and Installation
@@ -39,12 +40,26 @@ dataset = load_dataset("ashraq/financial-news")
 - Python 3.8+
 - pip (Python package installer)
 - Git
+- Google Cloud account (for Gemini API access)
 
 ### Dependencies
-The project requires the following main packages:
-- pandas (>=2.0.0): For data manipulation and analysis
-- nltk (>=3.8.1): For natural language processing
-- datasets (>=2.14.0): For accessing the Hugging Face dataset
+The project requires the following packages:
+
+#### Core Dependencies
+- pandas: For data manipulation and analysis
+- nltk: For natural language processing
+- datasets: For accessing the Hugging Face dataset
+- google-generativeai: For using Google's Gemini model
+- python-dotenv: For managing environment variables
+
+#### Additional Dependencies
+- protobuf==4.23.4
+- websockets==8.1
+- tensorboard==2.15.1
+- tensorflow-intel==2.15.0
+- tradermade==0.5.0
+- jupyter: For running Jupyter notebooks
+- ipykernel: For Jupyter notebook support
 
 ### Installation
 1. Clone the repository:
@@ -56,17 +71,23 @@ cd belief-dispersion
 2. Create and activate a virtual environment (recommended):
 ```bash
 # On Windows
-python -m venv venv
-venv\Scripts\activate
+python -m venv .venv
+.venv\Scripts\activate
 
 # On Unix/MacOS
-python -m venv venv
-source venv/bin/activate
+python -m venv .venv
+source .venv/bin/activate
 ```
 
 3. Install required packages:
 ```bash
 pip install -r requirements.txt
+```
+
+4. Set up environment variables:
+Create a `.env` file in the project root with your Google API key:
+```
+GOOGLE_API_KEY=your_api_key_here
 ```
 
 ## Dataset Usage
@@ -97,14 +118,14 @@ jupyter notebook
 2. Open `main.ipynb` to begin the analysis
 3. Follow the notebook cells to:
    - Load and preprocess the data
-   - Perform sentiment analysis
+   - Perform sentiment analysis using Google's Gemini model
    - Calculate belief dispersion metrics
    - Generate visualizations
 
 ## Research Methodology
-The project employs natural language processing (NLP) techniques to:
+The project employs advanced natural language processing (NLP) techniques to:
 1. Collect and preprocess financial news data
-2. Perform sentiment analysis using advanced NLP models
+2. Perform sentiment analysis using Google's Gemini model
 3. Calculate belief dispersion metrics
 4. Analyze temporal patterns and correlations with market data
 
