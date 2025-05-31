@@ -150,4 +150,4 @@ If you use this research in your work, please cite:
 ```
 
 ## Contact
-For questions or collaborations, please open an issue in the repository or contact [your-email@example.com]. 
+For questions or collaborations, please open an issue in the repository or contact [afiroozi83@gmail.com]. 
