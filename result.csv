@@ -1,0 +1,114 @@
+id,event,date,source,headline,type,sentiment_score,sentiment_label,gemini_sentiment
+,SVB Collapse,2023-03-10,WSJ,"Silicon Valley Bank Closed by Regulators, FDIC Takes Control",Agreement,,Negative,-1
+,SVB Collapse,2023-03-10,WSJ,Bets Against Banks Surge,Agreement,,Negative,-0.6
+,SVB Collapse,2023-03-10,WSJ,"Silicon Valley Bank Closed by Regulators, FDIC Takes Control",Agreement,,Negative,-1
+,SVB Collapse,2023-03-10,WSJ,SVB Stock Halted After Sharp Selloff; Bank Exploring Possible Sale,Agreement,,Negative,-0.8
+,SVB Collapse,2023-03-10,WSJ,Signature Bank Is Shut by Regulators After SVB Collapse,Agreement,,Negative,-0.8
+,SVB Collapse,2023-03-10,CNN,Silicon Valley Bank collapse sparks contagion fears,Agreement,,Negative,-1
+,SVB Collapse,2023-03-10,CNN,Silicon Valley Bank collapse has echoes of 2008. Here’s why things are different this time,Agreement,,Negative,-0.4
+,SVB Collapse,2023-03-10,The Guardian,Why did Silicon Valley Bank fail?,Agreement,,Negative,-0.8
+,SVB Collapse,2023-03-10,The Guardian,Silicon Valley Bank fails in largest bank collapse since 2008 crisis,Agreement,,Negative,-1
+,SVB Collapse,2023-03-10,Yahoo Finance,SVB collapse highlights $620 billion hole lurking in banks’ balance sheets,Agreement,,Negative,-0.8
+,SVB Collapse,2023-03-11,CNBC,"Dow closes more than 300 points lower, posts worst week since June as Silicon Valley Bank collapse sparks selloff: Live updates",Agreement,,Negative,-0.9
+,SVB Collapse,2023-03-11,CNN,Takeaways from America’s second-largest bank failure,Agreement,,Negative,-0.6
+,SVB Collapse,2023-03-11,The Guardian,Silicon Valley Bank chief pressed Congress to weaken risk regulations,Agreement,,Negative,-0.4
+,SVB Collapse,2023-03-11,Yahoo Finance,Thiel’s Founders Fund Withdrew Millions From Silicon Valley Bank,Agreement,,Negative,-0.6
+,SVB Collapse,2023-03-12,CNN,US banks sitting on unrealized losses of $620 billion,Agreement,,Negative,-0.6
+,SVB Collapse,2023-03-12,The Guardian,"US guarantees all deposits after Silicon Valley Bank collapse, as Biden promises action",Agreement,,Negative,+0.6
+,SVB Collapse,2023-03-12,Yahoo Finance,The first social media bank run? A newsletter popular with VCs may have been the domino that started the Silicon Valley Bank implosion,Agreement,,Negative,-0.8
+,SVB Collapse,2023-03-12,Yahoo Finance,Regulators seize Signature Bank in third-largest US bank failure,Agreement,,Negative,-0.8
+,SVB Collapse,2023-03-13,The Guardian,Silicon Valley Bank: why did it collapse and is this the start of a banking crisis?,Agreement,,Negative,-0.8
+,SVB Collapse,2023-03-13,CNN,Chinese companies and founders rush to calm investors after SVB collapse,Agreement,,Negative,-0.3
+,SVB Collapse,2023-03-13,CNN,‘Absolutely idiotic’. SVB insider says employees are angry with CEO,Agreement,,Negative,-0.3
+,SVB Collapse,2023-03-13,The Guardian,Silicon Valley Bank: global banking shares slide as fallout spreads,Agreement,,Negative,-0.9
+,SVB Collapse,2023-03-13,The Guardian,Silicon Valley Bank: why did it collapse and is this the start of a banking crisis?,Agreement,,Negative,-0.8
+,SVB Collapse,2023-03-13,Yahoo Finance,"Silicon Valley Bank implosion shows why FDIC insurance is so important. Here’s how it works, and how it could be the key to protecting your money",Agreement,,Negative,-0.4
+,SVB Collapse,2023-03-14,CNBC,Dow falls for a fifth day despite emergency backstop of Silicon Valley Bank,Agreement,,Negative,-0.6
+,SVB Collapse,2023-03-14,WSJ,Investor Fear Hits Fever Pitch After Silicon Valley Bank Failure,Agreement,,Negative,-1
+,Russia's invasion of Ukraine,2022-02-23,BBC,Russia-Ukraine crisis: How likely is it to escalate into broader war?,Agreement,,Negative,-0.8
+,Russia's invasion of Ukraine,2022-02-24,Reuters,Insight: NATO leaves Black Sea exposed as Russia invades Ukraine,Agreement,,Negative,-0.8
+,Russia's invasion of Ukraine,2022-02-24,Reuters,Mondelez CEO says will close plants in Ukraine if situation becomes 'too dangerous',Agreement,,Negative,-0.1
+,Russia's invasion of Ukraine,2022-02-24,Reuters,"Russia has launched full-scale invasion of Ukraine, Kyiv says",Agreement,,Negative,-1
+,Russia's invasion of Ukraine,2022-02-24,BBC,Ukraine conflict: Russian forces attack from three sides,Agreement,,Negative,-0.8
+,Russia's invasion of Ukraine,2022-02-24,BBC,"Ukraine conflict world reaction: Sanctions, refugees and fears of war",Agreement,,Negative,-0.8
+,Russia's invasion of Ukraine,2022-02-24,BBC,Ukraine conflict: Why Biden won't send troops to Ukraine,Agreement,,Negative,0
+,Russia's invasion of Ukraine,2022-02-24,BBC,"Russia attack on Ukraine catastrophe for Europe, say Boris Johnson",Agreement,,Negative,-0.9
+,Russia's invasion of Ukraine,2022-02-24,BBC,"Ukraine and Russia 'war': Nigeria, Ghana students dey in 'panic mode' afta Vladimir Putin order military operation",Agreement,,Negative,-0.3
+,Russia's invasion of Ukraine,2022-02-24,WSJ,Russia Begins Military Operation in Ukraine,Agreement,,Negative,-1
+,Russia's invasion of Ukraine,2022-02-24,WSJ,Ukraine Invasion Is Putin’s Most Aggressive Move Yet to Restore Russia’s Place in the World,Agreement,,Negative,-0.8
+,Russia's invasion of Ukraine,2022-02-24,WSJ,War on Ukraine Ends Europe’s Dream of Russia as a Friend,Agreement,,Negative,-0.3
+,Russia's invasion of Ukraine,2022-02-24,WSJ,Oil Prices Surge Above $100 a Barrel After Russia Invades Ukraine,Agreement,,Negative,-0.6
+,Russia's invasion of Ukraine,2022-02-25,Reuters,Activist Thunberg protests against Ukraine invasion outside Russian embassy in Stockholm,Agreement,,Negative,0
+,Russia's invasion of Ukraine,2022-02-25,Reuters,Investors rush to money market funds in days before Russia's Ukraine invasion,Agreement,,Negative,-0.3
+,Russia's invasion of Ukraine,2022-02-25,Reuters,Canadian liquor stores remove Russian vodka from shelves after Ukraine invasion,Agreement,,Negative,0
+,Russia's invasion of Ukraine,2022-02-25,Reuters,Philip Morris suspends Ukraine operations after Russian invasion,Agreement,,Negative,-0.2
+,Russia's invasion of Ukraine,2022-02-25,The Guardian,Russian forces tighten hold on Kyiv in attempt to topple government,Agreement,,Negative,-0.8
+,Russia's invasion of Ukraine,2022-02-25,WSJ,Ukrainian Capital Rocked by Explosions as Russia Intensifies Attack,Agreement,,Negative,-0.6
+,Russia's invasion of Ukraine,2022-02-25,WSJ,"Mockery of West, Warnings to Taiwan Fill Chinese Social Media After Ukraine Invasion",Agreement,,Negative,-0.3
+,Russia's invasion of Ukraine,2022-02-26,BBC,Ukraine invasion: Russia restricts social media access,Agreement,,Negative,-0.3
+,Russia's invasion of Ukraine,2022-02-26,BBC,Millions in Bitcoin pouring into Ukraine from donors,Agreement,,Negative,0
+,Russia's invasion of Ukraine,2022-02-26,The Guardian,Explosions and gunfire across Kyiv during Russian night assault – video,Agreement,,Negative,-0.6
+,Russia's invasion of Ukraine,2022-02-26,WSJ,Russian Forces Close In on Ukraine’s Capital as Kyiv Prepares to Fight,Agreement,,Negative,-0.8
+,Russia's invasion of Ukraine,2022-02-26,WSJ,Pakistan’s Leader Went Ahead With Russia Visit Despite Push to Isolate Putin Over Ukraine,Agreement,,Negative,-0.2
+,Russia's invasion of Ukraine,2022-02-27,Reuters,Musk says Starlink active in Ukraine as Russian invasion disrupts internet,Agreement,,Negative,0.1
+,Elon Musk's Twitter acquisition,2022-04-04,BBC,Elon Musk makes offer to buy Twitter,Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-04-04,CNN,"Elon Musk buys 9.2% stake in Twitter, making him the largest shareholder | CNN Business",Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-04-14,CNN,"Elon Musk says his offer to buy Twitter is about ‘the future of civilization,’ not making money | CNN Business",Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-04-25,WSJ,Twitter Accepts Elon Musk’s Offer to Buy Company in $44 Billion Deal,Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-04-26,CNBC,Jack Dorsey says Elon Musk is the 'singular solution I trust' to run Twitter,Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-04-27,WSJ,Why Elon Musk’s Twitter Won’t Be What Fans or Critics Expect,Disagreement,,Negative,0
+,Elon Musk's Twitter acquisition,2022-05-11,BBC,Elon Musk would reverse Donald Trump's Twitter ban,Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-05-13,BBC,Elon Musk puts Twitter deal on hold over fake account details,Disagreement,,Negative,-0.2
+,Elon Musk's Twitter acquisition,2022-05-13,CNN,"If Elon Musk restores Trump’s Twitter account, it could pave the way for other platforms to do the same | CNN Business",Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-05-17,CNN,Elon Musk says Twitter deal can’t happen until bot account dispute is resolved | CNN Business,Disagreement,,Negative,-0.1
+,Elon Musk's Twitter acquisition,2022-05-26,CNBC,Twitter shareholders sue Elon Musk and Twitter over chaotic deal,Disagreement,,Negative,0
+,Elon Musk's Twitter acquisition,2022-06-06,WSJ,Elon Musk Threatens to End Twitter Deal Over Lack of Information on Spam Accounts,Disagreement,,Negative,-0.2
+,Elon Musk's Twitter acquisition,2022-06-06,BBC,Elon Musk threatens to walk away from Twitter deal,Disagreement,,Negative,-0.2
+,Elon Musk's Twitter acquisition,2022-06-28,WSJ,"Elon Musk Got Twitter’s Data Dump, Next Comes the Hard Part",Disagreement,,Negative,0
+,Elon Musk's Twitter acquisition,2022-07-08,CNBC,Elon Musk notifies Twitter he is terminating deal,Disagreement,,Negative,-0.2
+,Elon Musk's Twitter acquisition,2022-07-09,WSJ,Elon Musk Seeks to Abandon $44 Billion Twitter Deal,Disagreement,,Negative,-0.2
+,Elon Musk's Twitter acquisition,2022-07-09,CNN,Musk tells Twitter he wants out of deal to buy it. Twitter says it will force him to close the sale | CNN Business,Disagreement,,Negative,-0.2
+,Elon Musk's Twitter acquisition,2022-07-11,BBC,Twitter shares fall as Elon Musk backs out of deal,Disagreement,,Negative,-0.2
+,Elon Musk's Twitter acquisition,2022-07-11,CNN,Twitter’s legal team calls Elon Musk’s attempt to exit acquisition deal ‘invalid and wrongful’ | CNN Business,Disagreement,,Negative,0
+,Elon Musk's Twitter acquisition,2022-07-12,WSJ,Twitter Sues Elon Musk to Enforce $44 Billion Merger,Disagreement,,Negative,0
+,Elon Musk's Twitter acquisition,2022-07-12,CNBC,Twitter sues Elon Musk to enforce original merger agreement,Disagreement,,Negative,-0.2
+,Elon Musk's Twitter acquisition,2022-07-15,WSJ,The High-Profile Attorneys Backing Twitter and Elon Musk,Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-07-22,CNBC,"Twitter misses earnings expectations, partially blames revenue drop on Elon Musk takeover bid",Disagreement,,Negative,-0.1
+,Elon Musk's Twitter acquisition,2022-10-05,CNBC,Twitter shares rise as company announces it approved Musk's $44 billion acquisition bid,Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-10-14,BBC,Elon Musk under federal investigation over Twitter deal,Disagreement,,Negative,-0.2
+,Elon Musk's Twitter acquisition,2022-10-27,BBC,Elon Musk claims he's buying Twitter to 'help humanity',Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-10-27,CNBC,"Billionaire Elon Musk steps into Twitter HQ, sink in hand",Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-10-28,WSJ,"WSJ News Exclusive | Elon Musk Says Twitter Won’t Be ‘Free-for-All Hellscape,’ Addressing Advertisers’ Concerns",Disagreement,,Negative,0.1
+,Elon Musk's Twitter acquisition,2022-10-28,BBC,Elon Musk takes control of Twitter in $44bn deal,Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-10-28,CNN,Twitter confirms completion of Elon Musk’s $44 billion acquisition deal | CNN Business,Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-10-28,CNN,Elon Musk has taken control of Twitter and fired its top executives | CNN Business,Disagreement,,Negative,0
+,Elon Musk's Twitter acquisition,2022-10-28,CNN,Elon Musk now owns Twitter. Here’s what he could change | CNN Business,Disagreement,,Positive,0
+,Elon Musk's Twitter acquisition,2022-10-28,CNN,Elon Musk will have to pay three fired Twitter executives nearly $200 million | CNN Business,Disagreement,,Negative,0
+,Elon Musk's Twitter acquisition,2022-10-31,CNBC,Elon Musk has pulled more than 50 Tesla employees into his Twitter takeover,Disagreement,,Negative,-0.3
+,Chat GPT launch,2022-12-05,CNN,This AI chatbot is dominating social media with its frighteningly good essays | CNN Business,Disagreement,,Positive,0
+,Chat GPT launch,2022-12-06,BBC,ChatGPT: New AI chatbot has everyone talking to it,Disagreement,,Positive,0.1
+,Chat GPT launch,2022-12-15,Reuters,Exclusive: ChatGPT owner OpenAI projects $1 billion in revenue by 2024,Disagreement,,Positive,0.2
+,Chat GPT launch,2022-12-18,CNN,On GPS: A new AI breakthrough | CNN,Disagreement,,Positive,0.3
+,Chat GPT launch,2022-12-26,CNN,‘Flood of cheating’: Expert warns new tool will be a game changer for cheaters | CNN Business,Disagreement,,Negative,0
+,Chat GPT launch,2023-01-24,CNN,Microsoft confirms it’s investing billions in the creator of ChatGPT | CNN Business,Disagreement,,Positive,0.2
+,Chat GPT launch,2023-01-25,CNN,Scott Galloway on the ‘scarier part’ of AI tools like ChatGPT | CNN Business,Disagreement,,Negative,-0.2
+,Chat GPT launch,2023-01-26,CNN,ChatGPT passes exams from law and business schools | CNN Business,Disagreement,,Positive,0.2
+,Chat GPT launch,2023-02-05,WSJ,WSJ News Exclusive | ChatGPT Creator Is Talking to Investors About Selling Shares at $29 Billion Valuation,Disagreement,,Positive,0
+,Chat GPT launch,2023-02-06,BBC,Google killer' ChatGPT sparks AI chatbot race,Disagreement,,Positive,0
+,Chat GPT launch,2023-02-06,BBC,Bard: Google launches ChatGPT rival,Disagreement,,Negative,0
+,Chat GPT launch,2023-02-09,Reuters,Microsoft co-founder Bill Gates: ChatGPT 'will change our world',Disagreement,,Positive,0.2
+,Chat GPT launch,2023-02-11,WSJ,The AI Boom That Could Make Google and Microsoft Even More Powerful,Disagreement,,Positive,+0.3
+,Chat GPT launch,2023-02-12,Reuters,ChatGPT frenzy sweeps China as firms scramble for home-grown options,Disagreement,,Negative,0
+,Chat GPT launch,2023-02-13,BBC,Could AI swamp social media with fake accounts?,Disagreement,,Negative,-0.3
+,Chat GPT launch,2023-02-14,BBC,AI chatbots fit cause chaos for social media?,Disagreement,,Negative,-0.3
+,Chat GPT launch,2023-02-14,BBC,OpenAI announces ChatGPT successor GPT-4,Disagreement,,Positive,0.2
+,Chat GPT launch,2023-02-18,WSJ,AI in the Workplace Is Already Here. The First Battleground? Call Centers,Disagreement,,???,0.1
+,Chat GPT launch,2023-02-22,CNN,Vanderbilt University apologizes for using ChatGPT to write mass-shooting email | CNN Business,Disagreement,,Negative,0
+,Chat GPT launch,2023-02-23,WSJ,Opinion | Who’s Afraid of ChatGPT?,Disagreement,,Negative,0
+,Chat GPT launch,2023-02-24,BBC,The AI emotions dreamed up by ChatGPT,Disagreement,,Positive,0
+,Chat GPT launch,2023-02-25,WSJ,Don’t Trust an AI Chatbot With All Your Travel Plans Just Yet,Disagreement,,Negative,0
+,Chat GPT launch,2023-02-28,BBC,Universities warn against using ChatGPT for assignments,Disagreement,,Negative,0
+,Chat GPT launch,2023-03-15,BBC,AI: How 'freaked out' should we be?,Disagreement,,Negative,-0.3
+,Chat GPT launch,2023-03-15,WSJ,OpenAI Rolls Out New GPT-4 Version of Chatbot ChatGPT,Disagreement,,Positive,0.2
+,Chat GPT launch,2023-03-16,CNN,"Microsoft is bringing ChatGPT technology to Word, Excel and Outlook | CNN Business",Disagreement,,Positive,0.2
+,Chat GPT launch,2023-03-16,WSJ,Opinion | ChatGPT Libeled Me. Can I Sue?,Disagreement,,Negative,0
