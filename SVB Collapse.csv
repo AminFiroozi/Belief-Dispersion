@@ -1,27 +1,27 @@
-headline,sentiment
-"Silicon Valley Bank Closed by Regulators, FDIC Takes Control",-0.7
-Bets Against Banks Surge,-0.6
-"Silicon Valley Bank Closed by Regulators, FDIC Takes Control",-0.7
-SVB Stock Halted After Sharp Selloff; Bank Exploring Possible Sale,-0.8
-Signature Bank Is Shut by Regulators After SVB Collapse,-0.7
-Silicon Valley Bank collapse sparks contagion fears,-0.9
-Silicon Valley Bank collapse has echoes of 2008. Here’s why things are different this time,-0.3
-Why did Silicon Valley Bank fail?,-0.2
-Silicon Valley Bank fails in largest bank collapse since 2008 crisis,-0.8
-SVB collapse highlights $620 billion hole lurking in banks’ balance sheets,-0.9
-"Dow closes more than 300 points lower, posts worst week since June as Silicon Valley Bank collapse sparks selloff: Live updates",-0.7
-Takeaways from America’s second-largest bank failure,-0.4
-Silicon Valley Bank chief pressed Congress to weaken risk regulations,-0.5
-Thiel’s Founders Fund Withdrew Millions From Silicon Valley Bank,-0.6
-US banks sitting on unrealized losses of $620 billion,-0.8
-"US guarantees all deposits after Silicon Valley Bank collapse, as Biden promises action",+0.5
-The first social media bank run? A newsletter popular with VCs may have been the domino that started the Silicon Valley Bank implosion,-0.4
-Regulators seize Signature Bank in third-largest US bank failure,-0.7
-Silicon Valley Bank: why did it collapse and is this the start of a banking crisis?,-0.6
-Chinese companies and founders rush to calm investors after SVB collapse,-0.3
-‘Absolutely idiotic’. SVB insider says employees are angry with CEO,-0.4
-Silicon Valley Bank: global banking shares slide as fallout spreads,-0.7
-Silicon Valley Bank: why did it collapse and is this the start of a banking crisis?,-0.6
-"Silicon Valley Bank implosion shows why FDIC insurance is so important. Here’s how it works, and how it could be the key to protecting your money",+0.2
-Dow falls for a fifth day despite emergency backstop of Silicon Valley Bank,-0.5
-Investor Fear Hits Fever Pitch After Silicon Valley Bank Failure,-0.9
+headline,gemini_collective_sentiment
+"Silicon Valley Bank Closed by Regulators, FDIC Takes Control",
+Bets Against Banks Surge,
+"Silicon Valley Bank Closed by Regulators, FDIC Takes Control",
+SVB Stock Halted After Sharp Selloff; Bank Exploring Possible Sale,
+Signature Bank Is Shut by Regulators After SVB Collapse,
+Silicon Valley Bank collapse sparks contagion fears,
+Silicon Valley Bank collapse has echoes of 2008. Here’s why things are different this time,
+Why did Silicon Valley Bank fail?,
+Silicon Valley Bank fails in largest bank collapse since 2008 crisis,
+SVB collapse highlights $620 billion hole lurking in banks’ balance sheets,
+"Dow closes more than 300 points lower, posts worst week since June as Silicon Valley Bank collapse sparks selloff: Live updates",
+Takeaways from America’s second-largest bank failure,
+Silicon Valley Bank chief pressed Congress to weaken risk regulations,
+Thiel’s Founders Fund Withdrew Millions From Silicon Valley Bank,
+US banks sitting on unrealized losses of $620 billion,
+"US guarantees all deposits after Silicon Valley Bank collapse, as Biden promises action",
+The first social media bank run? A newsletter popular with VCs may have been the domino that started the Silicon Valley Bank implosion,
+Regulators seize Signature Bank in third-largest US bank failure,
+Silicon Valley Bank: why did it collapse and is this the start of a banking crisis?,
+Chinese companies and founders rush to calm investors after SVB collapse,
+‘Absolutely idiotic’. SVB insider says employees are angry with CEO,
+Silicon Valley Bank: global banking shares slide as fallout spreads,
+Silicon Valley Bank: why did it collapse and is this the start of a banking crisis?,
+"Silicon Valley Bank implosion shows why FDIC insurance is so important. Here’s how it works, and how it could be the key to protecting your money",
+Dow falls for a fifth day despite emergency backstop of Silicon Valley Bank,
+Investor Fear Hits Fever Pitch After Silicon Valley Bank Failure,
