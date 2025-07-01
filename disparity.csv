@@ -1,0 +1,37 @@
+,event,model,disparity_function,value
+0,Chat GPT launch,gemini_individual_sentiment,range_dispersion,0.3
+1,Chat GPT launch,gemini_individual_sentiment,std_dispersion,0.15669774667634206
+2,Chat GPT launch,gemini_individual_sentiment,conflict_index,0.962962962962963
+3,Chat GPT launch,gemini_collective_sentiment,range_dispersion,0.75
+4,Chat GPT launch,gemini_collective_sentiment,std_dispersion,0.4441048084999583
+5,Chat GPT launch,gemini_collective_sentiment,conflict_index,0.9407407407407408
+6,Chat GPT launch,finbert_sentiment,range_dispersion,0.696906743
+7,Chat GPT launch,finbert_sentiment,std_dispersion,0.3092582255698074
+8,Chat GPT launch,finbert_sentiment,conflict_index,0.9187540301304348
+9,Elon Musk's Twitter acquisition,gemini_individual_sentiment,range_dispersion,0.15
+10,Elon Musk's Twitter acquisition,gemini_individual_sentiment,std_dispersion,0.09305465893856692
+11,Elon Musk's Twitter acquisition,gemini_individual_sentiment,conflict_index,0.9323529411764706
+12,Elon Musk's Twitter acquisition,gemini_collective_sentiment,range_dispersion,0.7
+13,Elon Musk's Twitter acquisition,gemini_collective_sentiment,std_dispersion,0.38266955217154336
+14,Elon Musk's Twitter acquisition,gemini_collective_sentiment,conflict_index,0.8058823529411765
+15,Elon Musk's Twitter acquisition,finbert_sentiment,range_dispersion,0.7017892365
+16,Elon Musk's Twitter acquisition,finbert_sentiment,std_dispersion,0.46375828660410523
+17,Elon Musk's Twitter acquisition,finbert_sentiment,conflict_index,0.675453365617647
+18,Russia's invasion of Ukraine,gemini_individual_sentiment,range_dispersion,0.55
+19,Russia's invasion of Ukraine,gemini_individual_sentiment,std_dispersion,0.3430846842861336
+20,Russia's invasion of Ukraine,gemini_individual_sentiment,conflict_index,0.5192307692307692
+21,Russia's invasion of Ukraine,gemini_collective_sentiment,range_dispersion,0.55
+22,Russia's invasion of Ukraine,gemini_collective_sentiment,std_dispersion,0.3090594626917123
+23,Russia's invasion of Ukraine,gemini_collective_sentiment,conflict_index,0.5423076923076924
+24,Russia's invasion of Ukraine,finbert_sentiment,range_dispersion,0.8423019555
+25,Russia's invasion of Ukraine,finbert_sentiment,std_dispersion,0.4903401675440382
+26,Russia's invasion of Ukraine,finbert_sentiment,conflict_index,0.7622678140000001
+27,SVB Collapse,gemini_individual_sentiment,range_dispersion,0.8
+28,SVB Collapse,gemini_individual_sentiment,std_dispersion,0.3174376579214676
+29,SVB Collapse,gemini_individual_sentiment,conflict_index,0.32999999999999996
+30,SVB Collapse,gemini_collective_sentiment,range_dispersion,0.7
+31,SVB Collapse,gemini_collective_sentiment,std_dispersion,0.3072458299147443
+32,SVB Collapse,gemini_collective_sentiment,conflict_index,0.43999999999999995
+33,SVB Collapse,finbert_sentiment,range_dispersion,0.608457327
+34,SVB Collapse,finbert_sentiment,std_dispersion,0.36537832346524796
+35,SVB Collapse,finbert_sentiment,conflict_index,0.4515823544666666
