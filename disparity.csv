@@ -2,45 +2,75 @@
 0,COVID-19 Vaccine Approval,gemini_individual_sentiment,range_dispersion,0.55
 1,COVID-19 Vaccine Approval,gemini_individual_sentiment,std_dispersion,0.3047027239786346
 2,COVID-19 Vaccine Approval,gemini_individual_sentiment,conflict_index,0.79125
-3,COVID-19 Vaccine Approval,gemini_collective_sentiment,range_dispersion,0.8
-4,COVID-19 Vaccine Approval,gemini_collective_sentiment,std_dispersion,0.3663603382749523
-5,COVID-19 Vaccine Approval,gemini_collective_sentiment,conflict_index,0.72390625
-6,COVID-19 Vaccine Approval,finbert_sentiment,range_dispersion,0.9227598747238517
-7,COVID-19 Vaccine Approval,finbert_sentiment,std_dispersion,0.4131075439864386
-8,COVID-19 Vaccine Approval,finbert_sentiment,conflict_index,0.6548301690054359
-9,Chat GPT launch,gemini_individual_sentiment,range_dispersion,0.15
-10,Chat GPT launch,gemini_individual_sentiment,std_dispersion,0.11196064123246698
-11,Chat GPT launch,gemini_individual_sentiment,conflict_index,0.9316666666666666
-12,Chat GPT launch,gemini_collective_sentiment,range_dispersion,0.525
-13,Chat GPT launch,gemini_collective_sentiment,std_dispersion,0.34496177796661404
-14,Chat GPT launch,gemini_collective_sentiment,conflict_index,0.8870370370370371
-15,Chat GPT launch,finbert_sentiment,range_dispersion,0.6969067431055009
-16,Chat GPT launch,finbert_sentiment,std_dispersion,0.296698412910623
-17,Chat GPT launch,finbert_sentiment,conflict_index,0.9473551305321356
-18,Elon Musk's Twitter acquisition,gemini_individual_sentiment,range_dispersion,0.25
-19,Elon Musk's Twitter acquisition,gemini_individual_sentiment,std_dispersion,0.10511702573962993
-20,Elon Musk's Twitter acquisition,gemini_individual_sentiment,conflict_index,0.9416176470588236
-21,Elon Musk's Twitter acquisition,gemini_collective_sentiment,range_dispersion,0.45
-22,Elon Musk's Twitter acquisition,gemini_collective_sentiment,std_dispersion,0.2462260123036315
-23,Elon Musk's Twitter acquisition,gemini_collective_sentiment,conflict_index,0.9114705882352941
-24,Elon Musk's Twitter acquisition,finbert_sentiment,range_dispersion,0.7017892366275191
-25,Elon Musk's Twitter acquisition,finbert_sentiment,std_dispersion,0.4684796770259683
-26,Elon Musk's Twitter acquisition,finbert_sentiment,conflict_index,0.6809807680547237
-27,Russia's invasion of Ukraine,gemini_individual_sentiment,range_dispersion,0.4
-28,Russia's invasion of Ukraine,gemini_individual_sentiment,std_dispersion,0.19076351185596604
-29,Russia's invasion of Ukraine,gemini_individual_sentiment,conflict_index,0.6878846153846154
-30,Russia's invasion of Ukraine,gemini_collective_sentiment,range_dispersion,0.515
-31,Russia's invasion of Ukraine,gemini_collective_sentiment,std_dispersion,0.3152347204767946
-32,Russia's invasion of Ukraine,gemini_collective_sentiment,conflict_index,0.5496153846153846
-33,Russia's invasion of Ukraine,finbert_sentiment,range_dispersion,0.8510335455648601
-34,Russia's invasion of Ukraine,finbert_sentiment,std_dispersion,0.4774147697220118
-35,Russia's invasion of Ukraine,finbert_sentiment,conflict_index,0.6453213951048943
-36,SVB Collapse,gemini_individual_sentiment,range_dispersion,0.5874999999999999
-37,SVB Collapse,gemini_individual_sentiment,std_dispersion,0.24452760580351662
-38,SVB Collapse,gemini_individual_sentiment,conflict_index,0.5175000000000001
-39,SVB Collapse,gemini_collective_sentiment,range_dispersion,0.795
-40,SVB Collapse,gemini_collective_sentiment,std_dispersion,0.43521307042259966
-41,SVB Collapse,gemini_collective_sentiment,conflict_index,0.5375000000000001
-42,SVB Collapse,finbert_sentiment,range_dispersion,0.6084573266562074
-43,SVB Collapse,finbert_sentiment,std_dispersion,0.3991778726185454
-44,SVB Collapse,finbert_sentiment,conflict_index,0.46521681060160824
+3,COVID-19 Vaccine Approval,gemini_individual_sentiment,median_dispersion,0.21249999999999997
+4,COVID-19 Vaccine Approval,gemini_individual_sentiment,iqr_dispersion,0.220625
+5,COVID-19 Vaccine Approval,gemini_collective_sentiment,range_dispersion,0.8
+6,COVID-19 Vaccine Approval,gemini_collective_sentiment,std_dispersion,0.3663603382749523
+7,COVID-19 Vaccine Approval,gemini_collective_sentiment,conflict_index,0.72390625
+8,COVID-19 Vaccine Approval,gemini_collective_sentiment,median_dispersion,0.125
+9,COVID-19 Vaccine Approval,gemini_collective_sentiment,iqr_dispersion,0.16
+10,COVID-19 Vaccine Approval,finbert_sentiment,range_dispersion,0.9227598747238517
+11,COVID-19 Vaccine Approval,finbert_sentiment,std_dispersion,0.4131075439864386
+12,COVID-19 Vaccine Approval,finbert_sentiment,conflict_index,0.6548301690054359
+13,COVID-19 Vaccine Approval,finbert_sentiment,median_dispersion,0.2483440823853016
+14,COVID-19 Vaccine Approval,finbert_sentiment,iqr_dispersion,0.23194520932156593
+15,Chat GPT launch,gemini_individual_sentiment,range_dispersion,0.15
+16,Chat GPT launch,gemini_individual_sentiment,std_dispersion,0.11196064123246698
+17,Chat GPT launch,gemini_individual_sentiment,conflict_index,0.9316666666666666
+18,Chat GPT launch,gemini_individual_sentiment,median_dispersion,0.0
+19,Chat GPT launch,gemini_individual_sentiment,iqr_dispersion,0.08249999999999999
+20,Chat GPT launch,gemini_collective_sentiment,range_dispersion,0.525
+21,Chat GPT launch,gemini_collective_sentiment,std_dispersion,0.34496177796661404
+22,Chat GPT launch,gemini_collective_sentiment,conflict_index,0.8870370370370371
+23,Chat GPT launch,gemini_collective_sentiment,median_dispersion,0.35
+24,Chat GPT launch,gemini_collective_sentiment,iqr_dispersion,0.3375
+25,Chat GPT launch,finbert_sentiment,range_dispersion,0.6969067431055009
+26,Chat GPT launch,finbert_sentiment,std_dispersion,0.296698412910623
+27,Chat GPT launch,finbert_sentiment,conflict_index,0.9473551305321356
+28,Chat GPT launch,finbert_sentiment,median_dispersion,0.1135644670575856
+29,Chat GPT launch,finbert_sentiment,iqr_dispersion,0.13913588458672163
+30,Elon Musk's Twitter acquisition,gemini_individual_sentiment,range_dispersion,0.25
+31,Elon Musk's Twitter acquisition,gemini_individual_sentiment,std_dispersion,0.10511702573962993
+32,Elon Musk's Twitter acquisition,gemini_individual_sentiment,conflict_index,0.9416176470588236
+33,Elon Musk's Twitter acquisition,gemini_individual_sentiment,median_dispersion,0.0875
+34,Elon Musk's Twitter acquisition,gemini_individual_sentiment,iqr_dispersion,0.08625
+35,Elon Musk's Twitter acquisition,gemini_collective_sentiment,range_dispersion,0.45
+36,Elon Musk's Twitter acquisition,gemini_collective_sentiment,std_dispersion,0.2462260123036315
+37,Elon Musk's Twitter acquisition,gemini_collective_sentiment,conflict_index,0.9114705882352941
+38,Elon Musk's Twitter acquisition,gemini_collective_sentiment,median_dispersion,0.2
+39,Elon Musk's Twitter acquisition,gemini_collective_sentiment,iqr_dispersion,0.2
+40,Elon Musk's Twitter acquisition,finbert_sentiment,range_dispersion,0.7017892366275191
+41,Elon Musk's Twitter acquisition,finbert_sentiment,std_dispersion,0.4684796770259683
+42,Elon Musk's Twitter acquisition,finbert_sentiment,conflict_index,0.6809807680547237
+43,Elon Musk's Twitter acquisition,finbert_sentiment,median_dispersion,0.3454889957793057
+44,Elon Musk's Twitter acquisition,finbert_sentiment,iqr_dispersion,0.4617974085267633
+45,Russia's invasion of Ukraine,gemini_individual_sentiment,range_dispersion,0.4
+46,Russia's invasion of Ukraine,gemini_individual_sentiment,std_dispersion,0.19076351185596604
+47,Russia's invasion of Ukraine,gemini_individual_sentiment,conflict_index,0.6878846153846154
+48,Russia's invasion of Ukraine,gemini_individual_sentiment,median_dispersion,0.11250000000000002
+49,Russia's invasion of Ukraine,gemini_individual_sentiment,iqr_dispersion,0.1375
+50,Russia's invasion of Ukraine,gemini_collective_sentiment,range_dispersion,0.515
+51,Russia's invasion of Ukraine,gemini_collective_sentiment,std_dispersion,0.3152347204767946
+52,Russia's invasion of Ukraine,gemini_collective_sentiment,conflict_index,0.5496153846153846
+53,Russia's invasion of Ukraine,gemini_collective_sentiment,median_dispersion,0.15999999999999998
+54,Russia's invasion of Ukraine,gemini_collective_sentiment,iqr_dispersion,0.18499999999999997
+55,Russia's invasion of Ukraine,finbert_sentiment,range_dispersion,0.8510335455648601
+56,Russia's invasion of Ukraine,finbert_sentiment,std_dispersion,0.4774147697220118
+57,Russia's invasion of Ukraine,finbert_sentiment,conflict_index,0.6453213951048943
+58,Russia's invasion of Ukraine,finbert_sentiment,median_dispersion,0.273464348167181
+59,Russia's invasion of Ukraine,finbert_sentiment,iqr_dispersion,0.33150782308075577
+60,SVB Collapse,gemini_individual_sentiment,range_dispersion,0.5874999999999999
+61,SVB Collapse,gemini_individual_sentiment,std_dispersion,0.24452760580351662
+62,SVB Collapse,gemini_individual_sentiment,conflict_index,0.5175000000000001
+63,SVB Collapse,gemini_individual_sentiment,median_dispersion,0.1875
+64,SVB Collapse,gemini_individual_sentiment,iqr_dispersion,0.12500000000000003
+65,SVB Collapse,gemini_collective_sentiment,range_dispersion,0.795
+66,SVB Collapse,gemini_collective_sentiment,std_dispersion,0.43521307042259966
+67,SVB Collapse,gemini_collective_sentiment,conflict_index,0.5375000000000001
+68,SVB Collapse,gemini_collective_sentiment,median_dispersion,0.20500000000000002
+69,SVB Collapse,gemini_collective_sentiment,iqr_dispersion,0.235
+70,SVB Collapse,finbert_sentiment,range_dispersion,0.6084573266562074
+71,SVB Collapse,finbert_sentiment,std_dispersion,0.3991778726185454
+72,SVB Collapse,finbert_sentiment,conflict_index,0.46521681060160824
+73,SVB Collapse,finbert_sentiment,median_dispersion,0.3237087847664953
+74,SVB Collapse,finbert_sentiment,iqr_dispersion,0.40863147564232355
