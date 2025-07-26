@@ -8,7 +8,7 @@
 6,finbert_sentiment,hybrid_uncertainty,0.496,0.494,0.563,0.531,0.451
 7,finbert_sentiment,iqr_dispersion,0.232,0.139,0.462,0.332,0.409
 8,finbert_sentiment,iqr_dispersion_normalized,0.383,0.463,0.515,0.404,0.417
-9,finbert_sentiment,median_dispersion,0.248,0.114,0.345,0.273,0.324
+9,finbert_sentiment,median_dispersion,0.326,0.211,0.421,0.375,0.334
 10,finbert_sentiment,median_dispersion_normalized,0.391,0.45,0.457,0.375,0.375
 11,finbert_sentiment,polarization_uncertainty,0.625,0.66,0.752,0.644,0.481
 12,finbert_sentiment,range_dispersion,0.923,0.697,0.702,0.851,0.608
@@ -25,7 +25,7 @@
 23,gemini_collective_sentiment,hybrid_uncertainty,0.456,0.575,0.487,0.385,0.453
 24,gemini_collective_sentiment,iqr_dispersion,0.16,0.338,0.2,0.185,0.235
 25,gemini_collective_sentiment,iqr_dispersion_normalized,0.371,0.51,0.492,0.34,0.327
-26,gemini_collective_sentiment,median_dispersion,0.125,0.35,0.2,0.16,0.205
+26,gemini_collective_sentiment,median_dispersion,0.258,0.302,0.206,0.239,0.325
 27,gemini_collective_sentiment,median_dispersion_normalized,0.353,0.517,0.492,0.328,0.312
 28,gemini_collective_sentiment,polarization_uncertainty,0.603,0.667,0.546,0.442,0.516
 29,gemini_collective_sentiment,range_dispersion,0.8,0.525,0.45,0.515,0.795
@@ -42,7 +42,7 @@
 40,gemini_individual_sentiment,hybrid_uncertainty,0.478,0.363,0.393,0.357,0.35
 41,gemini_individual_sentiment,iqr_dispersion,0.221,0.082,0.086,0.138,0.125
 42,gemini_individual_sentiment,iqr_dispersion_normalized,0.465,0.481,0.492,0.408,0.307
-43,gemini_individual_sentiment,median_dispersion,0.212,0.0,0.088,0.113,0.188
+43,gemini_individual_sentiment,median_dispersion,0.257,0.082,0.087,0.149,0.176
 44,gemini_individual_sentiment,median_dispersion_normalized,0.46,0.44,0.493,0.395,0.338
 45,gemini_individual_sentiment,polarization_uncertainty,0.611,0.278,0.267,0.366,0.338
 46,gemini_individual_sentiment,range_dispersion,0.55,0.15,0.25,0.4,0.587

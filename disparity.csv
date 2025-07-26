@@ -2,7 +2,7 @@
 0,COVID-19 Vaccine Approval,gemini_individual_sentiment,range_dispersion,0.55
 1,COVID-19 Vaccine Approval,gemini_individual_sentiment,std_dispersion,0.3047027239786346
 2,COVID-19 Vaccine Approval,gemini_individual_sentiment,conflict_index,0.79125
-3,COVID-19 Vaccine Approval,gemini_individual_sentiment,median_dispersion,0.21249999999999997
+3,COVID-19 Vaccine Approval,gemini_individual_sentiment,median_dispersion,0.25687499999999996
 4,COVID-19 Vaccine Approval,gemini_individual_sentiment,iqr_dispersion,0.220625
 5,COVID-19 Vaccine Approval,gemini_individual_sentiment,range_dispersion_normalized,0.62921875
 6,COVID-19 Vaccine Approval,gemini_individual_sentiment,std_dispersion_normalized,0.5696781786371339
@@ -19,7 +19,7 @@
 17,COVID-19 Vaccine Approval,gemini_collective_sentiment,range_dispersion,0.8
 18,COVID-19 Vaccine Approval,gemini_collective_sentiment,std_dispersion,0.3663603382749523
 19,COVID-19 Vaccine Approval,gemini_collective_sentiment,conflict_index,0.72390625
-20,COVID-19 Vaccine Approval,gemini_collective_sentiment,median_dispersion,0.125
+20,COVID-19 Vaccine Approval,gemini_collective_sentiment,median_dispersion,0.25765625
 21,COVID-19 Vaccine Approval,gemini_collective_sentiment,iqr_dispersion,0.16
 22,COVID-19 Vaccine Approval,gemini_collective_sentiment,range_dispersion_normalized,0.690859375
 23,COVID-19 Vaccine Approval,gemini_collective_sentiment,std_dispersion_normalized,0.549917738933639
@@ -36,7 +36,7 @@
 34,COVID-19 Vaccine Approval,finbert_sentiment,range_dispersion,0.9227598747238517
 35,COVID-19 Vaccine Approval,finbert_sentiment,std_dispersion,0.4131075439864386
 36,COVID-19 Vaccine Approval,finbert_sentiment,conflict_index,0.6548301690054359
-37,COVID-19 Vaccine Approval,finbert_sentiment,median_dispersion,0.2483440823853016
+37,COVID-19 Vaccine Approval,finbert_sentiment,median_dispersion,0.3261517869977979
 38,COVID-19 Vaccine Approval,finbert_sentiment,iqr_dispersion,0.23194520932156593
 39,COVID-19 Vaccine Approval,finbert_sentiment,range_dispersion_normalized,0.7286231613034033
 40,COVID-19 Vaccine Approval,finbert_sentiment,std_dispersion_normalized,0.5593571710397935
@@ -53,7 +53,7 @@
 51,Chat GPT launch,gemini_individual_sentiment,range_dispersion,0.15
 52,Chat GPT launch,gemini_individual_sentiment,std_dispersion,0.11196064123246698
 53,Chat GPT launch,gemini_individual_sentiment,conflict_index,0.9316666666666666
-54,Chat GPT launch,gemini_individual_sentiment,median_dispersion,0.0
+54,Chat GPT launch,gemini_individual_sentiment,median_dispersion,0.08166666666666667
 55,Chat GPT launch,gemini_individual_sentiment,iqr_dispersion,0.08249999999999999
 56,Chat GPT launch,gemini_individual_sentiment,range_dispersion_normalized,0.5147222222222222
 57,Chat GPT launch,gemini_individual_sentiment,std_dispersion_normalized,0.5188911100969691
@@ -70,7 +70,7 @@
 68,Chat GPT launch,gemini_collective_sentiment,range_dispersion,0.525
 69,Chat GPT launch,gemini_collective_sentiment,std_dispersion,0.34496177796661404
 70,Chat GPT launch,gemini_collective_sentiment,conflict_index,0.8870370370370371
-71,Chat GPT launch,gemini_collective_sentiment,median_dispersion,0.35
+71,Chat GPT launch,gemini_collective_sentiment,median_dispersion,0.30185185185185187
 72,Chat GPT launch,gemini_collective_sentiment,iqr_dispersion,0.3375
 73,Chat GPT launch,gemini_collective_sentiment,range_dispersion_normalized,0.6041666666666667
 74,Chat GPT launch,gemini_collective_sentiment,std_dispersion_normalized,0.5855938183896295
@@ -87,7 +87,7 @@
 85,Chat GPT launch,finbert_sentiment,range_dispersion,0.6969067431055009
 86,Chat GPT launch,finbert_sentiment,std_dispersion,0.296698412910623
 87,Chat GPT launch,finbert_sentiment,conflict_index,0.9473551305321356
-88,Chat GPT launch,finbert_sentiment,median_dispersion,0.1135644670575856
+88,Chat GPT launch,finbert_sentiment,median_dispersion,0.2105696488827191
 89,Chat GPT launch,finbert_sentiment,iqr_dispersion,0.13913588458672163
 90,Chat GPT launch,finbert_sentiment,range_dispersion_normalized,0.7416284076559048
 91,Chat GPT launch,finbert_sentiment,std_dispersion_normalized,0.6029745078261234
@@ -104,7 +104,7 @@
 102,Elon Musk's Twitter acquisition,gemini_individual_sentiment,range_dispersion,0.25
 103,Elon Musk's Twitter acquisition,gemini_individual_sentiment,std_dispersion,0.10511702573962993
 104,Elon Musk's Twitter acquisition,gemini_individual_sentiment,conflict_index,0.9416176470588236
-105,Elon Musk's Twitter acquisition,gemini_individual_sentiment,median_dispersion,0.0875
+105,Elon Musk's Twitter acquisition,gemini_individual_sentiment,median_dispersion,0.08720588235294119
 106,Elon Musk's Twitter acquisition,gemini_individual_sentiment,iqr_dispersion,0.08625
 107,Elon Musk's Twitter acquisition,gemini_individual_sentiment,range_dispersion_normalized,0.5740441176470588
 108,Elon Musk's Twitter acquisition,gemini_individual_sentiment,std_dispersion_normalized,0.5233737921907088
@@ -121,7 +121,7 @@
 119,Elon Musk's Twitter acquisition,gemini_collective_sentiment,range_dispersion,0.45
 120,Elon Musk's Twitter acquisition,gemini_collective_sentiment,std_dispersion,0.2462260123036315
 121,Elon Musk's Twitter acquisition,gemini_collective_sentiment,conflict_index,0.9114705882352941
-122,Elon Musk's Twitter acquisition,gemini_collective_sentiment,median_dispersion,0.2
+122,Elon Musk's Twitter acquisition,gemini_collective_sentiment,median_dispersion,0.20558823529411765
 123,Elon Musk's Twitter acquisition,gemini_collective_sentiment,iqr_dispersion,0.2
 124,Elon Musk's Twitter acquisition,gemini_collective_sentiment,range_dispersion_normalized,0.6169117647058824
 125,Elon Musk's Twitter acquisition,gemini_collective_sentiment,std_dispersion_normalized,0.5660215174308375
@@ -138,7 +138,7 @@
 136,Elon Musk's Twitter acquisition,finbert_sentiment,range_dispersion,0.7017892366275191
 137,Elon Musk's Twitter acquisition,finbert_sentiment,std_dispersion,0.4684796770259683
 138,Elon Musk's Twitter acquisition,finbert_sentiment,conflict_index,0.6809807680547237
-139,Elon Musk's Twitter acquisition,finbert_sentiment,median_dispersion,0.3454889957793057
+139,Elon Musk's Twitter acquisition,finbert_sentiment,median_dispersion,0.4206426779684775
 140,Elon Musk's Twitter acquisition,finbert_sentiment,iqr_dispersion,0.4617974085267633
 141,Elon Musk's Twitter acquisition,finbert_sentiment,range_dispersion_normalized,0.634735000977183
 142,Elon Musk's Twitter acquisition,finbert_sentiment,std_dispersion_normalized,0.6151087160151194
@@ -155,7 +155,7 @@
 153,Russia's invasion of Ukraine,gemini_individual_sentiment,range_dispersion,0.4
 154,Russia's invasion of Ukraine,gemini_individual_sentiment,std_dispersion,0.19076351185596604
 155,Russia's invasion of Ukraine,gemini_individual_sentiment,conflict_index,0.6878846153846154
-156,Russia's invasion of Ukraine,gemini_individual_sentiment,median_dispersion,0.11250000000000002
+156,Russia's invasion of Ukraine,gemini_individual_sentiment,median_dispersion,0.14942307692307694
 157,Russia's invasion of Ukraine,gemini_individual_sentiment,iqr_dispersion,0.1375
 158,Russia's invasion of Ukraine,gemini_individual_sentiment,range_dispersion_normalized,0.5391346153846155
 159,Russia's invasion of Ukraine,gemini_individual_sentiment,std_dispersion_normalized,0.4740260818362956
@@ -172,7 +172,7 @@
 170,Russia's invasion of Ukraine,gemini_collective_sentiment,range_dispersion,0.515
 171,Russia's invasion of Ukraine,gemini_collective_sentiment,std_dispersion,0.3152347204767946
 172,Russia's invasion of Ukraine,gemini_collective_sentiment,conflict_index,0.5496153846153846
-173,Russia's invasion of Ukraine,gemini_collective_sentiment,median_dispersion,0.15999999999999998
+173,Russia's invasion of Ukraine,gemini_collective_sentiment,median_dispersion,0.23884615384615387
 174,Russia's invasion of Ukraine,gemini_collective_sentiment,iqr_dispersion,0.18499999999999997
 175,Russia's invasion of Ukraine,gemini_collective_sentiment,range_dispersion_normalized,0.5053846153846154
 176,Russia's invasion of Ukraine,gemini_collective_sentiment,std_dispersion_normalized,0.470791361585149
@@ -189,7 +189,7 @@
 187,Russia's invasion of Ukraine,finbert_sentiment,range_dispersion,0.8510335455648601
 188,Russia's invasion of Ukraine,finbert_sentiment,std_dispersion,0.4774147697220118
 189,Russia's invasion of Ukraine,finbert_sentiment,conflict_index,0.6453213951048943
-190,Russia's invasion of Ukraine,finbert_sentiment,median_dispersion,0.273464348167181
+190,Russia's invasion of Ukraine,finbert_sentiment,median_dispersion,0.37534538384240407
 191,Russia's invasion of Ukraine,finbert_sentiment,iqr_dispersion,0.33150782308075577
 192,Russia's invasion of Ukraine,finbert_sentiment,range_dispersion_normalized,0.6639224495559644
 193,Russia's invasion of Ukraine,finbert_sentiment,std_dispersion_normalized,0.5759921353522445
@@ -206,7 +206,7 @@
 204,SVB Collapse,gemini_individual_sentiment,range_dispersion,0.5874999999999999
 205,SVB Collapse,gemini_individual_sentiment,std_dispersion,0.24452760580351662
 206,SVB Collapse,gemini_individual_sentiment,conflict_index,0.5175000000000001
-207,SVB Collapse,gemini_individual_sentiment,median_dispersion,0.1875
+207,SVB Collapse,gemini_individual_sentiment,median_dispersion,0.17625000000000002
 208,SVB Collapse,gemini_individual_sentiment,iqr_dispersion,0.12500000000000003
 209,SVB Collapse,gemini_individual_sentiment,range_dispersion_normalized,0.5379166666666666
 210,SVB Collapse,gemini_individual_sentiment,std_dispersion_normalized,0.4170754531208575
@@ -223,7 +223,7 @@
 221,SVB Collapse,gemini_collective_sentiment,range_dispersion,0.795
 222,SVB Collapse,gemini_collective_sentiment,std_dispersion,0.43521307042259966
 223,SVB Collapse,gemini_collective_sentiment,conflict_index,0.5375000000000001
-224,SVB Collapse,gemini_collective_sentiment,median_dispersion,0.20500000000000002
+224,SVB Collapse,gemini_collective_sentiment,median_dispersion,0.325
 225,SVB Collapse,gemini_collective_sentiment,iqr_dispersion,0.235
 226,SVB Collapse,gemini_collective_sentiment,range_dispersion_normalized,0.6070833333333334
 227,SVB Collapse,gemini_collective_sentiment,std_dispersion_normalized,0.5173283979794935
@@ -240,7 +240,7 @@
 238,SVB Collapse,finbert_sentiment,range_dispersion,0.6084573266562074
 239,SVB Collapse,finbert_sentiment,std_dispersion,0.3991778726185454
 240,SVB Collapse,finbert_sentiment,conflict_index,0.46521681060160824
-241,SVB Collapse,finbert_sentiment,median_dispersion,0.3237087847664953
+241,SVB Collapse,finbert_sentiment,median_dispersion,0.33447620573375997
 242,SVB Collapse,finbert_sentiment,iqr_dispersion,0.40863147564232355
 243,SVB Collapse,finbert_sentiment,range_dispersion_normalized,0.5173952562521057
 244,SVB Collapse,finbert_sentiment,std_dispersion_normalized,0.4954306804777747
