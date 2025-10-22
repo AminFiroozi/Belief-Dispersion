@@ -1,20 +1,20 @@
-,event,model,disparity_function,value
-0,Overall Dataset,finbert_sentiment,range_dispersion,0.9552347920835018
-1,Overall Dataset,finbert_sentiment,std_dispersion,0.4923915046747156
-2,Overall Dataset,finbert_sentiment,conflict_index,0.7359076948263571
-3,Overall Dataset,finbert_sentiment,median_dispersion,0.3603654522448778
-4,Overall Dataset,finbert_sentiment,iqr_dispersion,0.4034801255911588
-5,Overall Dataset,finbert_sentiment,range_dispersion_normalized,0.7577355068855827
-6,Overall Dataset,finbert_sentiment,std_dispersion_normalized,0.6282948218286399
-7,Overall Dataset,finbert_sentiment,conflict_index_normalized,0.6480719582570104
-8,Overall Dataset,finbert_sentiment,median_dispersion_normalized,0.4603008369662707
-9,Overall Dataset,finbert_sentiment,iqr_dispersion_normalized,0.4818581736394112
-10,Overall Dataset,finbert_sentiment,polarization_uncertainty,0.7802448201670661
-11,Overall Dataset,finbert_sentiment,disagreement_index,0.6282948218286399
-12,Overall Dataset,finbert_sentiment,entropy_disparity,0.8888034918244363
-13,Overall Dataset,finbert_sentiment,consensus_uncertainty,0.7359076948263571
-14,Overall Dataset,finbert_sentiment,hybrid_uncertainty,0.5975421896802837
-15,Overall Dataset,finbert_sentiment,sentiment_uncertainty,0.6282948218286399
-16,Overall Dataset,finbert_sentiment,compute_uncertainty,0.6367670769691682
-17,Overall Dataset,finbert_sentiment,uncertainty_type_1,0.28130789354511104
-18,Overall Dataset,finbert_sentiment,uncertainty_type_2,0.5689166607589168
+model,disparity_function,value
+sentiment,range_dispersion,0.9552347850985825
+sentiment,std_dispersion,0.49239164380961753
+sentiment,conflict_index,0.735907931104814
+sentiment,median_dispersion,0.3603656552731991
+sentiment,iqr_dispersion,0.40348029928281903
+sentiment,range_dispersion_normalized,0.7577354993150234
+sentiment,std_dispersion_normalized,0.6282949161347164
+sentiment,conflict_index_normalized,0.6480720723181392
+sentiment,median_dispersion_normalized,0.4603009344023317
+sentiment,iqr_dispersion_normalized,0.4818582564071417
+sentiment,polarization_uncertainty,0.7802450292813847
+sentiment,disagreement_index,0.6282949161347164
+sentiment,entropy_disparity,0.8888034918244363
+sentiment,consensus_uncertainty,0.7359079311048139
+sentiment,hybrid_uncertainty,0.5975424017053272
+sentiment,sentiment_uncertainty,0.6282949161347164
+sentiment,compute_uncertainty,0.6367671852308705
+sentiment,uncertainty_type_1,0.2813079838648556
+sentiment,uncertainty_type_2,0.5689170791810746
