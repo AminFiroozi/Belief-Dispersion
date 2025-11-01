@@ -25,6 +25,7 @@ wheels/
 *.egg
 *.png
 *.csv
+plots/
 
 # Virtual Environment
 .env
