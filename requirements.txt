@@ -2,8 +2,8 @@ pandas>=2.0.0
 nltk>=3.8.1
 datasets>=2.14.0
 google-generativeai
-python-dotenv>=1.0.0
-protobuf
+python-dotenv
+protobuf==4.25.3
 websockets
 tensorboard
 tensorflow
@@ -11,21 +11,20 @@ jupyter>=1.0.0
 ipykernel>=6.0.0
 seaborn>=0.12.0
 matplotlib>=3.7.0
-transformers==4.30.2
-huggingface-hub==0.16.4
+transformers==4.41.0
+huggingface-hub==0.14.1
 torch>=2.0.0
 groq
-numpy>=1.24.0
+numpy>=2.0.0
 scipy>=1.9.0,<2.0.0
 tqdm
 yfinance==0.1.62
 investpy
 statsmodels
-
-# Fixed versions to resolve conflicts:
 google-cloud-bigquery[bqstorage,pandas]>=3.31.0
 google-cloud-bigquery-storage>=2.30.0,<3.0.0
 google-api-core>=2.10.2,<3.0.0
 rich>=12.4.4,<14
 pyarrow>=14.0.0,<20.0.0
 pydantic>=2.0,<2.12
+json_repair
