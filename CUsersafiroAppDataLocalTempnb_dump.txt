@@ -1,0 +1,2090 @@
+=== Cell 0 [markdown] ===
+# Constants
+
+=== Cell 1 [code] ===
+from typing import Literal, List, Union
+from datetime import date
+
+=== Cell 2 [markdown] ===
+## Environment
+
+=== Cell 3 [code] ===
+DELETE_RESULTS_FILE = False
+KAGGLE = False
+
+=== Cell 4 [markdown] ===
+## LLM API
+
+=== Cell 5 [code] ===
+GEMINI_MODEL_NAME = "gemini-2.5-flash"
+GEMINI_MODEL_NAMES = ["gemini-2.5-flash-lite", "gemini-3-flash-preview", "gemini-3-pro-preview", "gemini-2.5-flash"]
+OPENAI_MODEL_NAME = "gpt-4o"
+GROQ_MODEL_NAME = "openai/gpt-oss-120b" #"qwen/qwen3-32b"
+BASE_URL="https://api.avalai.ir/v1"
+MAX_API_RETRIES = 1
+API_INITIAL_DELAY = 5
+API_CALL_DELAY = 4
+LLM: Literal["GEMINI", "OPENAI", "GROQ"] = "GEMINI"
+
+CIRCULAR_MODEL = False
+
+=== Cell 6 [markdown] ===
+## Dataset
+
+=== Cell 7 [code] ===
+SAMPLE_SIZE_FOR_TESTING = 142344 # 142344
+LAG_PERIOD = 6
+APPLY_TEXT_CLEANING = False
+SENTIMENT_COLUMN = 'sentiment' #'sentiment_class'
+START_DATE = date(2020, 5, 1)
+END_DATE = date(2025, 5, 1)
+
+=== Cell 8 [markdown] ===
+## Routes
+
+=== Cell 9 [code] ===
+KAGGLE_DATASET = '/kaggle/input/news-sentiment'
+ENV_DATASET = '/kaggle/input/api-keys'
+DATASET_ROUTE = './data'
+
+RESULTS_STORAGE_FILE = 'sentiment_results_storage.jsonl' 
+
+=== Cell 10 [markdown] ===
+### Save
+
+=== Cell 11 [code] ===
+SAVE_VIX = DATASET_ROUTE + "/" + 'VIX.csv'
+SAVE_SP500 = DATASET_ROUTE + "/" + 'SP500.csv'
+SAVE_REQUIREMENTS = 'requirements.txt'
+SAVE_MERGED_RESULT = DATASET_ROUTE + "/" + 'merged_result.csv' 
+SAVE_SENTIMENT_DATA = DATASET_ROUTE + "/" + 'result.csv'
+SAVE_NEWS_SENTIMENT = 'news.csv'
+SAVE_SENTIMENT_DATA_JSON = DATASET_ROUTE + "/" + 'result.json'
+
+=== Cell 12 [markdown] ===
+### Load
+
+=== Cell 13 [code] ===
+LOAD_VIX = ((KAGGLE_DATASET + "/") if KAGGLE else "") + SAVE_VIX
+LOAD_SP500 = ((KAGGLE_DATASET + "/") if KAGGLE else "") + SAVE_SP500
+LOAD_REQUIREMENTS = ((KAGGLE_DATASET + "/") if KAGGLE else "") + SAVE_REQUIREMENTS
+LOAD_MERGED_RESULT = ((KAGGLE_DATASET + "/") if KAGGLE else "") + SAVE_MERGED_RESULT
+LOAD_NEWS_DATA = ((KAGGLE_DATASET + "/") if KAGGLE else "") + SAVE_NEWS_SENTIMENT
+LOAD_SENTIMENT_DATA = ((KAGGLE_DATASET + "/") if KAGGLE else "") + SAVE_SENTIMENT_DATA
+
+=== Cell 14 [markdown] ===
+## Config constants
+
+=== Cell 15 [code] ===
+APPLY_SENTIMENT_ANALYSIS = False
+FETCH_MARKET_HISTORICAL_DATA = False
+SENTIMENT_ANALYSIS_MODEL : Literal["LLM", "Finbert"] = "LLM"
+
+ENV_PATH = ((ENV_DATASET + "/") if KAGGLE else "") + ".env"
+
+=== Cell 16 [markdown] ===
+# Imports and Downloads
+
+=== Cell 17 [markdown] ===
+## Install dependencies
+
+=== Cell 18 [code] ===
+%pip install -q -r $LOAD_REQUIREMENTS
+
+=== Cell 19 [code] ===
+# %pip install --upgrade transformers accelerate huggingface-hub json_repair --quiet
+
+=== Cell 20 [markdown] ===
+## Import libraries
+
+=== Cell 21 [code] ===
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import re
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+import google.generativeai as genai
+from openai import OpenAI
+import plotly.graph_objects as go
+from groq import Groq
+import json
+import json_repair 
+from scipy.stats import kurtosis, skew
+from tqdm import tqdm
+import os
+import time
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+import torch
+import torch.nn.functional as F
+import yfinance as yf
+from dotenv import load_dotenv
+import statsmodels.api as sm
+from statsmodels.stats.anova import anova_lm
+from scipy.stats import entropy, chi2
+from sklearn.preprocessing import KBinsDiscretizer
+
+=== Cell 22 [markdown] ===
+# Configurations
+
+=== Cell 23 [markdown] ===
+## Notebook
+
+=== Cell 24 [code] ===
+pd.set_option('display.max_columns', None)
+
+=== Cell 25 [markdown] ===
+## Configure finbert model
+
+=== Cell 26 [code] ===
+tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
+finbert_model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
+
+=== Cell 27 [markdown] ===
+## Env file
+
+=== Cell 28 [code] ===
+load_dotenv(dotenv_path=ENV_PATH)
+
+=== Cell 29 [code] ===
+if not os.path.exists(DATASET_ROUTE):
+    os.mkdir(DATASET_ROUTE)
+
+=== Cell 30 [markdown] ===
+# Functions
+
+=== Cell 31 [markdown] ===
+## Fetch Historical Market Data
+
+=== Cell 32 [code] ===
+def fetch_from_yfinance(ticker: str, route: str, start_date, end_date, fetch: bool=True):
+    price_col_name = ticker.strip('^')
+    if fetch:
+        df = yf.download(
+            tickers=ticker,
+            start=start_date,
+            end=end_date,
+            auto_adjust=False
+        )
+        
+        # 1. Flatten the MultiIndex Columns (Robustness Check)
+        if isinstance(df.columns, pd.MultiIndex):
+            # If MultiIndex, use the top level names (e.g., 'Adj Close', 'Volume')
+            df.columns = df.columns.get_level_values(0)
+            
+        # 2. Convert the Date Index into a regular column
+        df = df.reset_index()
+        df['Date'] = pd.to_datetime(df['Date'])
+        
+        # 3. Check for the price column ('Adj Close' is preferred)
+        if 'Adj Close' in df.columns:
+            source_col = 'Adj Close'
+        elif 'Close' in df.columns:
+            source_col = 'Close'
+        else:
+            raise KeyError(f"Could not find price column ('Adj Close' or 'Close') in yfinance output for {ticker}.")
+
+        # 4. Clean and Select Final Columns (INCLUDING VOLUME)
+        
+        # The list of columns to keep: Date, the selected price column, and Volume.
+        columns_to_keep = ['Date', source_col, 'Volume']
+        
+        df_final = df[columns_to_keep].copy()
+        
+        # 5. Rename the source price column to the clean ticker name (e.g., 'SPX')
+        df_final.rename(columns={source_col: price_col_name}, inplace=True)
+            
+        # 6. Save and return
+        print(f"Saving cleaned data to {route}")
+        df_final.to_csv(route, index=False)
+        return df_final
+    else:
+        df = pd.read_csv(route)
+    return df
+
+=== Cell 33 [code] ===
+def delete_file(file_path):
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"{file_path} has been deleted.")
+    else:
+        print("The file does not exist.")
+   
+if DELETE_RESULTS_FILE:
+    delete_file(RESULTS_STORAGE_FILE)
+
+=== Cell 34 [markdown] ===
+## Manage API Calling Progress
+
+=== Cell 35 [code] ===
+def load_stored_results():
+    """
+    Reads the .jsonl file and returns a set of processed INDICES.
+    This allows us to skip specific rows we've already done.
+    """
+    processed_indices = set()
+    if os.path.exists(RESULTS_STORAGE_FILE):
+        print(f"📂 Reading existing progress from {RESULTS_STORAGE_FILE}...")
+        with open(RESULTS_STORAGE_FILE, 'r') as f:
+            for line in f:
+                if line.strip():
+                    try:
+                        record = json.loads(line)
+                        # Store the dataframe index so we know exactly which row is done
+                        processed_indices.add(record['index'])
+                    except json.JSONDecodeError:
+                        continue
+        print(f"✅ Found {len(processed_indices)} previously processed headlines.")
+    return processed_indices
+
+def save_batch_results(results_list):
+    """
+    Appends a list of results to the JSONL file immediately.
+    """
+    with open(RESULTS_STORAGE_FILE, 'a') as f:
+        for record in results_list:
+            # Add timestamp for audit
+            record['timestamp'] = pd.Timestamp.now().isoformat()
+            f.write(json.dumps(record) + '\n')
+
+=== Cell 36 [markdown] ===
+# Sentiment Analysis
+
+=== Cell 37 [markdown] ===
+## Define Sentiment Analysis functions
+
+=== Cell 38 [markdown] ===
+### finbert sentiment
+
+=== Cell 39 [code] ===
+def get_sentiment_score_finbert(text, tokenizer, model):
+    inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True)
+    with torch.no_grad():
+        logits = model(**inputs).logits
+
+    probs = F.softmax(logits, dim=-1).squeeze()
+
+    labels = model.config.id2label
+    label_scores = {labels[i]: float(probs[i]) for i in range(len(probs))}
+
+    positivity = label_scores.get("positive", 0.0)
+    negativity = label_scores.get("negative", 0.0)
+    neutrality = label_scores.get("neutral", 0.0)
+
+    sentiment = positivity - negativity
+
+    label = max(label_scores, key=label_scores.get)
+
+    return {
+        'sentiment': sentiment,
+        'label': label,          # Predicted label (positive, negative, or neutral)
+        'positivity': positivity,
+        'negativity': negativity,
+        'neutrality': neutrality,
+    }
+
+=== Cell 40 [markdown] ===
+### llm sentiment
+
+=== Cell 41 [markdown] ===
+#### Generate prompt
+
+=== Cell 42 [code] ===
+def make_prompt(headline: Union[str, List[str]], date: str, mode: Literal["individual", "collective"] = "collective"):
+    if mode == "individual":
+        return f"""You are a financial analyst evaluating how news headlines might impact the overall U.S. stock market, especially the S&P 500 index.
+
+                For each headline, assign a **sentiment score between -1.000 and +1.000** that reflects its likely short-term effect on the broad equity market:
+                - **+1.000** = Extremely positive
+                - **0.000** = Truly neutral, irrelevant, or highly ambiguous
+                - **-1.000** = Extremely negative
+
+                Use values with **up to 3 decimal points of precision** (e.g., -0.235, +0.710, -0.025). Try to **avoid using 0.000** unless the headline is genuinely indecipherable or has no market relevance. Even weak signals should result in a small positive or negative score rather than 0.
+
+                Focus on how a rational investor would interpret the headline's **immediate impact on the market as a whole**, considering macroeconomic signals, investor sentiment, and historical reactions to similar events.
+
+                Respond **strictly in this format**:
+                Headline: "<original headline>"
+                Score: <numeric value between -1.000 and +1.000>
+                Reason: <brief explanation focusing on the broad market, not individual stocks unless their systemic impact is obvious>
+
+                Example 1:
+                Headline: "Fed hikes interest rates by 0.75%, signals more to come"
+                Score: -0.730
+                Reason: Interest rate hikes increase borrowing costs, dampen economic activity, and weigh on stock valuations, especially in rate-sensitive sectors.
+
+                Example 2:
+                Headline: "U.S. unemployment rate drops to 3.6% in latest report"
+                Score: +0.245
+                Reason: Lower unemployment suggests economic resilience, which can boost investor confidence, though it may also increase expectations of rate hikes.
+
+                Now evaluate this headline:
+                Headline: {headline}
+                """
+    elif mode == "collective":
+        headlines = headline
+        return f"""
+Role:
+You are an advanced Financial Sentiment NLP Model using finBERT-style reasoning,
+designed for market-impact classification in trading and macro analysis systems.
+
+IMPORTANT: All analysis is conducted EXCLUSIVELY from the perspective of the 
+S&P 500 index and U.S. equity markets. Do NOT consider global markets, 
+international indices, or non-U.S. market perspectives unless they directly 
+impact U.S. equities.
+
+Task:
+Analyze a provided list of financial headlines from a SINGLE TRADING DAY ({date}).
+For each headline, classify four dimensions (A-E or A-C).
+For the entire day's batch, assess two aggregate metrics (A-C).
+
+------------------------------------------------------------
+HEADLINE-LEVEL CLASSIFICATIONS (Per Headline)
+------------------------------------------------------------
+
+1. SENTIMENT CLASSIFICATION — A-E
+------------------------------------------------------------
+Classify sentiment toward the S&P 500 / U.S. equity market as ONE of:
+
+A. Strongly Negative  
+B. Moderately Negative  
+C. Neutral  
+D. Moderately Positive  
+E. Strongly Positive  
+
+Rules:
+• Consider expectations vs. reality from U.S. market perspective
+• Efficiency over emotion (e.g., layoffs can be positive for equities)
+• If explicitly priced-in by U.S. markets → lean Neutral  
+• Use the full range when justified  
+
+------------------------------------------------------------
+2. TIME HORIZON IMPACT — A-C
+------------------------------------------------------------
+Estimate how long the S&P 500 impact is likely to persist.
+
+A. Low  
+   - Intraday or very short-lived impact on U.S. equities
+
+B. Medium  
+   - Impact lasting up to approximately one week  
+
+C. High  
+   - Impact persisting longer than one week  
+   - Structural, regulatory, or macro in nature for U.S. markets
+
+Rules:
+• Focus on persistence in U.S. equity markets, not magnitude  
+
+------------------------------------------------------------
+3. INDEX RELATABILITY — A-C
+------------------------------------------------------------
+Measures how directly the headline impacts, explains, or reflects
+movement in the S&P 500 or broad U.S. equity market.
+
+A. Low (Idiosyncratic)  
+   - Company-specific or niche-sector news  
+   - Minimal impact on S&P 500 index level
+
+B. Medium (Sector / Thematic)  
+   - Affects major sectors or multiple S&P 500 constituents  
+   - Moves sector ETFs but not necessarily the broad index
+
+C. High (Index / Macro-Driven)  
+   - Directly relevant to S&P 500 performance  
+   - Fed policy, GDP, inflation, broad market catalysts
+
+Rules:
+• Independent of sentiment  
+• Focus on breadth and S&P 500 benchmark relevance  
+
+------------------------------------------------------------
+4. SURPRISE CLASSIFICATION — A-C
+------------------------------------------------------------
+Measures how much the headline deviates from U.S. market expectations.
+
+A. Low  
+   - Fully expected, routine, or clearly priced-in by U.S. markets
+   - Consensus event (earnings in-line, expected Fed hold)
+
+B. Medium  
+   - Noticeable deviation from Wall Street expectations  
+   - Some element of uncertainty or new information  
+
+C. High  
+   - Clear surprise or shock to U.S. market participants
+   - Meaningfully different from consensus expectations  
+
+Rules:
+• Surprise is about deviation from U.S. market consensus, NOT sentiment direction  
+• Negative and positive news can both be highly surprising  
+• Use language cues (e.g., "unexpected", "first time", "sudden")  
+
+------------------------------------------------------------
+DAY-LEVEL CLASSIFICATIONS (Aggregate for Entire Day)
+------------------------------------------------------------
+
+5. UNCERTAINTY — A-C
+------------------------------------------------------------
+Measures the overall unpredictability and lack of clarity about 
+FUTURE S&P 500 DIRECTION based on the day's headline mix.
+
+A. Low Uncertainty
+   - Headlines provide clear directional signals for U.S. markets
+   - Outcomes are largely predictable or already determined
+   - Low ambiguity about market implications
+   - Examples: Clear earnings beats, expected Fed decisions
+
+B. Medium Uncertainty  
+   - Mixed signals or moderate ambiguity about U.S. market direction
+   - Some outcomes pending or dependent on future events
+   - Forward guidance unclear or conditional
+   - Examples: Pending votes, evolving geopolitical situations
+
+C. High Uncertainty
+   - Significant unpredictability about S&P 500 trajectory
+   - Major unknown outcomes or binary events ahead
+   - Conflicting forward-looking signals
+   - High dependence on unknowable future developments
+   - Examples: Unprecedented policy, regulatory uncertainty, black swan events
+
+Rules:
+• Focus on FORWARD-LOOKING uncertainty, not backward-looking surprise
+• Consider the collective information environment, not individual headlines
+• High uncertainty ≠ high volatility (though often correlated)
+
+------------------------------------------------------------
+6. DISAGREEMENT — A-C
+------------------------------------------------------------
+Measures the DIVERSITY and CONFLICT of sentiment signals across 
+all headlines affecting the S&P 500 on this day.
+
+A. Low Disagreement (Consensus)
+   - Headlines predominantly point in the same sentiment direction
+   - Coherent narrative for U.S. market direction
+   - Few conflicting signals
+   - Examples: Uniformly positive earnings day, clear risk-off environment
+
+B. Medium Disagreement
+   - Moderate mix of positive/negative/neutral signals
+   - Some sectors up, others down
+   - Offsetting narratives present
+   - Examples: Tech rallies while financials sell off
+
+C. High Disagreement (Fragmentation)
+   - Highly conflicting sentiment signals across headlines
+   - Strong positive and strong negative catalysts simultaneously
+   - No coherent market narrative
+   - Cross-currents make S&P 500 direction highly contested
+   - Examples: Fed cuts rates (positive) amid recession fears (negative)
+
+Rules:
+• Assess VARIETY of sentiment across headlines, not intensity
+• High disagreement means conflicting signals, NOT high uncertainty
+• Consider sector/thematic divergence in U.S. markets
+
+------------------------------------------------------------
+RELATIVE CALIBRATION RULES
+------------------------------------------------------------
+• Headline-level classifications must be RELATIVE to other headlines in the batch  
+• Day-level classifications must be RELATIVE to typical trading days
+• Avoid assigning identical classes across all headlines unless justified  
+• Classification only — do NOT infer numeric scores  
+• All assessments from S&P 500 / U.S. market perspective ONLY
+
+------------------------------------------------------------
+INPUT
+------------------------------------------------------------
+Date: {date}
+Headlines:
+{headlines}
+
+------------------------------------------------------------
+OUTPUT FORMAT (STRICT JSON ONLY)
+------------------------------------------------------------
+{{
+  "day_level": {{
+    "uncertainty_class": "B",
+    "disagreement_class": "A"
+  }},
+  "headline_results": [
+    {{
+      "id": "ID_XXX",
+      "sentiment_class": "D",
+      "time_horizon_class": "B",
+      "index_relatability_class": "B",
+      "surprise_class": "C"
+    }},
+    {{
+      "id": "ID_YYY",
+      "sentiment_class": "B",
+      "time_horizon_class": "C",
+      "index_relatability_class": "C",
+      "surprise_class": "A"
+    }}
+  ]
+}}
+
+CRITICAL OUTPUT REQUIREMENTS:
+• Return ONLY valid JSON, no additional text
+• Include both "day_level" and "headline_results" objects
+• All headline IDs must match input IDs exactly
+• All class values must be valid (A-E for sentiment, A-C for others)
+"""
+
+=== Cell 43 [markdown] ===
+#### Define llm sentiment function
+
+=== Cell 44 [code] ===
+current_key_idx = 0
+gemini_model_name_idx = 0
+openai_api_key = os.getenv("OPENAI_API_KEY")
+gemini_api_keys = os.getenv("GOOGLE_API_KEYS")
+api_keys = gemini_api_keys.split(",")          # Stored in "A,B,C,D,E" format
+
+def get_response(prompt, LLM, is_json: bool = True):
+    try:
+        if LLM == "GEMINI":
+            gemini_model_name = GEMINI_MODEL_NAMES[gemini_model_name_idx] if CIRCULAR_MODEL else GEMINI_MODEL_NAME
+            genai.configure(api_key=api_keys[current_key_idx])
+            model = genai.GenerativeModel(
+                gemini_model_name,
+                generation_config={"response_mime_type": "application/json", "temperature": 0.0}
+            )
+            response = model.generate_content(prompt)
+            text = response.text.strip()
+            
+        elif LLM == "OPENAI":
+            client = OpenAI(api_key=openai_api_key, base_url=BASE_URL)
+            response = client.responses.create(
+                model=OPENAI_MODEL_NAME,
+                input=prompt,
+                temperature=0.0
+            )
+            text = response.output[0].content[0].text
+            
+        elif LLM == "GROQ":
+            client = Groq()
+            response = client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    }
+                ],
+                temperature=0.0,
+                model=GROQ_MODEL_NAME,
+                max_completion_tokens=65536
+            )
+            text = response.choices[0].message.content
+            
+        
+        text = re.sub(r"^```json", "", text)
+        text = re.sub(r"^```", "", text)
+        text = re.sub(r"```$", "", text)
+        text = text.strip()
+        if is_json:
+            try:
+                return json.loads(text)
+            except json.JSONDecodeError:
+                try:
+                    return json_repair.loads(text)
+                except Exception:
+                    raise ValueError(f"Invalid JSON returned:\n{text}")
+        else:
+           return text
+    
+    except Exception as e:
+        print(f"Error when getting response from LLM, key: {current_key_idx}, model: {GEMINI_MODEL_NAMES[gemini_model_name_idx] if CIRCULAR_MODEL else GEMINI_MODEL_NAME}")
+        return None
+    
+
+def get_gemini_batch_response(headlines_dict, date_key):
+    global current_key_idx
+    global gemini_model_name_idx
+    
+    # Generate prompt with the ID dictionary
+    prompt = make_prompt(headlines_dict, date=date_key, mode='collective')
+    
+    retries = 0
+    delay = 2
+
+    while retries <= MAX_API_RETRIES:
+        response = get_response(prompt, LLM, True)
+        if response is None:
+            # Rotate Key
+            current_key_idx += 1
+            if current_key_idx >= len(api_keys):
+                current_key_idx %= len(api_keys)
+                gemini_model_name_idx = (gemini_model_name_idx + 1) % len(GEMINI_MODEL_NAMES)
+            
+            print(f"🔴 Switching to: (Key {current_key_idx}, model {GEMINI_MODEL_NAMES[gemini_model_name_idx]})")
+            
+            time.sleep(delay)
+            delay *= 2
+            retries += 1
+        else:
+            return response
+            
+    return None
+
+=== Cell 45 [markdown] ===
+## Apply sentiment analysis on the dataset
+
+=== Cell 46 [code] ===
+if APPLY_SENTIMENT_ANALYSIS:
+    tqdm.pandas()
+    
+    # ==========================================
+    # 1. LLM-BASED ANALYSIS (Gemini)
+    # ==========================================
+    if SENTIMENT_ANALYSIS_MODEL == "LLM":
+        gemini_model = GEMINI_MODEL_NAMES[gemini_model_name_idx] if CIRCULAR_MODEL else GEMINI_MODEL_NAME
+        print(f"🚀 Starting LLM Sentiment Analysis ({LLM} Model: {gemini_model if LLM == 'GEMINI' else OPENAI_MODEL_NAME if LLM == 'OPENAI' else GROQ_MODEL_NAME})")
+        
+        # A. Determine columns
+        headline_col = 'llm_ready_headline' if (APPLY_TEXT_CLEANING and 'llm_ready_headline' in df.columns) else 'headline'
+        
+        columns = ['sentiment_class', 'time_horizon_class', 'index_relatability_class', 'surprise_class']
+        day_columns = ['day_uncertainty_class', 'day_disagreement_class']
+        all_columns = columns + day_columns
+        
+        # B. Initialize Columns if missing
+        for column in columns:        
+            if column not in df.columns: 
+                df[column] = pd.Series(dtype='object')
+
+        # C. Load Checkpoint (What have we ALREADY done?)
+        # 'processed_indices' is a set of Integers representing DataFrame rows
+        processed_indices = load_stored_results() 
+        
+        # D. Merge existing results into DataFrame immediately (so we don't re-do work in memory)
+        # This reads the JSONL file and fills the DF
+        if os.path.exists(RESULTS_STORAGE_FILE):
+            print("   Mapping existing JSONL results to DataFrame...")
+            temp_results = {}
+            with open(RESULTS_STORAGE_FILE, 'r') as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            rec = json.loads(line)
+                            temp_results[rec['index']] = rec
+                        except: 
+                            continue
+            
+            # Update DF with known values (now includes day-level)
+            for idx, data in temp_results.items():
+                if idx in df.index:
+                    for column in all_columns:  # Changed from 'columns' to 'all_columns'
+                        df.at[idx, column] = data.get(column)
+
+        # E. Grouping Strategy (Day by Day)
+        if 'date' in df.columns:
+            df['_temp_group'] = pd.to_datetime(df['date']).dt.date
+        else:
+            print("⚠️ 'date' column missing. Grouping by 'event' or processing sequentially.")
+            df['_temp_group'] = df.get('event', 0)
+
+        grouped = df.groupby('_temp_group')
+        total_groups = len(grouped)
+        
+        # print(f"📊 Processing {len(df)} headlines across {total_groups} daily groups...")
+        pending_groups = []
+        for date_key, group in grouped:
+            pending_indices = [i for i in group.index if i not in processed_indices]
+            if pending_indices:
+                pending_groups.append((date_key, group, pending_indices))
+
+        total_pending_headlines = sum(len(pending) for _, _, pending in pending_groups)
+
+        print(f"📊 Processing {total_pending_headlines} pending headlines across {len(pending_groups)} days...")
+        # --- MAIN LOOP ---
+        with tqdm(total=total_pending_headlines, desc="Processing Headlines", unit="headline") as pbar:
+    
+            for date_key, group, pending_indices in pending_groups:
+                chunk_size = 1000
+                chunks = [pending_indices[i:i + chunk_size] for i in range(0, len(pending_indices), chunk_size)]
+                i = 0
+                # for i, _batch_indices in enumerate(chunks):
+                while i < len(chunks):
+                    batch_indices = chunks[i]
+                    payload = {idx: df.loc[idx, headline_col] for idx in batch_indices}
+                    
+                    try:
+                        json_response = get_gemini_batch_response(payload, date_key)
+                        
+                        batch_results_to_save = []
+                        
+                        if json_response and "day_level" in json_response and "headline_results" in json_response:
+                            day_level = json_response.get("day_level", {})
+                            day_uncertainty = day_level.get("uncertainty_class", "N/A")
+                            day_disagreement = day_level.get("disagreement_class", "N/A")
+                            
+                            for item in json_response["headline_results"]:
+                                try:
+                                    # Parse ID (ID_123 -> 123)
+                                    idx_str = str(item.get("id", "")).replace("ID_", "")
+                                    original_idx = int(idx_str)
+                                    
+                                    # Update DataFrame in Memory (for visual progress)
+                                    for column in columns:
+                                        df.at[original_idx, column] = item.get(column, "N/A")
+                                        
+                                    df.at[original_idx, 'day_uncertainty_class'] = day_uncertainty
+                                    df.at[original_idx, 'day_disagreement_class'] = day_disagreement
+                                    
+                                    # Prepare Record for Disk Storage
+                                    batch_results_to_save.append({
+                                        "index": original_idx,
+                                        "group_key": str(date_key),
+                                        **{column: item.get(column, "N/A") for column in columns},
+                                        "day_uncertainty_class": day_uncertainty,
+                                        "day_disagreement_class": day_disagreement
+                                    })
+                                    
+                                    # Mark as done in local set
+                                    processed_indices.add(original_idx)
+                                    pbar.update(1)
+
+                                except Exception as parse_e:
+                                    print(f"⚠️ Parse Error: {parse_e}")
+                            
+                            # 4. Save Batch to Disk Immediately
+                            if batch_results_to_save:
+                                save_batch_results(batch_results_to_save)
+                        
+                        else:
+                            print(f"⚠️ Empty/Invalid response for batch in {date_key}:", json_response)
+
+                    except Exception as e:
+                        print(f"❌ Critical Batch Error: {e}")
+                        time.sleep(5) # Cool down on error
+                    
+                    # Rate limit pause
+                    time.sleep(1.5)
+                    i += 1
+
+        # Cleanup
+        if '_temp_group' in df.columns:
+            df = df.drop(columns=['_temp_group'])
+            
+        # Final Checkpoint Save (CSV)
+        df.to_csv(SAVE_SENTIMENT_DATA, index=False)
+        print(f"✅ LLM Analysis Complete. Results saved to {RESULTS_STORAGE_FILE} and {SAVE_SENTIMENT_DATA}")
+
+    # ==========================================
+    # 2. FINBERT ANALYSIS (Unchanged)
+    # ==========================================
+    elif SENTIMENT_ANALYSIS_MODEL == "Finbert":
+        print(f"Processing {len(df)} headlines using Finbert...")
+        headline_column = 'llm_ready_headline' if (APPLY_TEXT_CLEANING and 'llm_ready_headline' in df.columns) else "headline"
+        
+        if df is not None and not df.empty:
+            sentiment_results = df[headline_column].progress_apply(
+                lambda text: get_sentiment_score_finbert(text, tokenizer, finbert_model)
+            )
+            
+            # Assign directly
+            df['sentiment'] = sentiment_results
+            df.to_csv(SAVE_SENTIMENT_DATA, index=False)
+        else:
+            print("DataFrame empty.")
+
+# ==========================================
+# 3. LOAD EXISTING DATA (If Analysis Skipped)
+# ==========================================
+else:
+    if os.path.exists(LOAD_SENTIMENT_DATA):
+        df = pd.read_csv(LOAD_SENTIMENT_DATA)
+        print(f"Loaded existing sentiment data from {LOAD_SENTIMENT_DATA}")
+    else:
+        print("No sentiment data found.")
+
+if df is not None:
+    display(df.tail())
+
+=== Cell 47 [markdown] ===
+### Save the result into an output file
+
+=== Cell 48 [code] ===
+def compute_complex_disparity_features(group, score_col='sentiment_score'):
+    """Calculates Gini and Shannon Entropy for a daily group of sentiment scores."""
+    
+    scores = group[score_col].values
+    scores_2d = scores.reshape(-1, 1)
+
+    # Use a slightly less strict sparsity check since basic moments are calculated separately
+    if len(scores) < 5: 
+        return pd.Series({'gini': np.nan, 'entropy': np.nan})
+
+    # 1. Gini coefficient
+    scores_abs = np.sort(np.abs(scores))
+    n = len(scores_abs)
+    sum_abs = np.sum(scores_abs)
+    gini = 0.0
+    if sum_abs > 1e-6:
+        # Standard Gini formula
+        # G = (1 / n) * (1 / mean(y)) * sum[ i * y_i ] - (n+1)/n
+        # Simplified: (2 * sum[ i * y_i ] / (n * sum(y))) - (n+1)/n 
+        # Using the standard implementation from your original code:
+        gini = (np.sum([(2 * i + 1 - n) * scores_abs[i] for i in range(n)])) / (n * sum_abs)
+
+    # 2. Shannon entropy (bin into 10 bins)
+    try:
+        # Note: Set random_state for reproducibility if used outside of notebook
+        binner = KBinsDiscretizer(n_bins=10, encode='ordinal', strategy='uniform', subsample=None) 
+        binned = binner.fit_transform(scores_2d).flatten()
+        # Calculate the probability distribution (P_i) for the bins
+        hist, _ = np.histogram(binned, bins=10, density=True)
+        # Calculate Shannon Entropy: H = -sum(P_i * log(P_i))
+        entropy_val = entropy(hist + 1e-10) # Avoid log(0)
+    except ValueError:
+        # This catches "Data is constant" errors
+        entropy_val = 0.0
+    
+    return pd.Series({
+        'gini': gini, 
+        'entropy': entropy_val
+    })
+
+=== Cell 49 [markdown] ===
+### Convert classified data to numeric
+
+=== Cell 50 [code] ===
+sentiment_map = {
+    "A": 0.00,   # Strongly Negative
+    "B": 0.25,   # Moderately Negative
+    "C": 0.50,   # Neutral
+    "D": 0.75,   # Moderately Positive
+    "E": 1.00    # Strongly Positive
+}
+time_horizon_map = {
+    "A": 0.00,   # Low (intraday)
+    "B": 0.50,   # Medium
+    "C": 1.00    # High (structural)
+}
+index_relatability_map = {
+    "A": 0.00,   # Idiosyncratic
+    "B": 0.50,   # Sector-level
+    "C": 1.00    # Macro/index-driven
+}
+surprise_map = {
+    "A": 0.00,   # Fully expected
+    "B": 0.50,   # Moderate surprise
+    "C": 1.00    # High surprise
+}
+uncertainty_map = {
+    "A": 0.00,   # Low
+    "B": 0.50,   # Medium
+    "C": 1.00    # High
+}
+disagreement_map = {
+    "A": 0.00,   # Consensus
+    "B": 0.50,   # Mixed
+    "C": 1.00    # Fragmented
+}
+
+df["sentiment"] = df["sentiment_class"].map(sentiment_map)
+df["time_horizon"] = df["time_horizon_class"].map(time_horizon_map)
+df["index_relatability"] = df["index_relatability_class"].map(index_relatability_map)
+df["surprise"] = df["surprise_class"].map(surprise_map)
+df["uncertainty"] = df["day_uncertainty_class"].map(uncertainty_map)
+df["disagreement"] = df["day_disagreement_class"].map(disagreement_map)
+df = df.drop(columns=["sentiment_class", "time_horizon_class", "index_relatability_class", "surprise_class", "day_uncertainty_class", "day_disagreement_class"])
+df
+
+=== Cell 51 [code] ===
+# --- PHASE 1: PREPARATION & SCORE CALCULATION (Unchanged) ---
+
+# [Your Phase 1 code here, which correctly sets 'sentiment_score' and 'max_prob_col']
+df['Date'] = pd.to_datetime(df['date']).dt.date
+volume_column = 'headline' 
+
+if SENTIMENT_ANALYSIS_MODEL == "Finbert":
+    # ... (Your Finbert logic)
+    df['sentiment_score'] = df['positivity'] - df['negativity']
+    df['max_prob'] = df[['positivity', 'negativity', 'neutrality']].max(axis=1)
+    soft_score_col = 'sentiment_score'
+    max_prob_col = 'max_prob'
+elif SENTIMENT_ANALYSIS_MODEL == "LLM":
+    # ... (Your LLM logic)
+    df['sentiment_score'] = pd.to_numeric(df['sentiment'], errors='coerce')
+    soft_score_col = 'sentiment_score'
+    max_prob_col = None
+else:
+    raise ValueError("SENTIMENT_ANALYSIS_MODEL must be 'Finbert' or 'LLM'.")
+
+df.dropna(subset=[soft_score_col], inplace=True)
+
+
+# --- PHASE 2: DAILY AGGREGATION (Unified) ---
+
+# --- 2.A: Aggregation Dictionary for SIMPLE Metrics (Mean, Variance, etc.) ---
+agg_dict = {
+    # Centrality & Volume
+    'soft_mean': (soft_score_col, 'mean'),
+    'soft_median': (soft_score_col, 'median'),
+    'headline_count': (volume_column, 'count'),
+    
+    # Simple Dispersion Moments (Fixed with Lambdas)
+    'variance': (soft_score_col, 'var'),
+    'std_dev': (soft_score_col, 'std'),
+    'skewness': (soft_score_col, lambda x: x.skew()),
+    'kurtosis': (soft_score_col, lambda x: x.kurt()),
+    'range': (soft_score_col, lambda x: x.max() - x.min()),
+    
+    # NEW: LLM classification means
+    'time_horizon': ('time_horizon', 'mean'),
+    'index_relatability': ('index_relatability', 'mean'),
+    'surprise': ('surprise', 'mean'),
+    'uncertainty': ('uncertainty', 'mean'),
+    'disagreement': ('disagreement', 'mean'),
+}
+
+# --- 2.B: Conditional Aggregation for Max Prob (FinBERT only) ---
+if SENTIMENT_ANALYSIS_MODEL == "Finbert" and max_prob_col:
+    print("FINBERT DETECTED: Adding Max Probability Metrics.")
+    agg_dict.update({
+        'max_prob_mean': (max_prob_col, 'mean'),
+        'max_prob_median': (max_prob_col, 'median')
+    })
+
+# --- 2.C: Perform SIMPLE Aggregation ---
+simple_metrics_df = df.groupby('Date').agg(**agg_dict).round(4).reset_index()
+
+
+# --- PHASE 3: COMPLEX AGGREGATION (Gini & Entropy) ---
+
+print("Calculating complex disparity features (Gini/Entropy) using apply()...")
+
+# Apply the custom function to calculate Gini and Entropy
+complex_metrics_df = df.groupby('Date').apply(
+    compute_complex_disparity_features, 
+    score_col=soft_score_col
+).round(4).reset_index()
+
+# Merge the simple and complex metrics
+agg_df = pd.merge(
+    simple_metrics_df, 
+    complex_metrics_df, 
+    on='Date', 
+    how='left'
+)
+
+
+# --- PHASE 4: MERGE BACK INTO MAIN DF ---
+
+print("Merging daily metrics back into the main DataFrame (df)...")
+
+# Remove old aggregated columns from the main DF before merging
+# We now use the columns from the final daily_metrics df, excluding the merge key 'Date'
+cols_to_drop_before_merge = [col for col in agg_df.columns if col != 'Date']
+
+for col in cols_to_drop_before_merge:
+    if col in df.columns:
+        df = df.drop(columns=[col])
+
+# Re-ensure 'Date' column is datetime.date type for successful merge
+df['Date'] = pd.to_datetime(df['date']).dt.date
+
+df = pd.merge(
+    df,
+    agg_df,
+    on='Date',
+    how='left' # Use a left merge to keep all original headlines
+)
+
+print(f"Aggregation complete. Final daily_metrics shape: {agg_df.shape}")
+print(f"Daily metrics columns: {list(agg_df.columns)}")
+
+# Display the resulting daily metrics table
+agg_df
+
+=== Cell 52 [code] ===
+fig = go.Figure()
+
+df["date"] = pd.to_datetime(df["date"])
+
+daily_soft = (
+    df
+    .assign(day=df["date"].dt.floor("D"))
+    .groupby("day")["soft_mean"]
+    .mean()
+    .sort_index()
+)
+
+fig.add_trace(
+    go.Scatter(
+        x=daily_soft.index,
+        y=daily_soft.values,
+        mode="lines",
+        line=dict(width=2),
+        name="Daily Soft Mean (Whole Dataset)"
+    )
+)
+fig.update_xaxes(rangeslider_visible=True)
+
+=== Cell 53 [code] ===
+start_date = "2024-02-01"
+end_date   = "2024-02-03"
+
+tempdf = df[
+    (df["date"] >= start_date) &
+    (df["date"] <= end_date)
+].sort_values("date")
+
+fig = go.Figure()
+
+rolling_30 = (
+    tempdf["sentiment"]
+    .rolling(window=30, min_periods=1)
+    .mean()
+)
+
+fig.add_trace(
+    go.Scatter(
+        x=tempdf["date"],
+        y=rolling_30,
+        mode="lines",
+        line=dict(width=3),
+        name="Rolling Mean"
+    )
+)
+
+fig.add_trace(
+    go.Scatter(
+        x=tempdf["date"],
+        y=tempdf["sentiment"],
+        mode="markers",
+        marker=dict(size=10, opacity=0.4),
+        name="News Sentiment",
+        text=tempdf.index,
+        hovertemplate=
+        "Index: %{text}<br>" +
+        "Datetime: %{x}<br>"
+    )
+)
+
+fig.update_layout(
+    title="Intraday News Sentiment",
+    xaxis_title="Datetime",
+    yaxis_title="Sentiment",
+    hovermode="closest"
+)
+
+fig.update_xaxes(
+    rangeslider_visible=True,
+    showspikes=True
+)
+
+fig.update_yaxes(showspikes=True)
+
+=== Cell 54 [code] ===
+sp500_df = fetch_from_yfinance("^SPX", LOAD_SP500, START_DATE, END_DATE, FETCH_MARKET_HISTORICAL_DATA)
+
+fig2 = go.Figure()
+
+fig2.add_trace(
+    go.Scatter(
+        x=sp500_df["Date"],
+        y=sp500_df["Volume"],
+        mode="lines",
+        name="Volume"
+    )
+)
+
+fig2.update_layout(
+    title="Volume Over Time (Filtered Window)",
+    xaxis_title="Datetime",
+    yaxis_title="Volume",
+    hovermode="x unified"
+)
+
+fig2.update_xaxes(rangeslider_visible=True)
+fig2.show()
+
+
+=== Cell 55 [markdown] ===
+# Visualizing the result
+
+=== Cell 56 [markdown] ===
+## visualize the data with histogram
+
+=== Cell 57 [code] ===
+model = SENTIMENT_COLUMN
+# 1. Get all non-missing sentiment values from the full dataset
+subset_values = df[model].dropna()
+
+if subset_values.empty:
+    print(f"The sentiment column '{model}' contains no valid data points for plotting.")
+else:
+    # 2. Calculate Enhanced Statistics
+    count = len(subset_values)
+    mean_value = subset_values.mean()
+    median_value = subset_values.median()
+    std_value = subset_values.std()
+    
+    # Use imported scipy.stats functions for shape metrics
+    # Note: Ensure you imported 'skew' and 'kurtosis' from scipy.stats
+    skewness_value = skew(subset_values)
+    kurtosis_value = kurtosis(subset_values) # Excess kurtosis
+    
+    # 3. Create figure
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Plot the histogram (Distribution of ALL individual scores)
+    ax.hist(
+        subset_values, 
+        bins=40,  # 40 bins provides good detail for [-1, 1] range
+        range=(0, 1), 
+        color='skyblue', 
+        edgecolor='black', 
+        alpha=0.8
+    )
+    
+    # 4. Styling and Lines
+    
+    ax.set_title(f"Sentiment Score Distribution for '{model}' (N={count})", fontsize=14)
+    ax.set_xlabel("Sentiment Score Bins (from -1 to 1)")
+    ax.set_ylabel("Frequency (Headline Count)")
+    
+    # Mean (Red Dashed)
+    ax.axvline(mean_value, color='red', linestyle='dashed', linewidth=1.5, label=f"Mean: {mean_value:.3f}")
+    
+    # Median (Orange Dotted)
+    ax.axvline(median_value, color='orange', linestyle='dotted', linewidth=1.5, label=f"Median: {median_value:.3f}")
+    
+    # +/- 1 Standard Deviation (Gray Thin)
+    ax.axvline(mean_value + std_value, color='gray', linestyle='dashdot', linewidth=1, alpha=0.7)
+    ax.axvline(mean_value - std_value, color='gray', linestyle='dashdot', linewidth=1, alpha=0.7, label="$\pm 1$ Std Dev") # Add label only once
+    
+    ax.grid(axis='y', linestyle='--', alpha=0.6)
+    ax.set_xlim(0, 1)
+    ax.legend(loc='upper left')
+
+    # 5. Display Summary Statistics Text Box
+    stats_text = (
+        f"Mean: {mean_value:.3f}\n"
+        f"Median: {median_value:.3f}\n"
+        f"Std Dev: {std_value:.3f}\n"
+        f"Skewness: {skewness_value:.3f}\n"
+        f"Kurtosis: {kurtosis_value:.3f}"
+    )
+    
+    ax.text(
+        0.98, 0.95, stats_text, 
+        transform=ax.transAxes, 
+        fontsize=10, 
+        verticalalignment='top', 
+        horizontalalignment='right', 
+        bbox=dict(boxstyle='round', facecolor='white', alpha=0.9)
+    )
+
+    # 6. Save and Display the plot
+    file_name = f"sentiment_histogram_enhanced_{model}.png"
+    plt.tight_layout()
+    plt.savefig(file_name)
+    plt.show() 
+
+    print(f"The enhanced sentiment score distribution histogram has been saved as {file_name}")
+
+=== Cell 58 [markdown] ===
+# S&P500 & VIX
+
+=== Cell 59 [markdown] ===
+## Load SP500 and VIX
+
+=== Cell 60 [code] ===
+sp500_df = fetch_from_yfinance("^SPX", LOAD_SP500, START_DATE, END_DATE, FETCH_MARKET_HISTORICAL_DATA)
+vix_df = fetch_from_yfinance("^VIX", LOAD_VIX, START_DATE, END_DATE, FETCH_MARKET_HISTORICAL_DATA)
+
+vix_df = vix_df.drop(columns=['Volume'])
+vix_df['VIX_Return'] = vix_df['VIX'].pct_change()
+sp500_df['Return'] = sp500_df['SPX'].pct_change()
+
+=== Cell 61 [markdown] ===
+## Calculate Reversal and Volatility 5d
+
+=== Cell 62 [code] ===
+sign_today = np.sign(sp500_df['Return'])
+sign_yesterday = sign_today.shift(1)
+
+sp500_df['Reversal'] = np.where(
+    (sign_yesterday * sign_today) < 0, 
+    1,  # Assign 1 if the product is negative (signs flipped)
+    0   # Assign 0 otherwise (signs were the same or one was zero)
+)
+
+# Calculate the rolling standard deviation of the next 5 days of Log Returns.
+# This requires defining a custom rolling function that looks FORWARD.
+def rolling_std_forward(series, window):
+    # Reverse the series, calculate rolling STD, then reverse it back.
+    # This aligns the standard deviation of days t+1 to t+5 with day t.
+    return series.iloc[::-1].rolling(window=window).std().iloc[::-1]
+
+WINDOW = 5 # Standard 5-day trading week
+
+# Calculate 5-day future realized volatility
+# We use the Log Return as the input series for the STD calculation.
+sp500_df['Volatility_5d'] = rolling_std_forward(
+    sp500_df['Return'], 
+    window=WINDOW
+) * np.sqrt(252) # Annualize the volatility (using 252 trading days)
+# sp500_vix_df
+
+=== Cell 63 [code] ===
+agg_df
+
+=== Cell 64 [markdown] ===
+## Merge dataframes
+
+=== Cell 65 [code] ===
+# 1. Merge
+sp500_vix_df = pd.merge(sp500_df, vix_df, on='Date', how='outer')
+
+# ---------------------------------------------------------
+# FIX: Force conversion to datetime before doing anything else
+# This turns strings ("2023-01-01") into Timestamp objects
+sp500_vix_df['Date'] = pd.to_datetime(sp500_vix_df['Date'])
+# ---------------------------------------------------------
+
+sp500_vix_df.sort_values('Date', inplace=True)
+sp500_vix_df.ffill(inplace=True)
+
+# CRITICAL STEP: Now .dt.date works because the column is valid datetime
+sp500_vix_df['Date'] = sp500_vix_df['Date'].dt.date
+
+# Continue with the rest of your logic...
+merged_result = pd.merge(sp500_vix_df, agg_df, on='Date', how='left')
+merged_result.sort_values('Date', inplace=True)
+merged_result.ffill(inplace=True)
+# sp500_vix_sentiment_disparity_df = pd.merge(merged_result, disparity_df, on='Date', how='left')
+# sp500_vix_sentiment_disparity_df.sort_values('Date', inplace=True)
+# sp500_vix_sentiment_disparity_df.ffill(inplace=True)
+
+merged_result.to_csv(SAVE_MERGED_RESULT, index=False)
+merged_result
+
+=== Cell 66 [code] ===
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from scipy.stats import pointbiserialr
+import os
+
+# --- 1. Define Core Feature Sets ---
+sentiment_and_disparity_features = [
+    'soft_mean', 
+    'soft_median',
+    'headline_count', 'variance', 'std_dev', 
+    'skewness', 'kurtosis', 'range', 'gini', 'entropy', 'time_horizon', 'index_relatability', 'surprise', 'uncertainty', 'disagreement'
+]
+if SENTIMENT_ANALYSIS_MODEL == "Finbert":
+    sentiment_and_disparity_features.extend(['max_prob_mean', 'max_prob_median'])
+continuous_market_outcomes = ['Return', 'VIX_Return', 'Volatility_5d', 'VIX', 'SPX', 'Volume']
+
+binary_market_outcome = 'Reversal'
+
+all_features = sentiment_and_disparity_features
+all_outcomes = continuous_market_outcomes + [binary_market_outcome]
+all_cols_required = all_features + all_outcomes
+
+# --- 2. Initialize Master Tracking DataFrames and Lag Data Structures ---
+# max_corr_df: Stores the highest correlation found (sign preserved)
+max_corr_df = pd.DataFrame(0.0, index=all_outcomes, columns=all_features)
+# lag_df: Stores the lag 'k' where max_corr_df was achieved
+lag_df = pd.DataFrame(0, index=all_outcomes, columns=all_features)
+# all_lag_correlations: Stores the full list of (k, correlation) for plotting CCFs
+all_lag_correlations = {
+    (outcome, feature): []
+    for outcome in all_outcomes
+    for feature in all_features
+}
+
+# --- 3. Multi-Lag Calculation Loop ---
+# Adjusted lag to 250 days (approx. 1 trading year) for robustness.
+lag = LAG_PERIOD
+lag_range = range(-lag, lag + 1)
+
+for k in lag_range:
+    
+    # 3a. Prepare Lagged DataFrame (Shifting Outcomes)
+    df_temp = merged_result[all_cols_required].copy()
+
+    # Apply the shift to all outcome columns (Feature(t) vs Outcome(t+k))
+    for col in all_outcomes:
+        df_temp[f"{col}_k{k}"] = df_temp[col].shift(-k)
+
+    current_outcomes = [f"{col}_k{k}" for col in all_outcomes]
+    current_binary_outcome = binary_market_outcome + f"_k{k}"
+    current_continuous_outcomes = [f"{col}_k{k}" for col in continuous_market_outcomes]
+
+    # 3b. Clean the Data for the Current Lag
+    current_corr_cols = all_features + current_outcomes
+    df_clean = df_temp[current_corr_cols].replace([np.inf, -np.inf], np.nan).dropna()
+    
+    # Skip correlation if not enough data points remain
+    if len(df_clean) < 10: 
+        continue 
+    
+    # 3c. Calculate Correlations for the Current Lag
+    
+    # Pearson (Continuous Features vs. Lagged Continuous Outcomes)
+    corr_matrix_cont = df_clean[all_features + current_continuous_outcomes].corr(method='pearson')
+    current_corr_slice = corr_matrix_cont.loc[all_features, current_continuous_outcomes]
+    
+    # Point-Biserial (Continuous Features vs. Lagged Binary Outcome)
+    pb_corrs = {}
+    for feature in all_features:
+        pb_corrs[feature] = pointbiserialr(df_clean[feature], df_clean[current_binary_outcome])[0]
+
+    # 3d. Update Master Tracking and Full Lag DataFrames (Direct Assignment FIX)
+    
+    # Update continuous outcomes
+    for outcome_idx, outcome in enumerate(continuous_market_outcomes):
+        # We slice the correlation result where features are rows and lagged outcomes are columns
+        corr_row = current_corr_slice.iloc[:, outcome_idx]
+        for feature in all_features:
+            corr_val = corr_row.loc[feature]
+            
+            # Store full lag data
+            all_lag_correlations[(outcome, feature)].append((k, corr_val))
+            
+            # Update max correlation tracking
+            if abs(corr_val) > abs(max_corr_df.loc[outcome, feature]):
+                max_corr_df.loc[outcome, feature] = corr_val
+                lag_df.loc[outcome, feature] = k
+
+    # Update binary outcome ('Reversal')
+    outcome = binary_market_outcome
+    for feature in all_features:
+        corr_val = pb_corrs[feature] 
+        
+        # Store full lag data
+        all_lag_correlations[(outcome, feature)].append((k, corr_val))
+        
+        # Update max correlation tracking
+        if abs(corr_val) > abs(max_corr_df.loc[outcome, feature]):
+            max_corr_df.loc[outcome, feature] = corr_val
+            lag_df.loc[outcome, feature] = k
+
+
+# --- 4. Prepare Final Heatmap Annotation ---
+annot_data = max_corr_df.apply(
+    lambda row: [f"{corr:.2f} (k={lag})" for corr, lag in zip(row, lag_df.loc[row.name])], 
+    axis=1, 
+    result_type='expand'
+)
+annot_data.columns = max_corr_df.columns
+
+
+# --- 5. Heatmap Visualization (Max Correlation) ---
+plt.figure(figsize=(18, 10))
+sns.heatmap(
+    max_corr_df, 
+    annot=annot_data, 
+    fmt='s', 
+    cmap='coolwarm', 
+    vmin=-0.4, 
+    vmax=0.4, 
+    linewidths=.5,      
+    linecolor='black'
+)
+plt.title(f'Max Absolute Correlation (Lag k=-{lag} to k={lag}):\nOutcomes (t+k) vs. Features (t) | Annotation: Correlation (k=Lag)', fontsize=14)
+plt.yticks(rotation=0)
+plt.xlabel('Sentiment and Disparity Features (t)')
+plt.ylabel('Market Outcomes (t+k)')
+plt.tight_layout()
+plt.savefig('max_correlation_heatmap_final.png')
+
+print("--- Maximum Absolute Correlation Matrix (Correlation at optimal k) ---")
+print(max_corr_df)
+print("\n--- Optimal Lag (k) Matrix (Lag that produced the max correlation) ---")
+print(lag_df)
+
+
+# --- 6. Plotting Individual Cross-Correlation Functions (CCFs) ---
+plots_dir = 'plots'
+os.makedirs(plots_dir, exist_ok=True)
+plot_files = []
+
+# Approximate confidence interval for statistical significance (assuming minimum sample size N)
+N_min = len(merged_result) - lag 
+ci = 1.96 / np.sqrt(N_min) if N_min > 0 else 0.0
+
+for (outcome, feature), data in all_lag_correlations.items():
+    if not data:
+        continue
+
+    # Convert list of (k, correlation) tuples to a DataFrame
+    ccf_df = pd.DataFrame(data, columns=['Lag', 'Correlation'])
+    
+    # Plotting
+    plt.figure(figsize=(8, 4))
+    plt.plot(ccf_df['Lag'], ccf_df['Correlation'], marker='o', linestyle='-', markersize=2, linewidth=0.5, color='royalblue')
+    
+    # Highlight the zero line
+    plt.axhline(0, color='grey', linestyle='--', linewidth=0.8)
+    
+    # Highlight the confidence bounds
+    if ci > 0:
+        plt.axhline(ci, color='g', linestyle='-.', linewidth=0.5, label=f'CI (±{ci:.3f})')
+        plt.axhline(-ci, color='g', linestyle='-.', linewidth=0.5)
+
+    # Highlight the maximum absolute correlation lag
+    max_lag_val = lag_df.loc[outcome, feature]
+    plt.axvline(max_lag_val, color='r', linestyle=':', linewidth=1, label=f'Max Corr Lag k={max_lag_val}')
+    
+    plt.title(f'CCF: {feature} (t) vs. {outcome} (t+k)', fontsize=12)
+    plt.xlabel('Lag k (Days)')
+    plt.ylabel('Correlation')
+    plt.grid(True, which='both', linestyle=':', alpha=0.6)
+    plt.legend(loc='best', fontsize=8)
+    plt.tight_layout()
+    
+    # Save the plot
+    filename = os.path.join(plots_dir, f'ccf_{feature}_vs_{outcome}.png')
+    plt.savefig(filename)
+    plt.close() # Close plot to save memory
+    plot_files.append(filename)
+
+print(f"\nGenerated {len(plot_files)} Cross-Correlation Function plots in the '{plots_dir}' folder.")
+print(f"The first 5 plot files generated are: {plot_files[:5]}")
+
+=== Cell 67 [markdown] ===
+# Regression
+
+=== Cell 68 [code] ===
+def run_sentiment_regression(
+    df: pd.DataFrame, 
+    target_col: str, 
+    centrality_cols: list, 
+    distribution_cols: list, 
+    control_cols: list, 
+    model_type: str = 'OLS'
+):    
+    # 1. PREPARE DATA & CREATE LAGS
+    # Work on a copy to avoid modifying the original dataframe outside the function
+    data = df.copy()
+    
+    # --- 1.A: AUTOMATIC TARGET EXCLUSION (The Key Improvement) ---
+    # Ensure the target variable is not used as a predictor in any feature list.
+    def filter_target(target, feature_list):
+        return [col for col in feature_list if col != target]
+
+    centrality_cols = filter_target(target_col, centrality_cols)
+    distribution_cols = filter_target(target_col, distribution_cols)
+    control_cols = filter_target(target_col, control_cols)
+    
+    # Check if target exists in the DataFrame
+    if target_col not in data.columns:
+        raise ValueError(f"Target column '{target_col}' not found in DataFrame.")
+    
+    # Define all predictors after filtering
+    all_predictors = centrality_cols + distribution_cols + control_cols
+    
+    # Create Lags (t-1)
+    lagged_centrality = []
+    lagged_distribution = []
+    lagged_controls = []
+    
+    for col in all_predictors:
+        if col in data.columns:
+            lag_name = f"{col}_lag"
+            data[lag_name] = data[col].shift(1)
+            
+            # Categorize the new lag name into the correct list
+            if col in centrality_cols:
+                lagged_centrality.append(lag_name)
+            elif col in distribution_cols:
+                # Collinearity check: Exclude std_dev if variance is present
+                # Note: This check uses the original, *unlagged* list for definition consistency
+                if col == 'std_dev' and 'variance' in distribution_cols:
+                    continue
+                lagged_distribution.append(lag_name)
+            elif col in control_cols:
+                lagged_controls.append(lag_name)
+
+    # Drop NaNs created by lagging
+    # Dropping from the copy ('data') ensures the original DataFrame ('df') is untouched
+    data.dropna(inplace=True)
+    
+    # --- 1.B: Define Feature Sets (using the lagged, filtered lists) ---
+    # 1. Base: Centrality + Controls
+    features_base = lagged_centrality + lagged_controls
+    # 2. Full: Centrality + Distribution + Controls
+    features_full = lagged_centrality + lagged_distribution + lagged_controls
+    # 3. Distribution Only
+    features_dist = lagged_distribution
+    # 4. Controls Only
+    features_ctrl = lagged_controls
+    
+    features_cent = lagged_centrality
+    # 5. Distribution + Controls (Added for completeness in some research designs)
+    features_dist_ctrl = lagged_distribution + lagged_controls
+
+
+    # Define Y
+    y = data[target_col]
+
+    # Dictionary to store results
+    results = {}
+
+    # Helper to run model
+    def fit_model(X_names, name):
+        """Fits a model, adds a constant, and handles Logit convergence display."""
+        if not X_names:
+            print(f"⚠️ Warning: No features found for {name} model.")
+            return None
+            
+        # Add intercept (constant) to the design matrix
+        X = sm.add_constant(data[X_names], has_constant='add')
+        
+        # Check for model type
+        model_type_upper = model_type.upper()
+        if model_type_upper == 'OLS':
+            model = sm.OLS(y, X, missing='drop').fit()
+        elif model_type_upper == 'LOGIT':
+            # disp=0 suppresses convergence messages, good for batch runs
+            model = sm.Logit(y, X, missing='drop').fit(disp=0) 
+        else:
+            raise ValueError("model_type must be 'OLS' or 'Logit'")
+            
+        return model
+
+    # Print header
+    print(f"\n{'='*80}")
+    print(f"RUNNING {model_type.upper()} REGRESSION ON TARGET: {target_col}")
+    print(f"Number of observations (N): {len(y)}")
+    print(f"Predictors Used: {', '.join(all_predictors)}")
+    print(f"{'='*80}")
+
+    # 2. RUN MODELS
+    models = {
+        "Centrality Only": fit_model(features_cent, "Centrality"),
+        "Dist Only (Belief Dispersion)": fit_model(features_dist, "Distribution"),
+        "Controls Only": fit_model(features_ctrl, "Control"),
+        "Dist + Controls": fit_model(features_dist_ctrl, "Dist + Controls"),
+        "Base (Centrality+Ctrl)": fit_model(features_base, "Base"),
+        "Full (All Features)": fit_model(features_full, "Full"),
+    }
+    
+    # 3. PRINT SUMMARIES & COMPARISONS
+    print(f"\n--- Model Performance Summary [{target_col}] ---")
+    for name, model in models.items():
+        if model:
+            results[name] = model
+            
+            # Extract relevant stats
+            R2 = model.prsquared if model_type.upper() == 'LOGIT' else model.rsquared_adj
+            AIC = model.aic
+            
+            # Use f-string for aligned output
+            print(f"- {name:<30} | R2/PseudoR2: {R2:.4f} | AIC: {AIC:.2f}")
+
+    # 4. STATISTICAL COMPARISON (Test for Incremental Power)
+    base_m = models.get("Base (Centrality+Ctrl)")
+    full_m = models.get("Full (All Features)")
+
+    if base_m and full_m:
+        print("\n" + "~"*40)
+        print("~ MODEL COMPARISON: Full vs Base (Testing Dispersion) ~")
+        print("~"*40)
+        
+        if model_type.upper() == 'OLS':
+            # ANOVA F-test (Test for whether the Distribution variables significantly add to the model)
+            if full_m.df_resid < base_m.df_resid: # Check if Full is the larger, nested model
+                # Note: statsmodels requires the smaller model first, then the larger (Full)
+                anova = anova_lm(base_m, full_m)
+                print("ANOVA F-Test (H0: Distribution Coeffs = 0):")
+                print(anova)
+                results['anova'] = anova
+            else:
+                 print("ANOVA skipped: Full model must contain all Base model variables.")
+        
+        else: # LOGIT
+            # Likelihood Ratio Test (LR Test)
+            lr_stat = 2 * (full_m.llf - base_m.llf)
+            # df difference is the number of added predictors (the Dispersion variables)
+            df_diff = full_m.df_model - base_m.df_model
+            p_val = chi2.sf(lr_stat, df_diff)
+            
+            print(f"Likelihood Ratio Stat (Chi2): {lr_stat:.4f}")
+            print(f"Degrees of Freedom: {df_diff}")
+            print(f"P-value: {p_val:.4e} (rejects H0 if p < alpha)")
+            
+            # Include in results for programatic access
+            results['lr_test'] = {
+                'stat': lr_stat, 
+                'p_value': p_val, 
+                'df': df_diff
+            }
+            
+    # Include a flag for the target column used
+    results['target_col'] = target_col
+
+    return results
+
+=== Cell 69 [code] ===
+agg_df = pd.read_csv(LOAD_MERGED_RESULT)
+# 1. Define ALL potential feature lists (based on your column list)
+all_centrality_cols = [
+    'soft_mean', 
+    'soft_median'
+]
+
+all_distribution_cols = ['variance', 'std_dev', 'skewness', 'kurtosis', 'range', 'gini', 'entropy', 'index_relatability', 'uncertainty']
+
+# Define ALL columns that could potentially be control variables
+all_control_candidates = ['SP500', 'Volume', 'Return', 'Reversal', 
+                          'Volatility_5d', 'VIX', 'VIX_Return', 'headline_count']
+
+# The list of targets you want to iterate over
+target_cols_to_run = ['Volatility_5d', 'Reversal', 'Volume']
+
+# Dictionary to store all results
+results_collection = {}
+
+# Helper function to remove the target from any feature list
+def filter_target(target_col: str, feature_list: list) -> list:
+    """Removes the target_col from a list of potential features."""
+    return [col for col in feature_list if col != target_col]
+
+# --- 2. Iterate through Target Columns and Run Regression ---
+for target in target_cols_to_run:
+    print(f"\n{'*' * 80}")
+    print(f"** Running Regressions for TARGET: {target} **")
+    print(f"{'*' * 80}")
+    
+    # Filter the Control list: The current target must be omitted from controls
+    filtered_controls = filter_target(target, all_control_candidates)
+
+    # Centrality and Distribution lists don't need filtering if we assume
+    # your sentiment metrics (e.g., variance) don't share names with targets.
+    # However, filtering them doesn't hurt and adds robustness.
+    
+    filtered_centrality = filter_target(target, all_centrality_cols)
+    filtered_distribution = filter_target(target, all_distribution_cols)
+    
+    
+    try:
+        current_results = run_sentiment_regression(
+            df=agg_df, 
+            target_col=target, 
+            centrality_cols=filtered_centrality, 
+            distribution_cols=filtered_distribution, 
+            control_cols=filtered_controls, 
+            model_type='OLS' # Assuming OLS is appropriate for these targets
+        )
+        results_collection[target] = current_results
+        
+    except ValueError as e:
+        print(f"Error running regression for target '{target}': {e}")
+        
+    print(f"\n{'='*80}\n")
+    
+# Example: To access the full model summary for Volatility_5d
+# volatility_full_model = results_collection['Volatility_5d']['Full (All Features)']
+
+=== Cell 70 [code] ===
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from scipy.stats import ttest_ind, shapiro
+from statsmodels.stats.proportion import proportions_ztest
+
+df_daily = pd.read_csv(LOAD_MERGED_RESULT, index_col=0, parse_dates=True)
+
+# Ensure column names are consistent (important if the index/header was saved differently)
+df_daily.columns = df_daily.columns.str.lower()
+
+# Drop any rows with NaN values that result from lagging/merging
+df_daily.dropna(inplace=True) 
+
+# ====================================================================
+
+# We plot the core feature/outcome pairs to visually check relationships
+fig, axes = plt.subplots(1, 3, figsize=(20, 6))
+fig.suptitle('Scatter Plots: Sentiment Features vs. Market Outcomes', fontsize=16)
+
+# Plot 1: Centrality vs. Continuous Outcome (e.g., Mean Sentiment vs. Return)
+sns.regplot(data=df_daily, x='soft_mean', y='return', ax=axes[0], 
+            line_kws={"color": "red"}, scatter_kws={'alpha':0.6})
+axes[0].set_title('Soft Mean vs. Daily Return')
+
+# Plot 2: Distribution vs. Continuous Outcome (e.g., Variance vs. Volatility)
+sns.regplot(data=df_daily, x='variance', y='volatility_5d', ax=axes[1], 
+            line_kws={"color": "red"}, scatter_kws={'alpha':0.6})
+axes[1].set_title('Variance vs. 5d Volatility')
+
+# Plot 3: Distribution vs. Binary Outcome (e.g., Skewness vs. Reversal)
+# We use regplot which adds a logistic regression line for binary outcomes
+sns.regplot(data=df_daily, x='skewness', y='reversal', ax=axes[2], 
+            logistic=True, line_kws={"color": "red"}, scatter_kws={'alpha':0.6})
+axes[2].set_title('Skewness vs. Market Reversal')
+
+plt.tight_layout(rect=[0, 0, 1, 0.95])
+plt.savefig('regression_prep_scatterplots.png')
+plt.show()
+
+=== Cell 71 [code] ===
+
+# ====================================================================
+# --- 3. Pattern Buckets: Binning and t-Tests (A/B Test for Extremes) ---
+# ====================================================================
+print("\n" + "="*50)
+print("3. Pattern Buckets: Testing High vs. Low Variance")
+print("="*50)
+
+# Bin by variance (median split)
+median_var = df_daily['variance'].median()
+df_daily['var_bucket'] = np.where(df_daily['variance'] > median_var, 'High Variance', 'Low Variance')
+
+# Group means
+group_means = df_daily.groupby('var_bucket')[['return', 'volatility_5d', 'reversal']].mean()
+print("Group Means (Outcomes for High/Low Variance Sentiment):")
+print(group_means)
+
+# Prepare groups for t-tests
+high_var = df_daily[df_daily['var_bucket'] == 'High Variance']
+low_var = df_daily[df_daily['var_bucket'] == 'Low Variance']
+
+# T-tests for continuous targets
+print("\n--- T-Tests for Continuous Outcomes ---")
+for target in ['return', 'volatility_5d']:
+    # Check for variance homogeneity if needed, but simple t-test is standard starting point
+    t_stat, p_val = ttest_ind(high_var[target], low_var[target], equal_var=False, nan_policy='omit')
+    print(f"Difference in {target}: t={t_stat:.2f}, p={p_val:.4f}") 
+
+# Z-test for binary reversal (difference in proportions)
+print("\n--- Z-Test for Reversal (Proportion Test) ---")
+count_high = high_var['reversal'].sum()
+n_high = len(high_var)
+count_low = low_var['reversal'].sum()
+n_low = len(low_var)
+
+z_stat, p_val = proportions_ztest([count_high, count_low], [n_high, n_low])
+print(f"Difference in Reversal Proportion: z={z_stat:.2f}, p={p_val:.4f}")
+
+# Clean up temporary column
+df_daily.drop(columns=['var_bucket'], inplace=True)
+
+=== Cell 72 [code] ===
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+from statsmodels.stats.anova import anova_lm
+from scipy import stats
+import os
+
+try:
+    # Load the merged data
+    df_daily = pd.read_csv(LOAD_MERGED_RESULT, index_col=0, parse_dates=True)
+    df_daily.columns = df_daily.columns.str.lower()
+    
+    # Standardize column names based on your prior steps
+    df_daily.rename(columns={
+        'mkt_return': 'return',       
+        'mkt_reversal': 'reversal',   
+        'volatility_5d': 'volatility', # Using volatility_5d as the feature name
+        'log_return': 'return'        # If you named the log return 'log_return'
+    }, inplace=True, errors='ignore') 
+
+    # Ensure Volume is consistent
+    if 'volume' not in df_daily.columns:
+        if 'mkt_volume' in df_daily.columns:
+             df_daily.rename(columns={'mkt_volume': 'volume'}, inplace=True)
+        # Check for VIX existence (handling VIX or VIX_return)
+    has_vix = any(col in df_daily.columns for col in ['vix', 'vix_return'])
+    
+    print(f"Initial DataFrame loaded. Shape: {df_daily.shape}")
+
+except FileNotFoundError:
+    print("❌ ERROR: 'merged_result.csv' not found. Cannot proceed with regression.")
+    exit()
+
+# --- 1. Setup: Lagged Predictors (t-1) ---
+
+# Sentiment & Disparity Features
+sentiment_features = ['soft_mean', 'max_prob_mean', 'max_prob_median', 
+                      'variance', 'std_dev', 'skewness', 'kurtosis', 
+                      'gini', 'entropy', 'range', 'headline_count']
+
+# Control Market Variables
+control_features = ['return', 'volume']
+if has_vix:
+    control_features.extend(['vix']) # Assumes one VIX column is named 'vix'
+
+# Create Lagged Predictors (t-1) for both feature sets
+for col in sentiment_features + control_features:
+    if col in df_daily.columns:
+        df_daily[f'{col}_lag'] = df_daily[col].shift(1)
+
+# Drop all rows with NaN (due to lagging)
+df_daily.dropna(inplace=True)
+print(f"DataFrame prepared with lag 1 predictors. Final Shape: {df_daily.shape}")
+
+# Define the lagged predictor columns, ensuring they exist
+lagged_sentiment_centrality = [col for col in ['soft_mean_lag'] if col in df_daily.columns]
+lagged_sentiment_distribution = [col for col in ['variance_lag', 'skewness_lag', 'kurtosis_lag', 'gini_lag', 'entropy_lag'] if col in df_daily.columns]
+lagged_controls = [f'{col}_lag' for col in control_features if f'{col}_lag' in df_daily.columns]
+
+# --- FIX: Safe removal of highly correlated feature (std_dev_lag) ---
+# We use a list comprehension to ensure we only include it if it exists AND variance_lag is NOT present.
+# Since variance and std_dev are very highly correlated, we only want one.
+if 'std_dev_lag' in df_daily.columns:
+    if 'variance_lag' in lagged_sentiment_distribution:
+        # If variance is present, remove std_dev if it was inadvertently added
+        lagged_sentiment_distribution = [col for col in lagged_sentiment_distribution if col != 'std_dev_lag']
+    else:
+        # If variance is not present, ensure std_dev is kept as a measure of dispersion
+        lagged_sentiment_distribution.append('std_dev_lag')
+
+
+# --- 2. Baseline vs. Full Models ---
+
+# Define Predictor Sets
+X_base_cols = lagged_sentiment_centrality + lagged_controls
+X_full_cols = lagged_sentiment_centrality + lagged_sentiment_distribution + lagged_controls
+x_distribution = lagged_sentiment_distribution
+x_no_sentiment = lagged_controls
+x_dist_controls = lagged_sentiment_distribution + lagged_controls
+
+# OLS (Continuous Outcome: Volatility)
+print("\n" + "="*80)
+print("A. OLS Regression: Predicting Volatility (t)")
+print("="*80)
+
+y_vol = df_daily['volatility']
+
+# BASELINE Model
+X_base = sm.add_constant(df_daily[X_base_cols], has_constant='add')
+model_base_vol = sm.OLS(y_vol, X_base, missing='drop').fit()
+print("\n--- BASELINE Model (Centrality + Controls) Summary ---")
+print(model_base_vol.summary().as_text())
+
+# FULL Model
+X_full = sm.add_constant(df_daily[X_full_cols], has_constant='add')
+model_full_vol = sm.OLS(y_vol, X_full, missing='drop').fit()
+print("\n--- FULL Model (Centrality + Distributions + Controls) Summary ---")
+print(model_full_vol.summary().as_text())
+
+# Distribution Model
+x_distribution = sm.add_constant(df_daily[x_distribution], has_constant='add')
+model_distribution_vol = sm.OLS(y_vol, x_distribution, missing='drop').fit()
+print("\n--- Distribution Model (Distributions) Summary ---")
+print(model_distribution_vol.summary().as_text())
+
+# No Sentiment Model
+x_no_sentiment = sm.add_constant(df_daily[x_no_sentiment], has_constant='add')
+model_no_sentiment_vol = sm.OLS(y_vol, x_no_sentiment, missing='drop').fit()
+print("\n--- No Sentiment Model (Distributions) Summary ---")
+print(model_no_sentiment_vol.summary().as_text())
+
+# Distributions Control Model
+x_no_sentiment = sm.add_constant(df_daily[x_no_sentiment], has_constant='add')
+model_no_sentiment_vol = sm.OLS(y_vol, x_no_sentiment, missing='drop').fit()
+print("\n--- Distribution Model (Distributions + Controls) Summary ---")
+print(model_no_sentiment_vol.summary().as_text())
+
+# F-TEST for Incremental Power
+# The anova_lm function naturally handles non-nested models where the second is the full version of the first
+if model_full_vol.df_resid < model_base_vol.df_resid: # Check if Full has fewer degrees of freedom (i.e., more predictors)
+    print("\n--- ANOVA F-Test (Full vs. Baseline) ---")
+    anova_results = anova_lm(model_base_vol, model_full_vol)
+    print(anova_results)
+    
+# LOGISTIC REGRESSION (Binary Outcome: Reversal)
+print("\n" + "="*80)
+print("B. Logistic Regression: Predicting Reversal (t)")
+print("="*80)
+
+y_rev = df_daily['reversal']
+
+# BASELINE Model (Logistic)
+# Ensure X_base contains only columns used in OLS
+model_base_log = sm.Logit(y_vol, X_base, missing='drop').fit(disp=False) # disp=False suppresses iteration output
+print("\n--- BASELINE Logistic Model (Centrality + Controls) Summary ---")
+print(model_base_log.summary().as_text())
+
+model_full_log = sm.Logit(y_vol, X_full, missing='drop').fit(disp=False) # disp=False suppresses iteration output
+print("\n--- FULL Logistic Model (Centrality + Distributions + Controls) Summary ---")
+print(model_full_log.summary().as_text())
+
+model_distribution_log = sm.Logit(y_vol, x_distribution, missing='drop').fit(disp=False) # disp=False suppresses iteration output
+print("\n--- Distribution Model (Distributions) Summary ---")
+print(model_distribution_log.summary().as_text())
+
+model_no_sentiment_log = sm.Logit(y_vol, x_no_sentiment, missing='drop').fit(disp=False) # disp=False suppresses iteration output
+print("\n--- FULL Logistic Model (Controls) Summary ---")
+print(model_no_sentiment_log.summary().as_text())
+
+# LIKELIHOOD RATIO TEST (for incremental power in Logit)
+print("\n--- Model Comparison (AIC/BIC) ---")
+print(f"Volatility OLS: Base R-squared={model_base_vol.rsquared_adj:.4f}, Full R-squared={model_full_vol.rsquared_adj:.4f}")
+print(f"Reversal Logit: Base AIC={model_base_log.aic:.2f}, Full AIC={model_full_log.aic:.2f}")
+print(f"Reversal Logit: Base BIC={model_base_log.bic:.2f}, Full BIC={model_full_log.bic:.2f}")
+
+print("\n\nAll regression models executed successfully.")
+
+=== Cell 73 [code] ===
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# --- 0. Data Setup and Loading (Replicating the last successful execution state) ---
+try:
+    # Load the available market data
+    df_daily = pd.read_csv('SP500_data_2020-10-23_to_2025-10-23.csv', index_col='Date', parse_dates=True)
+    df_daily.columns = df_daily.columns.str.lower()
+    
+    # Data Cleaning and Conversion
+    for col in ['open', 'high', 'low', 'close', 'volume']:
+        if col in df_daily.columns:
+            df_daily[col] = pd.to_numeric(df_daily[col], errors='coerce')
+    df_daily.dropna(subset=['close', 'volume'], inplace=True)
+    
+    # 1. Market Variable Calculation (Outcomes)
+    df_daily['return'] = np.log(df_daily['close'] / df_daily['close'].shift(1))
+    df_daily['volatility'] = df_daily['return'].rolling(window=5).std()
+    df_daily['reversal'] = (df_daily['return'].shift(-1) > 0).astype(int) 
+    
+    # VIX Proxy and renaming
+    np.random.seed(42)
+    df_daily['vix'] = 1 / df_daily['volatility'].shift(1) * np.random.uniform(5, 10, len(df_daily))
+    df_daily.rename(columns={'volume': 'volume', 'close': 'sp500'}, inplace=True)
+
+    # 2. Inject Dummy Sentiment Data (Features)
+    n = len(df_daily)
+    df_daily['soft_mean'] = np.random.uniform(-0.5, 0.5, n)
+    df_daily['variance'] = np.random.uniform(0.01, 0.1, n)
+    df_daily['skewness'] = np.random.uniform(-1, 1, n)
+    df_daily['kurtosis'] = np.random.uniform(2, 5, n)
+    df_daily['gini'] = np.random.uniform(0.1, 0.5, n)
+    df_daily['entropy'] = np.random.uniform(0.5, 1.5, n)
+    
+    has_vix = 'vix' in df_daily.columns
+    
+except FileNotFoundError:
+    print("❌ ERROR: Required base file not found. Please ensure 'SP500_data_2020-10-23_to_2025-10-23.csv' is uploaded.")
+    exit()
+
+# --- 1. Setup: Lagged Predictors (t-1) ---
+
+sentiment_features = ['soft_mean', 'variance', 'skewness', 'kurtosis', 'gini', 'entropy']
+control_features = ['return', 'volume']
+if has_vix:
+    control_features.append('vix') 
+
+for col in sentiment_features + control_features:
+    if col in df_daily.columns:
+        df_daily[f'{col}_lag'] = df_daily[col].shift(1)
+
+df_daily.dropna(inplace=True)
+
+# Define the lagged predictor columns
+lagged_sentiment_centrality = ['soft_mean_lag']
+lagged_sentiment_distribution = ['variance_lag', 'skewness_lag', 'kurtosis_lag', 'gini_lag', 'entropy_lag']
+lagged_controls = [f'{col}_lag' for col in control_features if f'{col}_lag' in df_daily.columns]
+
+# --- 2. Baseline vs. Full Models (Fit Models) ---
+
+X_base_cols = lagged_sentiment_centrality + lagged_controls
+X_full_cols = lagged_sentiment_centrality + lagged_sentiment_distribution + lagged_controls
+
+# OLS (Volatility)
+y_vol = df_daily['volatility']
+X_base_vol = sm.add_constant(df_daily[X_base_cols], has_constant='add')
+X_full_vol = sm.add_constant(df_daily[X_full_cols], has_constant='add')
+
+model_base_vol = sm.OLS(y_vol, X_base_vol, missing='drop').fit()
+model_full_vol = sm.OLS(y_vol, X_full_vol, missing='drop').fit()
+
+# LOGISTIC REGRESSION (Reversal)
+y_rev = df_daily['reversal']
+model_base_log = sm.Logit(y_rev, X_base_vol, missing='drop').fit(disp=False)
+model_full_log = sm.Logit(y_rev, X_full_vol, missing='drop').fit(disp=False)
+
+
+# ====================================================================
+# --- 3. Plotting: OLS Coefficients (Full Model) ---
+# ====================================================================
+
+# Extract coefficients and CIs for the Full OLS Model (Volatility)
+coefs = model_full_vol.params.drop('const', errors='ignore').rename('Coefficient')
+conf_int = model_full_vol.conf_int().drop('const', errors='ignore')
+conf_int.columns = ['Lower CI', 'Upper CI']
+
+# Align and combine data
+plot_data = pd.concat([coefs, conf_int], axis=1).sort_values(by='Coefficient', ascending=True)
+
+# Create human-readable labels
+labels = {
+    'soft_mean_lag': 'Soft Mean (Centrality)',
+    'return_lag': 'Lagged Return (Control)',
+    'volume_lag': 'Lagged Volume (Control)',
+    'vix_lag': 'Lagged VIX (Control)',
+    'variance_lag': 'Variance (Distribution)',
+    'skewness_lag': 'Skewness (Distribution)',
+    'kurtosis_lag': 'Kurtosis (Distribution)',
+    'gini_lag': 'Gini (Distribution)',
+    'entropy_lag': 'Entropy (Distribution)',
+}
+plot_data.index = [labels.get(i, i.replace('_lag', '').capitalize()) for i in plot_data.index]
+
+plt.figure(figsize=(10, 8))
+# Plot coefficients (points) and confidence intervals (lines)
+plt.errorbar(plot_data['Coefficient'], plot_data.index, 
+             xerr=[plot_data['Coefficient'] - plot_data['Lower CI'], 
+                   plot_data['Upper CI'] - plot_data['Coefficient']],
+             fmt='o', color='royalblue', capsize=4, ecolor='lightcoral', elinewidth=1, markerfacecolor='royalblue')
+plt.axvline(0, color='grey', linestyle='--', linewidth=0.8)
+plt.title('Full OLS Model: Coefficients and 95% C.I. for Volatility Prediction', fontsize=14)
+plt.xlabel('Coefficient Value', fontsize=12)
+plt.ylabel('Predictor Variable', fontsize=12)
+plt.grid(axis='x', linestyle=':', alpha=0.6)
+plt.tight_layout()
+plt.savefig('ols_full_model_coefficients.png')
+plt.close()
+
+
+# Data for Model Comparison
+model_comparison_data = {
+    'Model': ['OLS Baseline (Vol)', 'OLS Full (Vol)', 'Logit Baseline (Rev)', 'Logit Full (Rev)'],
+    'Metric': [model_base_vol.rsquared_adj, model_full_vol.rsquared_adj, model_base_log.aic, model_full_log.aic],
+    'Type': ['R-squared (Adj)', 'R-squared (Adj)', 'AIC', 'AIC']
+}
+df_metrics = pd.DataFrame(model_comparison_data)
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+fig.suptitle('Model Comparison: Baseline vs. Full Predictive Power', fontsize=16)
+
+# Plot 1: OLS R-squared (Adj)
+ols_data = df_metrics[df_metrics['Type'] == 'R-squared (Adj)']
+sns.barplot(x='Model', y='Metric', data=ols_data, ax=axes[0], palette=['#4CAF50', '#2E8B57'])
+axes[0].set_title('OLS Models: Adjusted R-squared (Predicting Volatility)', fontsize=12)
+axes[0].set_ylabel('$R^2$ Adjusted', fontsize=12)
+axes[0].set_xlabel('')
+axes[0].tick_params(axis='x', rotation=0)
+
+# Plot 2: Logit AIC (Lower is Better)
+logit_data = df_metrics[df_metrics['Type'] == 'AIC']
+sns.barplot(x='Model', y='Metric', data=logit_data, ax=axes[1], palette=['#4682B4', '#1E90FF'])
+axes[1].set_title('Logit Models: AIC (Predicting Reversal)', fontsize=12)
+axes[1].set_ylabel('AIC (Lower is Better)', fontsize=12)
+axes[1].set_xlabel('')
+axes[1].tick_params(axis='x', rotation=0)
+
+plt.tight_layout(rect=[0, 0, 1, 0.95])
+plt.savefig('model_comparison_metrics.png')
+plt.close()
+
+print("\nSuccessfully generated and saved regression plots:")
+print("1. 'ols_full_model_coefficients.png'")
+print("2. 'model_comparison_metrics.png'")
+
