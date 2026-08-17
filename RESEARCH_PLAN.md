@@ -363,3 +363,23 @@ The generated audit is in
 `research/event_study/artifacts/PHASE1_REPORT.md`. Phase 2 is therefore deferred
 until the Phase 1 coverage problem is resolved; this is a design gate, not a
 null result for the research hypothesis.
+
+### 2026-08-18 - Phase 1b Free-Coverage Expansion
+
+- Corrected the pre-event window to be continuous from the earliest included
+  completed session through the release boundary, so weekend headlines are no
+  longer discarded.
+- Retrieved an outcome-blind historical Google News RSS pilot for all 159
+  events. Raw feeds and headline metadata remain under ignored `data/` paths.
+- Excluded release-day RSS records because historical entries frequently have
+  date-like rather than trustworthy clock timestamps.
+- Added transparent title-level relevance filters and excluded official agency
+  pages. Under the original three-session/eight-headline gate, FOMC passes on
+  31 of 39 events, CPI on 13 of 60, and employment on 6 of 60.
+- Decision: prioritize FOMC as the first case study. Defer CPI and employment.
+  FOMC outcome modeling remains blocked until manual relevance validation,
+  paper-acceptable source/archiving terms, and consistent sentiment labeling
+  are complete.
+
+The aggregate expansion report is in
+`research/event_study/artifacts/GOOGLE_NEWS_EXPANSION_REPORT.md`.

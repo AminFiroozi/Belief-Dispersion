@@ -3,11 +3,18 @@ from pathlib import Path
 
 import pandas as pd
 
+from research.event_study.google_news_expansion import (
+    QUERIES,
+    build_query_url,
+    clean_title,
+    selected_records,
+)
 from research.event_study.phase1_coverage import (
     audit_coverage,
     compile_topic_patterns,
     expand_calendar,
     load_json,
+    pre_event_window_start,
     previous_trading_dates,
     topic_mask,
 )
@@ -53,9 +60,23 @@ class TopicAndTimingTests(unittest.TestCase):
         event = pd.Timestamp("2024-01-10T08:30", tz="America/New_York")
         dates = previous_trading_dates(trading, event, sessions=2)
         self.assertEqual(
-            {value.isoformat() for value in dates},
-            {"2024-01-08", "2024-01-09", "2024-01-10"},
+            {value.date().isoformat() for value in dates},
+            {"2024-01-08", "2024-01-09"},
         )
+        self.assertEqual(
+            pre_event_window_start(trading, event, sessions=2),
+            pd.Timestamp("2024-01-08T00:00", tz="America/New_York"),
+        )
+
+    def test_window_is_continuous_across_weekend(self):
+        trading = pd.DatetimeIndex(
+            pd.to_datetime(["2024-01-04", "2024-01-05", "2024-01-08"])
+        )
+        event = pd.Timestamp("2024-01-09T08:30", tz="America/New_York")
+        start = pre_event_window_start(trading, event, sessions=2)
+        weekend = pd.Timestamp("2024-01-07T12:00", tz="America/New_York")
+        self.assertLessEqual(start, weekend)
+        self.assertLess(weekend, event)
 
     def test_release_boundary_is_strict(self):
         event_time = pd.Timestamp("2024-01-10T08:30", tz="America/New_York")
@@ -86,10 +107,87 @@ class TopicAndTimingTests(unittest.TestCase):
                 }
             ]
         )
-        trading = pd.DatetimeIndex(pd.to_datetime(["2024-01-08", "2024-01-09", "2024-01-10"]))
+        trading = pd.DatetimeIndex(
+            pd.to_datetime(
+                [
+                    "2024-01-03",
+                    "2024-01-04",
+                    "2024-01-05",
+                    "2024-01-08",
+                    "2024-01-09",
+                    "2024-01-10",
+                ]
+            )
+        )
         rows, _ = audit_coverage(news, events, trading, self.patterns)
         for row in rows:
             self.assertEqual(row["matched_headlines_raw"], 1)
+
+
+class GoogleNewsExpansionTests(unittest.TestCase):
+    def test_query_has_explicit_historical_bounds(self):
+        url = build_query_url(
+            '"Federal Reserve"',
+            pd.Timestamp("2024-01-01").date(),
+            pd.Timestamp("2024-01-10").date(),
+        )
+        self.assertIn("after%3A2024-01-01", url)
+        self.assertIn("before%3A2024-01-10", url)
+
+    def test_employment_query_does_not_use_nested_outer_group(self):
+        self.assertFalse(QUERIES["employment"].startswith("(("))
+
+    def test_source_suffix_is_removed_from_title(self):
+        self.assertEqual(
+            clean_title("Fed Holds Rates - Example News", "Example News"),
+            "Fed Holds Rates",
+        )
+
+    def test_external_sample_excludes_release_day_and_official_pages(self):
+        event = {
+            "event_id": "cpi_test",
+            "family": "cpi",
+            "release_timestamp_et": "2024-01-10T08:30:00-05:00",
+        }
+        records = [
+            {
+                "headline": "US inflation report is due tomorrow",
+                "headline_key": "valid",
+                "published_date": "2024-01-09",
+                "source": "Example News",
+            },
+            {
+                "headline": "US inflation report is released",
+                "headline_key": "release day",
+                "published_date": "2024-01-10",
+                "source": "Example News",
+            },
+            {
+                "headline": "Consumer price index release calendar",
+                "headline_key": "official",
+                "published_date": "2024-01-09",
+                "source": "Bureau of Labor Statistics (.gov)",
+            },
+            {
+                "headline": "A completely unrelated story",
+                "headline_key": "query false positive",
+                "published_date": "2024-01-09",
+                "source": "Example News",
+            },
+        ]
+        trading = pd.DatetimeIndex(
+            pd.to_datetime(
+                [
+                    "2024-01-03",
+                    "2024-01-04",
+                    "2024-01-05",
+                    "2024-01-08",
+                    "2024-01-09",
+                ]
+            )
+        )
+        selected = selected_records(records, event, trading, sessions=3)
+        self.assertEqual([item["headline_key"] for item in selected], ["valid"])
 
 
 if __name__ == "__main__":

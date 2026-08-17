@@ -1,8 +1,8 @@
 # Data Provenance
 
-Retrieved and checked on 2026-08-17. Raw data files are intentionally excluded
-from Git; only this manifest, code, official calendars, and aggregate outputs
-are versioned.
+Initial inputs were checked on 2026-08-17; the expansion snapshot was added on
+2026-08-18. Raw data files are intentionally excluded from Git; only this
+manifest, code, official calendars, and aggregate outputs are versioned.
 
 | File | Bytes | SHA-256 | Status |
 | --- | ---: | --- | --- |
@@ -12,6 +12,7 @@ are versioned.
 | `data/news_daily_data` | 56,531 | `953611e383999d40d4ca1663b6825c2df3491520aaad4d222d6d2258619e62e0` | Second-student daily market/news panel |
 | `data/spy_1min_data` | 36,448,727 | `3ddb221e294ceb46194cdf889b06fb96a49fec3f116c7211dc2537cfa3d99ef9` | Second-student SPY minute bars |
 | `data/market_panel.csv` | 70,801 | `ab67ec48f22d304b46b5f140ea27a0e65e8f608f0ef61334f2448279bfe541da` | Daily SPX/VIX cache |
+| `data/google_news_event_headlines.jsonl` | 6,089,357 | `6cc37f5d4af0d5642d461dbd1945f038ec0d55b9db49908085a1abee89db03a3` | Historical RSS feasibility snapshot; not paper-approved |
 
 ## Source Status
 
@@ -23,6 +24,12 @@ are versioned.
   market-data source in the paper until provenance is established.
 - `data/market_panel.csv`: appears to contain daily S&P 500 and VIX data. Its
   acquisition script and provider metadata still need to be documented.
+- `data/google_news_event_headlines.jsonl`: generated on 2026-08-18 from 159
+  event-bounded Google News RSS queries. The accepted snapshot contains 5,933
+  event-result records. Historical timestamps are often date-like, Google
+  rankings can change on rerun, and the RSS terms restrict reuse. Keep this as
+  an outcome-blind coverage pilot unless its use and archiving terms are found
+  acceptable for publication.
 - FOMC dates: official Federal Reserve meeting calendars.
 - CPI and Employment Situation dates: official BLS annual release calendars.
 
