@@ -2,22 +2,40 @@
 
 ## 1. Research Objective
 
-This project tests whether the cross-news distribution of sentiment is an
-independent and useful market-state indicator in pre-specified high-information
-settings.
+This project tests whether the cross-news distribution of sentiment contains
+information about the prevailing information state and possible market
+behavior that is not captured by average tone.
 
-The primary claim is deliberately conditional rather than universal:
+The broad conceptual claim is:
 
-> Before scheduled, consequential information releases, topic-conditioned
-> sentiment dispersion predicts the magnitude of the subsequent market
-> adjustment after controlling for mean sentiment, news attention, and the
-> market state known before the release.
+> The shape of a topic-conditioned news-sentiment distribution can identify
+> economically distinct information states beyond mean sentiment. Consensus,
+> diffuse uncertainty, polarization, asymmetric concern, and tail dissent may
+> therefore correspond to different patterns of volatility, volume, direction,
+> reversal, or tail risk.
+
+The first narrow confirmatory test is:
+
+> Before scheduled FOMC announcements, does pre-announcement distributional
+> sentiment contain incremental information about subsequent 60-minute
+> volatility after controlling for mean sentiment, news attention, and the
+> market state known before the release?
+
+The FOMC is an event anchor and repeated topic, not a news source. Dispersion is
+constructed from multiple media headlines discussing the approaching policy
+decision. The known schedule supplies a common subject and a clean information
+boundary without selecting events because they produced large realized moves.
 
 "Independent" means incremental to mean sentiment and controls. "Useful" means
 improved out-of-sample forecasts or economically meaningful event
 classification, not only an in-sample p-value. "Certain times" will be defined
-before observing outcomes through scheduled-event families, not selected after
-seeing where dispersion appears successful.
+before observing outcomes through scheduled-event families or ex-ante news
+attention, not selected after seeing where the market moved.
+
+The study does not assume that media sentiment is literally the distribution of
+investor beliefs or that headlines cause the subsequent market response. The
+careful interpretation is a news-sentiment distribution or media-implied
+information state that may predict or be associated with market behavior.
 
 The broad daily analysis remains supporting evidence. The scheduled-event study
 will be the primary design because it provides coherent topics, exact timing,
@@ -31,6 +49,12 @@ and a substantially cleaner information set.
   controls, or exploratory moderators, but they are not the central claim.
 - Condition distributions on one event topic at a time. A distribution across
   unrelated headlines is news-flow heterogeneity, not necessarily disagreement.
+- Treat FOMC as the first controlled case study of the general hypothesis, not
+  as the hypothesis itself. FOMC-specific evidence does not establish
+  usefulness on ordinary days or for unrelated topics.
+- Preserve one confirmatory endpoint for statistical discipline while treating
+  the mapping from particular distribution shapes to volume, direction,
+  reversal, and tail behavior as pre-labeled secondary or exploratory work.
 - Treat the design as event-timed predictive or quasi-experimental evidence.
   Scheduled timing reduces reverse causality but does not randomly assign
   sentiment dispersion.
@@ -140,6 +164,13 @@ mean contrast.
 - Mean-orthogonal cubic and quartic contrasts for asymmetry and tail shape.
 - Negative and positive tail masses, tested separately only in labeled
   secondary specifications.
+
+These measures represent distinct candidate states rather than interchangeable
+definitions of "dispersion." High entropy indicates a diffuse distribution;
+bipolarity identifies simultaneous positive and negative mass; asymmetric
+contrasts identify one-sided concern; and the quadratic contrast emphasizes
+extreme/U-shaped mass. Raw sample skewness and kurtosis are unstable with only
+8-30 headlines and remain robustness measures rather than primary constructs.
 
 Use Dirichlet or empirical-Bayes smoothing when event article counts are small.
 Report unsmoothed estimates as a robustness check. Feature definitions and the
@@ -333,7 +364,14 @@ actually obtained.
 ## 12. Decision Log
 
 - Primary endpoint: post-event volatility, not directional return.
-- Primary setting: topic-conditioned scheduled macro events.
+- Broad claim: distributional shape may identify economically distinct
+  media-implied information states beyond average tone.
+- Primary setting: FOMC as a topic-conditioned, ex-ante scheduled case study,
+  not as a news source or a universal definition of consequential news.
+- Primary confirmatory test: incremental prediction of 60-minute volatility.
+- Secondary state mapping: volume, direction, reversal, and tail behavior.
+- Interpretation: predictive/associational, not causal and not automatically a
+  literal distribution of investor beliefs.
 - Primary sentiment measurement: discrete A-E labels.
 - Primary distribution feature: mean-orthogonal quadratic contrast.
 - Multidimensional sentiment: deferred.
