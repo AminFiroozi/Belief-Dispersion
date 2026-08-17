@@ -271,6 +271,11 @@ Repair timezone handling, map topic headlines to events, deduplicate stories,
 and construct pre- and post-release SPY outcomes without overlapping the
 information boundary.
 
+Status: the FOMC news-assignment and market-outcome scaffold is complete. The
+sentiment-share portion remains intentionally pending Phase 3 because the
+expanded headline corpus has not yet passed relevance review or received
+documented labels.
+
 Deliverables:
 
 - One row per event with article counts, sentiment shares, controls, and
@@ -383,3 +388,34 @@ null result for the research hypothesis.
 
 The aggregate expansion report is in
 `research/event_study/artifacts/GOOGLE_NEWS_EXPANSION_REPORT.md`.
+
+### 2026-08-18 - Phase 2 Timing-Safe FOMC Scaffold
+
+- Built one row for each of the 39 regular FOMC events using the frozen
+  three-session news rule and exact-normalized within-event deduplication.
+- Defined the primary SPY reaction as `[14:00, 15:00)` America/New_York. The
+  14:00 through 14:59 bar returns use the 13:59 close as the boundary price;
+  no missing announcement-window minute is interpolated.
+- Thirty-one events pass the eight-headline gate, 37 have complete pre- and
+  post-release primary market windows, and 30 satisfy both conditions before
+  sentiment validation.
+- Excluded `2021-04-28` and `2022-01-26` from the complete market sample due to
+  missing minute bars. The latter is the only news-qualified event lost to
+  market missingness.
+- Separated volume validity from price validity. One otherwise eligible event,
+  `2023-03-22`, has three zero-volume bars and retains its volatility outcome
+  while its normalized-volume outcome is missing. A second event,
+  `2021-12-15`, has fewer than 15 clean same-clock baseline sessions. Twenty-eight
+  eligible events have a complete normalized-volume outcome.
+- Added lagged SPX/VIX controls, five-, fifteen-, and sixty-minute outcomes, a
+  delayed-window robustness outcome, synthetic timing tests, and raw-bar spot
+  checks. All 17 event-study tests pass.
+- Decision: do not inspect sentiment-outcome associations yet. Phase 3 must
+  manually validate relevance, resolve the news source/archiving decision,
+  label the accepted headlines under a documented protocol, and freeze the
+  primary dispersion feature first.
+
+The generated audit is in
+`research/event_study/artifacts/PHASE2_REPORT.md`. The ignored local working
+files are `data/fomc_phase2_event_panel.csv` and
+`data/fomc_phase2_headline_review.csv`.
