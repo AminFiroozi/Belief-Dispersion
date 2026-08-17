@@ -1,0 +1,650 @@
+[
+  {
+    "family": "fomc",
+    "headline": "Powell Downplays Inflation Risks as Yellen Foreshadows Future Spending",
+    "source": "NYTimes",
+    "published_et": "2021-03-23T16:39:58-04:00",
+    "sentiment_class": "E",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "US interest rate will remain unchanged at 22-year high, Federal Reserve says",
+    "source": "Guardian",
+    "published_et": "2023-09-20T15:42:48-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "US Federal Reserve raises interest rates for first time since 2018",
+    "source": "Guardian",
+    "published_et": "2022-03-16T16:26:24-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Fed meeting could provide fresh clues on how policymakers see the economy.",
+    "source": "NYTimes",
+    "published_et": "2020-07-29T06:40:14-04:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Federal Reserve complacency over US inflation risks looks wrong | Nils Pratley",
+    "source": "Guardian",
+    "published_et": "2021-05-12T14:57:23-04:00",
+    "sentiment_class": "A",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Fed Official Compares Inflation to Uber Surge Pricing",
+    "source": "NYTimes",
+    "published_et": "2023-01-04T10:07:07-05:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Jonathan Powell: the veteran negotiator being lauded over US-Ukraine detente",
+    "source": "Guardian",
+    "published_et": "2025-03-14T02:00:20-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "The Federal Reserve is about to cut rates \u2026 but by how much?",
+    "source": "Guardian",
+    "published_et": "2024-09-15T06:00:55-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Fed Chair Shows Little Urgency to Lower Rates",
+    "source": "NYTimes",
+    "published_et": "2025-02-11T05:02:13-05:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Fed chair warns of 'tragic' consequences without further Covid relief",
+    "source": "Guardian",
+    "published_et": "2020-10-06T14:26:13-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Fed Minutes Show a Cut \u2018Likely\u2019 to Come in September",
+    "source": "NYTimes",
+    "published_et": "2024-08-21T15:08:42-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "What Fed Rate Increases Mean for Mortgages, Credit Cards and More",
+    "source": "NYTimes",
+    "published_et": "2022-09-21T12:03:40-04:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "The Federal Reserve chair says the United States needs \u2018more inclusive prosperity.\u2019",
+    "source": "NYTimes",
+    "published_et": "2021-06-22T15:38:31-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Fed Officials Hint That Rate Increases Are Over, and Investors Celebrate",
+    "source": "NYTimes",
+    "published_et": "2023-11-28T13:57:41-05:00",
+    "sentiment_class": "E",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Fed Chair Warns the Economy May Need More as Congress Hesitates",
+    "source": "NYTimes",
+    "published_et": "2020-05-13T09:02:36-04:00",
+    "sentiment_class": "A",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Jerome Powell\u2019s Future",
+    "source": "NYTimes",
+    "published_et": "2021-10-06T07:51:14-04:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Biden Sticks With Powell as Fed Chair, Resisting Political Pressure",
+    "source": "NYTimes",
+    "published_et": "2021-11-22T09:00:20-05:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Federal Reserve leaves interest rates on hold, but March rise looks likely \u2013 as it happened",
+    "source": "Guardian",
+    "published_et": "2022-01-26T16:21:51-05:00",
+    "sentiment_class": "A",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Richard Powell obituary",
+    "source": "Guardian",
+    "published_et": "2022-06-03T11:53:39-04:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Strong Economic Data \u2018Could Warrant\u2019 Higher Rates, Fed Chair Says",
+    "source": "NYTimes",
+    "published_et": "2023-10-19T12:00:45-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "What Fed Rates Mean for Mortgages, Credit Cards and More",
+    "source": "NYTimes",
+    "published_et": "2023-11-01T12:01:53-04:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "\u2018There\u2019s Probably Never Been More Uncertainty,\u2019 Fed Official Warns",
+    "source": "NYTimes",
+    "published_et": "2020-06-19T12:03:10-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "US economy facing potential slowdown amid \u2018heightened uncertainty\u2019, says Fed chair",
+    "source": "Guardian",
+    "published_et": "2025-03-07T13:48:30-05:00",
+    "sentiment_class": "A",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "fomc",
+    "headline": "Federal Reserve raises growth forecasts and cools rate rise fears \u2013 as it happened",
+    "source": "Guardian",
+    "published_et": "2021-03-17T16:39:42-04:00",
+    "sentiment_class": "E",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Recovery likely to push inflation above 3% by end of year, says Bank",
+    "source": "Guardian",
+    "published_et": "2021-06-24T12:02:11-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Powell Downplays Inflation Risks as Yellen Foreshadows Future Spending",
+    "source": "NYTimes",
+    "published_et": "2021-03-23T16:39:58-04:00",
+    "sentiment_class": "E",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Food inflation in world\u2019s rich nations falls to pre-Ukraine war levels",
+    "source": "Guardian",
+    "published_et": "2024-04-08T08:03:47-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "\u2018Everything\u2019s going up apart from wages\u2019: one UK family\u2019s struggle to beat rising cost of living",
+    "source": "Guardian",
+    "published_et": "2022-04-13T05:32:23-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Central banks must keep interest rates high to combat inflation, says OECD",
+    "source": "Guardian",
+    "published_et": "2023-03-17T09:16:26-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Biden and Fed chair Powell meet as inflation dogs the global economy.",
+    "source": "NYTimes",
+    "published_et": "2022-05-31T07:18:11-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "UK grocery inflation slows for first time in six months amid rise in promotions",
+    "source": "Guardian",
+    "published_et": "2025-02-04T04:15:39-05:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "America\u2019s Inflation Fight Is Ending, but It\u2019s Leaving a Legacy",
+    "source": "NYTimes",
+    "published_et": "2024-09-19T05:03:44-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "U.K. Inflation Slows but Remains Stubbornly High",
+    "source": "NYTimes",
+    "published_et": "2023-01-18T04:01:18-05:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Why low inflation is worrying sign of UK's poor economic health",
+    "source": "Guardian",
+    "published_et": "2020-12-16T11:47:46-05:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Bank of England Cuts Rates While Warning of Inflation and Trade War Risks",
+    "source": "NYTimes",
+    "published_et": "2025-02-06T07:18:08-05:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Inflation Is Higher Than the Numbers Say",
+    "source": "NYTimes",
+    "published_et": "2020-09-02T05:00:25-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Bank poised to hike interest rates as inflation remains unchanged at 8.7%",
+    "source": "Guardian",
+    "published_et": "2023-06-21T07:41:40-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "UK inflation drops sharply to 4.6% as energy prices fall",
+    "source": "Guardian",
+    "published_et": "2023-11-15T07:48:53-05:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Ocado halves growth forecast amid cost of living crisis and return to offices",
+    "source": "Guardian",
+    "published_et": "2022-05-25T07:05:41-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Currys says more customers using credit in cost of living crunch",
+    "source": "Guardian",
+    "published_et": "2022-12-15T07:23:27-05:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Record 13.3% UK food inflation raises fears of \u2018another difficult year\u2019",
+    "source": "Guardian",
+    "published_et": "2023-01-03T19:01:02-05:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "US annual inflation rate in February remains relatively stable at 2.8%",
+    "source": "Guardian",
+    "published_et": "2025-03-12T08:35:45-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Winter Heating Bills Loom as the Next Inflation Threat",
+    "source": "NYTimes",
+    "published_et": "2021-11-08T05:00:16-05:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Inflation and Omicron will dent world growth in 2022, says IMF",
+    "source": "Guardian",
+    "published_et": "2022-01-25T09:00:34-05:00",
+    "sentiment_class": "A",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Bank of England: UK interest rates hiked to 0.25% to combat surge in inflation \u2013 business live",
+    "source": "Guardian",
+    "published_et": "2021-12-16T12:46:03-05:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Sunak to meet Tory MPs to head off unrest over cost of living crisis",
+    "source": "Guardian",
+    "published_et": "2022-01-10T14:11:14-05:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "Sales in UK shops bounce back as inflation slows",
+    "source": "Guardian",
+    "published_et": "2024-05-28T10:41:45-04:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "cpi",
+    "headline": "ECB\u2019s Lagarde says some firms have taken advantage of inflation to lift profit margins, after raising interest rates \u2013 as it happened",
+    "source": "Guardian",
+    "published_et": "2023-05-04T12:07:06-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Surprise jump in US unemployment; UK economy hit pre-pandemic levels in 2021, new data shows \u2013 as it happened",
+    "source": "Guardian",
+    "published_et": "2023-09-01T10:00:14-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "US economy added 199,000 new jobs in December as unemployment rate drops \u2013 as it happened",
+    "source": "Guardian",
+    "published_et": "2022-01-07T12:12:59-05:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Markets hit fresh highs as US retail sales and jobless claims boost recovery hopes \u2013 as it happened",
+    "source": "Guardian",
+    "published_et": "2021-04-15T12:39:46-04:00",
+    "sentiment_class": "E",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "The Fed eyes a hot labor market as unemployment nears prepandemic levels.",
+    "source": "NYTimes",
+    "published_et": "2022-04-01T05:01:01-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "\u2018Tag-team parenting\u2019 as jobs, joblessness and schooling take a toll on couples.",
+    "source": "NYTimes",
+    "published_et": "2020-07-23T08:40:05-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Victorian jobs fell as those in rest of Australia made modest gains, payroll figures reveal",
+    "source": "Guardian",
+    "published_et": "2020-09-08T03:47:14-04:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Nearly half of all California workers have received jobless pay during the pandemic.",
+    "source": "NYTimes",
+    "published_et": "2021-03-18T08:48:38-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Fresh Jobs Data Spurs Investors to Bet on September Fed Rate Cut",
+    "source": "NYTimes",
+    "published_et": "2024-07-05T09:52:51-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Australia\u2019s unemployment rate unexpectedly drops from 4.1% to 3.7% in February despite slowing economy ",
+    "source": "Guardian",
+    "published_et": "2024-03-20T20:34:58-04:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "48 Hours Till Payroll, $200,000 to Go: Diary of a Bank Failure",
+    "source": "NYTimes",
+    "published_et": "2023-03-18T05:00:13-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "The RBA is cutting interest rates and unemployment is at historic lows. This is not supposed to be happening | Greg Jericho",
+    "source": "Guardian",
+    "published_et": "2025-02-19T09:00:33-05:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "New Data Provide a Pre-Tariff Snapshot of a Stable but Slowing Labor Market",
+    "source": "NYTimes",
+    "published_et": "2025-04-29T13:15:57-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "US adds 263,000 jobs in November as unemployment rate stays at 3.7%",
+    "source": "Guardian",
+    "published_et": "2022-12-02T08:37:53-05:00",
+    "sentiment_class": "A",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Unemployment Claims Are \u2018Stubbornly High\u2019 as Layoffs Persist",
+    "source": "NYTimes",
+    "published_et": "2020-08-27T13:28:55-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Labor warns unemployment 'tsunami' coming for Australia's male-dominated industries",
+    "source": "Guardian",
+    "published_et": "2020-11-01T11:30:24-05:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "'I'm drowning': Californians of color most affected by growing backlog of jobless aid",
+    "source": "Guardian",
+    "published_et": "2020-09-28T06:00:10-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Unemployment is down, job ads are up, but disadvantaged Australians are still being left behind | Greg Jericho",
+    "source": "Guardian",
+    "published_et": "2021-10-20T12:30:04-04:00",
+    "sentiment_class": "C",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "A Bronx neighborhood reels with 26 percent unemployment.",
+    "source": "NYTimes",
+    "published_et": "2020-12-07T05:29:32-05:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Prepare for 1980s-level unemployment, former chancellors warn",
+    "source": "Guardian",
+    "published_et": "2020-06-03T15:23:22-04:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "US unemployment claims dip below 1m for first time in 21 weeks",
+    "source": "Guardian",
+    "published_et": "2020-08-13T08:38:51-04:00",
+    "sentiment_class": "E",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Job openings fell in June, suggesting that the labor market is cooling.",
+    "source": "NYTimes",
+    "published_et": "2022-08-02T10:28:36-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Stocks Tumble as Jobs Report Leaves Investors Bracing for a Big Rate Increase",
+    "source": "NYTimes",
+    "published_et": "2022-10-07T05:01:53-04:00",
+    "sentiment_class": "A",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "Anemic Jobs Report Reaffirms Pandemic\u2019s Grip on Economy",
+    "source": "NYTimes",
+    "published_et": "2021-02-05T04:43:25-05:00",
+    "sentiment_class": "B",
+    "manual_relevance": null,
+    "review_notes": ""
+  },
+  {
+    "family": "employment",
+    "headline": "New state unemployment claims in the U.S. fell below 800,000 last week.",
+    "source": "NYTimes",
+    "published_et": "2020-10-22T08:47:43-04:00",
+    "sentiment_class": "D",
+    "manual_relevance": null,
+    "review_notes": ""
+  }
+]
