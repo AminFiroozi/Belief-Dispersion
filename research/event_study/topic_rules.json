@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "defined_on": "2026-08-17",
+  "status": "candidate-not-frozen",
+  "text_field": "headline",
+  "case_sensitive": false,
+  "rules": {
+    "fomc": {
+      "include": [
+        "\\bFederal Reserve\\b",
+        "\\bFOMC\\b",
+        "\\b(?:Jerome )?Powell\\b",
+        "\\bFed(?:eral)? (?:chair|officials?|governors?|meeting|decision|statement|policy|rate|rates|minutes)\\b"
+      ],
+      "exclude": []
+    },
+    "cpi": {
+      "include": [
+        "\\binflation\\b",
+        "\\bconsumer prices?\\b",
+        "\\bconsumer price index\\b",
+        "\\bCPI\\b",
+        "\\bprice pressures?\\b",
+        "\\bcost of living\\b"
+      ],
+      "exclude": [
+        "\\bconsumer price index funds?\\b"
+      ]
+    },
+    "employment": {
+      "include": [
+        "\\bjobs report\\b",
+        "\\bemployment report\\b",
+        "\\bpayrolls?\\b",
+        "\\bnonfarm\\b",
+        "\\bunemployment\\b",
+        "\\bjobless(?:ness)?\\b",
+        "\\blabou?r market\\b",
+        "\\bjobs data\\b"
+      ],
+      "exclude": [
+        "\\bfootball manager job\\b"
+      ]
+    }
+  },
+  "notes": [
+    "Rules prioritize precision over recall for the initial coverage gate.",
+    "The bare token 'fed' is intentionally excluded because it is also a common verb.",
+    "These are candidate rules. They must be manually audited and frozen before outcome regressions."
+  ]
+}
