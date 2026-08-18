@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-08-18",
+  "sampling_version": "phase3-human-validation-v1",
+  "sampling_salt_sha256": "a4c5a5931cac13a9ca189e00b30599f059ba7c5427c5f578eef32901fe2e5e23",
+  "outcome_blind": true,
+  "selection": "one deterministic headline per event, followed by largest-remainder proportional allocation over remaining event-level capacity",
+  "blinding": "rater files contain only random sample IDs, headlines, and blank label fields; event/date/source metadata are confined to the hidden key",
+  "input": {
+    "path": "data/fomc_phase2_headline_review.csv",
+    "bytes": 98183,
+    "sha256": "7ccb6a5dbccd157924ed96cce064dc36911e8d12c10d0bb23d4ccc6422229932"
+  },
+  "outputs": {
+    "rater_1": {
+      "path": "data/fomc_phase3_validation_rater_1.csv",
+      "bytes": 13630,
+      "sha256": "2ef0dad04e0531f902f438ece3f88036093d8c38e71e8dfed2a130ce36fd0f67"
+    },
+    "rater_2": {
+      "path": "data/fomc_phase3_validation_rater_2.csv",
+      "bytes": 13630,
+      "sha256": "9c1064a7a0c9119f7aca99646656b59c3de7b1bba81ff1ea93acb02520a1f42f"
+    },
+    "hidden_key": {
+      "path": "data/fomc_phase3_validation_key.csv",
+      "bytes": 31443,
+      "sha256": "3a9c38c6a1ffbb752046e4b889acc488de759c63b6ee64669d6d85cf9c97006e"
+    }
+  },
+  "diagnostics": {
+    "population_headlines": 514,
+    "sample_headlines": 150,
+    "population_events": 39,
+    "sample_events": 39,
+    "all_events_represented": true,
+    "sample_headlines_per_event_min": 1,
+    "sample_headlines_per_event_median": 4.0,
+    "sample_headlines_per_event_max": 8,
+    "population_by_year": {
+      "2020": 15,
+      "2021": 63,
+      "2022": 115,
+      "2023": 138,
+      "2024": 135,
+      "2025": 48
+    },
+    "sample_by_year": {
+      "2020": 7,
+      "2021": 22,
+      "2022": 32,
+      "2023": 38,
+      "2024": 38,
+      "2025": 13
+    },
+    "population_by_source_band": {
+      "2-4": 88,
+      "5+": 278,
+      "singleton": 148
+    },
+    "sample_by_source_band": {
+      "2-4": 29,
+      "5+": 73,
+      "singleton": 48
+    },
+    "population_distinct_sources": 206,
+    "sample_distinct_sources": 91,
+    "population_top_source_share": 0.1245,
+    "sample_top_source_share": 0.1133
+  }
+}

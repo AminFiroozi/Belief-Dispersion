@@ -1,0 +1,1 @@
+"""Scheduled-event study pipeline."""
