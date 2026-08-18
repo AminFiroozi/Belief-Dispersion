@@ -58,6 +58,14 @@ and a substantially cleaner information set.
 - Treat the design as event-timed predictive or quasi-experimental evidence.
   Scheduled timing reduces reverse causality but does not randomly assign
   sentiment dispersion.
+- More precisely, call the FOMC design an event-timed observational study with
+  quasi-experimental structure, not a full quasi-experiment. Release timing is
+  predetermined, but the news distribution is endogenous and there is no
+  randomized treatment or naturally assigned control group.
+- Treat prolonged unscheduled stories such as COVID-19 or the Russia-Ukraine
+  war as later external-validity case studies. Their evolving information
+  boundaries, overlapping policy responses, and two-way feedback between news
+  and markets make them weaker primary identification settings.
 - Use only information available before each prediction origin in primary
   models. Post-release information belongs only in mechanism analyses.
 
@@ -256,6 +264,12 @@ Required checks:
 Before final inference, draw a stratified validation sample covering event
 families, sources, years, and all sentiment classes.
 
+For the FOMC pilot, use the frozen 150-headline outcome-blind sample generated
+by `phase3_validation_sample.py`. Every FOMC event is represented, remaining
+slots are allocated proportionally to event coverage, and raters receive only
+random IDs and headline text. Event, date, and source metadata remain in a
+separate hidden key.
+
 - Two independent human labels where feasible.
 - Weighted kappa and class-specific agreement.
 - Repeated LLM labeling on a subset to measure model stability.
@@ -319,6 +333,10 @@ Deliverables:
 Validate sentiment labels, implement orthogonal contrasts and smoothing, and
 freeze the primary feature before looking at outcome tests.
 
+Status: the 150-headline human-validation sample and versioned labeling rubric
+are ready. Two independent relevance/sentiment audits and subsequent agreement
+analysis remain pending.
+
 Deliverables:
 
 - Label agreement report.
@@ -372,6 +390,9 @@ actually obtained.
 - Secondary state mapping: volume, direction, reversal, and tail behavior.
 - Interpretation: predictive/associational, not causal and not automatically a
   literal distribution of investor beliefs.
+- Identification language: event-timed observational design with
+  quasi-experimental structure; predetermined FOMC timing is not random
+  assignment of sentiment.
 - Primary sentiment measurement: discrete A-E labels.
 - Primary distribution feature: mean-orthogonal quadratic contrast.
 - Multidimensional sentiment: deferred.
@@ -457,3 +478,19 @@ The generated audit is in
 `research/event_study/artifacts/PHASE2_REPORT.md`. The ignored local working
 files are `data/fomc_phase2_event_panel.csv` and
 `data/fomc_phase2_headline_review.csv`.
+
+### 2026-08-18 - Phase 3a Human Validation Sample
+
+- Froze a headline-only human rubric for FOMC relevance and the expected
+  near-term implication for broad U.S. equities on the A-E scale.
+- Drew 150 unique headlines outcome-blind from the 514 Phase 2 candidates. Each
+  of the 39 FOMC events contributes at least one headline; the remaining slots
+  are allocated proportionally to event-level candidate counts.
+- Created separate rater files with different deterministic orders and no
+  event, date, source, or market fields. A separate hidden key preserves
+  provenance and must not be opened until both raters finish.
+- The sample contains 91 sources, no repeated normalized headline, and one to
+  eight headlines per event. Selection diagnostics and file hashes are stored
+  in `artifacts/phase3_validation_sample_manifest.json`.
+- Decision: calculate raw agreement before adjudication and select any LLM by
+  human-label agreement and stability only, never by downstream market results.
