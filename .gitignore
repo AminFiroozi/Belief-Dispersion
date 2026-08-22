@@ -1,6 +1,5 @@
 # Data directories
 results/
-/data/
 
 # Python
 __pycache__/
@@ -24,7 +23,6 @@ wheels/
 .installed.cfg
 *.egg
 *.png
-*.csv
 plots/
 
 # Virtual Environment
