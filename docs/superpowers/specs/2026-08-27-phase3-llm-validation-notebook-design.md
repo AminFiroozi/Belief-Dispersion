@@ -21,7 +21,9 @@ prompt construction, provider dispatch, response validation, resumable
 execution, output writing, and audit checks. Gemini and Groq share the same
 labeling interface and prompt. A `LLM` setting selects the provider; provider
 specific model names and API keys come from configuration and `.env` variables,
-following the mechanism already used in `main.ipynb`.
+following the mechanism already used in `main.ipynb`. Each provider supports
+an ordered pool of API keys so a transient failure or rate limit can advance to
+the next configured key without exposing secrets.
 
 Each headline is submitted in its own request. The request uses temperature
 zero and asks for exactly one JSON object. The response is parsed, repaired only
@@ -81,8 +83,8 @@ explicit execution cell. Execution is row-level and resumable:
 
 - Existing valid rows in the configured output can be retained by `sample_id`.
 - Failed or invalid rows remain blank and are retried on rerun.
-- Retries use bounded exponential backoff and the same provider/model unless
-  the user changes configuration.
+- Retries use bounded exponential backoff and the next key in the configured
+  provider pool; model rotation follows the provider settings below.
 - A configurable delay protects provider rate limits.
 - The notebook refuses to overwrite a non-empty output unless an explicit
   overwrite flag is enabled.
@@ -92,6 +94,24 @@ Provider dispatch follows `main.ipynb`: Gemini uses
 uses `Groq().chat.completions.create`. Both use temperature zero. The notebook
 will expose provider-specific model settings and validate required API keys
 before making calls.
+
+API rotation is configured as follows:
+
+- `GOOGLE_API_KEYS` is a comma-separated ordered list. `GOOGLE_API_KEY` is
+  accepted as a single-key fallback.
+- `GROQ_API_KEYS` is a comma-separated ordered list. `GROQ_API_KEY` is
+  accepted as a single-key fallback.
+- The active key index advances after a failed request and wraps around after
+  the last key.
+- Retries are bounded by `MAX_API_RETRIES`. A retry uses the next key and
+  exponential backoff. The notebook records provider, model, key index,
+  attempt number, and error class, never the key value.
+- For Gemini, when `CIRCULAR_MODEL=True`, exhausting the Gemini key pool also
+  advances through the configured Gemini model list, matching the existing
+  notebook’s key/model rotation behavior. Groq model rotation is optional via
+  an ordered model list but is disabled by default.
+- A run fails fast when the selected provider has no configured key. A row is
+  left blank after all retries fail and can be resumed later.
 
 ## Validation and safety checks
 
@@ -127,4 +147,3 @@ output is considered usable.
 - Downstream market analysis.
 - Choosing a provider/model from market outcomes.
 - Adding multidimensional sentiment labels beyond the frozen rubric.
-
