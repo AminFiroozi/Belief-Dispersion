@@ -1,0 +1,913 @@
+{
+  "schema_version": 1,
+  "retrieved_at_utc": "2026-10-08T21:45:32.801104+00:00",
+  "sample_start": "2020-05-01",
+  "sample_end": "2025-04-30",
+  "source": "https://news.google.com/rss/search",
+  "sampling_frame": "up to 100 Google News RSS results per topic per 7-day interval",
+  "config": "research/geopolitical/topics.json",
+  "config_sha256": "b68796bc290aef674277f3f44875e4459794e241e2d4c427f8604a7cf74f1978",
+  "output": "data/geopolitical_news_google.jsonl",
+  "output_sha256": "fcebe64a1ceac35e93a947995935c03e96b8d961aa9be4f3c7f58be9545b024c",
+  "rows": 30751,
+  "distinct_normalized_headlines": 29947,
+  "distinct_google_news_urls": 30162,
+  "distinct_sources": 2074,
+  "cross_topic_urls": 588,
+  "date_like_timestamp_rows": 30483,
+  "date_like_timestamp_share": 0.991285,
+  "top_sources": [
+    [
+      "Reuters",
+      1913
+    ],
+    [
+      "Al Jazeera",
+      1775
+    ],
+    [
+      "BBC",
+      1112
+    ],
+    [
+      "Atlantic Council",
+      884
+    ],
+    [
+      "Radio Free Europe/Radio Liberty",
+      840
+    ],
+    [
+      "PBS",
+      829
+    ],
+    [
+      "The New York Times",
+      717
+    ],
+    [
+      "VOA - Voice of America English News",
+      636
+    ],
+    [
+      "The Guardian",
+      619
+    ],
+    [
+      "Iran International",
+      574
+    ],
+    [
+      "France 24",
+      561
+    ],
+    [
+      "The Washington Post",
+      515
+    ],
+    [
+      "The Jerusalem Post",
+      470
+    ],
+    [
+      "CNN",
+      400
+    ],
+    [
+      "NBC News",
+      365
+    ],
+    [
+      "The Conversation",
+      342
+    ],
+    [
+      "DW.com",
+      333
+    ],
+    [
+      "Business Insider",
+      288
+    ],
+    [
+      "The Arab Weekly",
+      265
+    ],
+    [
+      "NPR",
+      265
+    ],
+    [
+      "CBS News",
+      264
+    ],
+    [
+      "Middle East Institute",
+      250
+    ],
+    [
+      "AP News",
+      243
+    ],
+    [
+      "Newsweek",
+      236
+    ],
+    [
+      "The Times of Israel",
+      228
+    ]
+  ],
+  "topics": {
+    "russia_ukraine_war": {
+      "query": "(Ukraine OR Ukrainian) (Russia OR Russian OR Kremlin OR Putin)",
+      "description": "Russia-Ukraine war, policy, sanctions, and direct consequences"
+    },
+    "iran_israel_direct_conflict": {
+      "query": "(Iran OR Iranian OR Tehran OR IRGC) (Israel OR Israeli) (attack OR strike OR missile OR drone OR war OR conflict OR retaliation)",
+      "description": "Direct Iran-Israel military confrontation and retaliation"
+    },
+    "iran_regional_conflict": {
+      "query": "(Iran OR Iranian OR Tehran OR IRGC) (Hezbollah OR Houthi OR Gaza OR Lebanon OR Syria OR Iraq OR proxy OR proxies OR Red Sea)",
+      "description": "Iran-related regional conflict, proxy forces, and spillovers"
+    }
+  },
+  "diagnostics": {
+    "russia_ukraine_war": {
+      "windows": 261,
+      "raw_records": 17699,
+      "unique_records": 17699,
+      "distinct_sources": 1416,
+      "capped_windows": [
+        {
+          "start": "2021-04-02",
+          "end_exclusive": "2021-04-09"
+        },
+        {
+          "start": "2021-04-09",
+          "end_exclusive": "2021-04-16"
+        },
+        {
+          "start": "2021-04-16",
+          "end_exclusive": "2021-04-23"
+        },
+        {
+          "start": "2021-11-12",
+          "end_exclusive": "2021-11-19"
+        },
+        {
+          "start": "2021-11-19",
+          "end_exclusive": "2021-11-26"
+        },
+        {
+          "start": "2021-11-26",
+          "end_exclusive": "2021-12-03"
+        },
+        {
+          "start": "2021-12-03",
+          "end_exclusive": "2021-12-10"
+        },
+        {
+          "start": "2021-12-10",
+          "end_exclusive": "2021-12-17"
+        },
+        {
+          "start": "2021-12-17",
+          "end_exclusive": "2021-12-24"
+        },
+        {
+          "start": "2021-12-24",
+          "end_exclusive": "2021-12-31"
+        },
+        {
+          "start": "2021-12-31",
+          "end_exclusive": "2022-01-07"
+        },
+        {
+          "start": "2022-01-14",
+          "end_exclusive": "2022-01-21"
+        },
+        {
+          "start": "2022-01-21",
+          "end_exclusive": "2022-01-28"
+        },
+        {
+          "start": "2022-01-28",
+          "end_exclusive": "2022-02-04"
+        },
+        {
+          "start": "2022-02-04",
+          "end_exclusive": "2022-02-11"
+        },
+        {
+          "start": "2022-02-11",
+          "end_exclusive": "2022-02-18"
+        },
+        {
+          "start": "2022-02-18",
+          "end_exclusive": "2022-02-25"
+        },
+        {
+          "start": "2022-02-25",
+          "end_exclusive": "2022-03-04"
+        },
+        {
+          "start": "2022-03-04",
+          "end_exclusive": "2022-03-11"
+        },
+        {
+          "start": "2022-03-11",
+          "end_exclusive": "2022-03-18"
+        },
+        {
+          "start": "2022-03-18",
+          "end_exclusive": "2022-03-25"
+        },
+        {
+          "start": "2022-03-25",
+          "end_exclusive": "2022-04-01"
+        },
+        {
+          "start": "2022-04-08",
+          "end_exclusive": "2022-04-15"
+        },
+        {
+          "start": "2022-04-15",
+          "end_exclusive": "2022-04-22"
+        },
+        {
+          "start": "2022-04-22",
+          "end_exclusive": "2022-04-29"
+        },
+        {
+          "start": "2022-04-29",
+          "end_exclusive": "2022-05-06"
+        },
+        {
+          "start": "2022-05-06",
+          "end_exclusive": "2022-05-13"
+        },
+        {
+          "start": "2022-05-13",
+          "end_exclusive": "2022-05-20"
+        },
+        {
+          "start": "2022-05-20",
+          "end_exclusive": "2022-05-27"
+        },
+        {
+          "start": "2022-05-27",
+          "end_exclusive": "2022-06-03"
+        },
+        {
+          "start": "2022-06-03",
+          "end_exclusive": "2022-06-10"
+        },
+        {
+          "start": "2022-06-10",
+          "end_exclusive": "2022-06-17"
+        },
+        {
+          "start": "2022-06-24",
+          "end_exclusive": "2022-07-01"
+        },
+        {
+          "start": "2022-07-01",
+          "end_exclusive": "2022-07-08"
+        },
+        {
+          "start": "2022-07-08",
+          "end_exclusive": "2022-07-15"
+        },
+        {
+          "start": "2022-07-15",
+          "end_exclusive": "2022-07-22"
+        },
+        {
+          "start": "2022-07-22",
+          "end_exclusive": "2022-07-29"
+        },
+        {
+          "start": "2022-07-29",
+          "end_exclusive": "2022-08-05"
+        },
+        {
+          "start": "2022-08-05",
+          "end_exclusive": "2022-08-12"
+        },
+        {
+          "start": "2022-08-12",
+          "end_exclusive": "2022-08-19"
+        },
+        {
+          "start": "2022-08-19",
+          "end_exclusive": "2022-08-26"
+        },
+        {
+          "start": "2022-08-26",
+          "end_exclusive": "2022-09-02"
+        },
+        {
+          "start": "2022-09-02",
+          "end_exclusive": "2022-09-09"
+        },
+        {
+          "start": "2022-09-09",
+          "end_exclusive": "2022-09-16"
+        },
+        {
+          "start": "2022-09-16",
+          "end_exclusive": "2022-09-23"
+        },
+        {
+          "start": "2022-09-23",
+          "end_exclusive": "2022-09-30"
+        },
+        {
+          "start": "2022-09-30",
+          "end_exclusive": "2022-10-07"
+        },
+        {
+          "start": "2022-10-07",
+          "end_exclusive": "2022-10-14"
+        },
+        {
+          "start": "2022-10-14",
+          "end_exclusive": "2022-10-21"
+        },
+        {
+          "start": "2022-10-28",
+          "end_exclusive": "2022-11-04"
+        },
+        {
+          "start": "2022-11-04",
+          "end_exclusive": "2022-11-11"
+        },
+        {
+          "start": "2022-11-11",
+          "end_exclusive": "2022-11-18"
+        },
+        {
+          "start": "2022-11-18",
+          "end_exclusive": "2022-11-25"
+        },
+        {
+          "start": "2022-11-25",
+          "end_exclusive": "2022-12-02"
+        },
+        {
+          "start": "2022-12-02",
+          "end_exclusive": "2022-12-09"
+        },
+        {
+          "start": "2022-12-09",
+          "end_exclusive": "2022-12-16"
+        },
+        {
+          "start": "2022-12-16",
+          "end_exclusive": "2022-12-23"
+        },
+        {
+          "start": "2022-12-23",
+          "end_exclusive": "2022-12-30"
+        },
+        {
+          "start": "2022-12-30",
+          "end_exclusive": "2023-01-06"
+        },
+        {
+          "start": "2023-01-06",
+          "end_exclusive": "2023-01-13"
+        },
+        {
+          "start": "2023-01-20",
+          "end_exclusive": "2023-01-27"
+        },
+        {
+          "start": "2023-01-27",
+          "end_exclusive": "2023-02-03"
+        },
+        {
+          "start": "2023-02-03",
+          "end_exclusive": "2023-02-10"
+        },
+        {
+          "start": "2023-02-10",
+          "end_exclusive": "2023-02-17"
+        },
+        {
+          "start": "2023-02-17",
+          "end_exclusive": "2023-02-24"
+        },
+        {
+          "start": "2023-02-24",
+          "end_exclusive": "2023-03-03"
+        },
+        {
+          "start": "2023-03-03",
+          "end_exclusive": "2023-03-10"
+        },
+        {
+          "start": "2023-03-10",
+          "end_exclusive": "2023-03-17"
+        },
+        {
+          "start": "2023-03-17",
+          "end_exclusive": "2023-03-24"
+        },
+        {
+          "start": "2023-03-24",
+          "end_exclusive": "2023-03-31"
+        },
+        {
+          "start": "2023-03-31",
+          "end_exclusive": "2023-04-07"
+        },
+        {
+          "start": "2023-04-14",
+          "end_exclusive": "2023-04-21"
+        },
+        {
+          "start": "2023-04-21",
+          "end_exclusive": "2023-04-28"
+        },
+        {
+          "start": "2023-04-28",
+          "end_exclusive": "2023-05-05"
+        },
+        {
+          "start": "2023-05-05",
+          "end_exclusive": "2023-05-12"
+        },
+        {
+          "start": "2023-05-12",
+          "end_exclusive": "2023-05-19"
+        },
+        {
+          "start": "2023-05-26",
+          "end_exclusive": "2023-06-02"
+        },
+        {
+          "start": "2023-06-02",
+          "end_exclusive": "2023-06-09"
+        },
+        {
+          "start": "2023-06-09",
+          "end_exclusive": "2023-06-16"
+        },
+        {
+          "start": "2023-06-16",
+          "end_exclusive": "2023-06-23"
+        },
+        {
+          "start": "2023-06-23",
+          "end_exclusive": "2023-06-30"
+        },
+        {
+          "start": "2023-07-07",
+          "end_exclusive": "2023-07-14"
+        },
+        {
+          "start": "2023-07-14",
+          "end_exclusive": "2023-07-21"
+        },
+        {
+          "start": "2023-07-21",
+          "end_exclusive": "2023-07-28"
+        },
+        {
+          "start": "2023-07-28",
+          "end_exclusive": "2023-08-04"
+        },
+        {
+          "start": "2023-08-04",
+          "end_exclusive": "2023-08-11"
+        },
+        {
+          "start": "2023-08-18",
+          "end_exclusive": "2023-08-25"
+        },
+        {
+          "start": "2023-08-25",
+          "end_exclusive": "2023-09-01"
+        },
+        {
+          "start": "2023-09-01",
+          "end_exclusive": "2023-09-08"
+        },
+        {
+          "start": "2023-09-08",
+          "end_exclusive": "2023-09-15"
+        },
+        {
+          "start": "2023-09-15",
+          "end_exclusive": "2023-09-22"
+        },
+        {
+          "start": "2023-09-22",
+          "end_exclusive": "2023-09-29"
+        },
+        {
+          "start": "2023-09-29",
+          "end_exclusive": "2023-10-06"
+        },
+        {
+          "start": "2023-10-06",
+          "end_exclusive": "2023-10-13"
+        },
+        {
+          "start": "2023-10-13",
+          "end_exclusive": "2023-10-20"
+        },
+        {
+          "start": "2023-10-20",
+          "end_exclusive": "2023-10-27"
+        },
+        {
+          "start": "2023-10-27",
+          "end_exclusive": "2023-11-03"
+        },
+        {
+          "start": "2023-11-03",
+          "end_exclusive": "2023-11-10"
+        },
+        {
+          "start": "2023-11-10",
+          "end_exclusive": "2023-11-17"
+        },
+        {
+          "start": "2023-11-17",
+          "end_exclusive": "2023-11-24"
+        },
+        {
+          "start": "2023-11-24",
+          "end_exclusive": "2023-12-01"
+        },
+        {
+          "start": "2023-12-01",
+          "end_exclusive": "2023-12-08"
+        },
+        {
+          "start": "2023-12-08",
+          "end_exclusive": "2023-12-15"
+        },
+        {
+          "start": "2023-12-15",
+          "end_exclusive": "2023-12-22"
+        },
+        {
+          "start": "2023-12-22",
+          "end_exclusive": "2023-12-29"
+        },
+        {
+          "start": "2023-12-29",
+          "end_exclusive": "2024-01-05"
+        },
+        {
+          "start": "2024-01-05",
+          "end_exclusive": "2024-01-12"
+        },
+        {
+          "start": "2024-01-12",
+          "end_exclusive": "2024-01-19"
+        },
+        {
+          "start": "2024-01-19",
+          "end_exclusive": "2024-01-26"
+        },
+        {
+          "start": "2024-01-26",
+          "end_exclusive": "2024-02-02"
+        },
+        {
+          "start": "2024-02-02",
+          "end_exclusive": "2024-02-09"
+        },
+        {
+          "start": "2024-02-09",
+          "end_exclusive": "2024-02-16"
+        },
+        {
+          "start": "2024-02-16",
+          "end_exclusive": "2024-02-23"
+        },
+        {
+          "start": "2024-02-23",
+          "end_exclusive": "2024-03-01"
+        },
+        {
+          "start": "2024-03-01",
+          "end_exclusive": "2024-03-08"
+        },
+        {
+          "start": "2024-03-08",
+          "end_exclusive": "2024-03-15"
+        },
+        {
+          "start": "2024-03-15",
+          "end_exclusive": "2024-03-22"
+        },
+        {
+          "start": "2024-03-22",
+          "end_exclusive": "2024-03-29"
+        },
+        {
+          "start": "2024-03-29",
+          "end_exclusive": "2024-04-05"
+        },
+        {
+          "start": "2024-04-05",
+          "end_exclusive": "2024-04-12"
+        },
+        {
+          "start": "2024-04-12",
+          "end_exclusive": "2024-04-19"
+        },
+        {
+          "start": "2024-04-26",
+          "end_exclusive": "2024-05-03"
+        },
+        {
+          "start": "2024-05-03",
+          "end_exclusive": "2024-05-10"
+        },
+        {
+          "start": "2024-05-10",
+          "end_exclusive": "2024-05-17"
+        },
+        {
+          "start": "2024-05-17",
+          "end_exclusive": "2024-05-24"
+        },
+        {
+          "start": "2024-05-24",
+          "end_exclusive": "2024-05-31"
+        },
+        {
+          "start": "2024-06-07",
+          "end_exclusive": "2024-06-14"
+        },
+        {
+          "start": "2024-06-14",
+          "end_exclusive": "2024-06-21"
+        },
+        {
+          "start": "2024-06-21",
+          "end_exclusive": "2024-06-28"
+        },
+        {
+          "start": "2024-06-28",
+          "end_exclusive": "2024-07-05"
+        },
+        {
+          "start": "2024-07-05",
+          "end_exclusive": "2024-07-12"
+        },
+        {
+          "start": "2024-07-19",
+          "end_exclusive": "2024-07-26"
+        },
+        {
+          "start": "2024-07-26",
+          "end_exclusive": "2024-08-02"
+        },
+        {
+          "start": "2024-08-02",
+          "end_exclusive": "2024-08-09"
+        },
+        {
+          "start": "2024-08-09",
+          "end_exclusive": "2024-08-16"
+        },
+        {
+          "start": "2024-08-16",
+          "end_exclusive": "2024-08-23"
+        },
+        {
+          "start": "2024-08-23",
+          "end_exclusive": "2024-08-30"
+        },
+        {
+          "start": "2024-08-30",
+          "end_exclusive": "2024-09-06"
+        },
+        {
+          "start": "2024-09-06",
+          "end_exclusive": "2024-09-13"
+        },
+        {
+          "start": "2024-09-13",
+          "end_exclusive": "2024-09-20"
+        },
+        {
+          "start": "2024-09-20",
+          "end_exclusive": "2024-09-27"
+        },
+        {
+          "start": "2024-09-27",
+          "end_exclusive": "2024-10-04"
+        },
+        {
+          "start": "2024-10-04",
+          "end_exclusive": "2024-10-11"
+        },
+        {
+          "start": "2024-10-11",
+          "end_exclusive": "2024-10-18"
+        },
+        {
+          "start": "2024-10-18",
+          "end_exclusive": "2024-10-25"
+        },
+        {
+          "start": "2024-10-25",
+          "end_exclusive": "2024-11-01"
+        },
+        {
+          "start": "2024-11-01",
+          "end_exclusive": "2024-11-08"
+        },
+        {
+          "start": "2024-11-08",
+          "end_exclusive": "2024-11-15"
+        },
+        {
+          "start": "2024-11-15",
+          "end_exclusive": "2024-11-22"
+        },
+        {
+          "start": "2024-11-22",
+          "end_exclusive": "2024-11-29"
+        },
+        {
+          "start": "2024-11-29",
+          "end_exclusive": "2024-12-06"
+        },
+        {
+          "start": "2024-12-06",
+          "end_exclusive": "2024-12-13"
+        },
+        {
+          "start": "2024-12-13",
+          "end_exclusive": "2024-12-20"
+        },
+        {
+          "start": "2024-12-27",
+          "end_exclusive": "2025-01-03"
+        },
+        {
+          "start": "2025-01-03",
+          "end_exclusive": "2025-01-10"
+        },
+        {
+          "start": "2025-01-10",
+          "end_exclusive": "2025-01-17"
+        },
+        {
+          "start": "2025-01-17",
+          "end_exclusive": "2025-01-24"
+        },
+        {
+          "start": "2025-01-24",
+          "end_exclusive": "2025-01-31"
+        },
+        {
+          "start": "2025-02-07",
+          "end_exclusive": "2025-02-14"
+        },
+        {
+          "start": "2025-02-14",
+          "end_exclusive": "2025-02-21"
+        },
+        {
+          "start": "2025-02-21",
+          "end_exclusive": "2025-02-28"
+        },
+        {
+          "start": "2025-02-28",
+          "end_exclusive": "2025-03-07"
+        },
+        {
+          "start": "2025-03-07",
+          "end_exclusive": "2025-03-14"
+        },
+        {
+          "start": "2025-03-14",
+          "end_exclusive": "2025-03-21"
+        },
+        {
+          "start": "2025-03-21",
+          "end_exclusive": "2025-03-28"
+        },
+        {
+          "start": "2025-03-28",
+          "end_exclusive": "2025-04-04"
+        },
+        {
+          "start": "2025-04-04",
+          "end_exclusive": "2025-04-11"
+        },
+        {
+          "start": "2025-04-11",
+          "end_exclusive": "2025-04-18"
+        },
+        {
+          "start": "2025-04-18",
+          "end_exclusive": "2025-04-25"
+        }
+      ]
+    },
+    "iran_israel_direct_conflict": {
+      "windows": 261,
+      "raw_records": 7472,
+      "unique_records": 7472,
+      "distinct_sources": 760,
+      "capped_windows": [
+        {
+          "start": "2023-10-06",
+          "end_exclusive": "2023-10-13"
+        },
+        {
+          "start": "2023-10-13",
+          "end_exclusive": "2023-10-20"
+        },
+        {
+          "start": "2023-10-20",
+          "end_exclusive": "2023-10-27"
+        },
+        {
+          "start": "2024-03-29",
+          "end_exclusive": "2024-04-05"
+        },
+        {
+          "start": "2024-04-05",
+          "end_exclusive": "2024-04-12"
+        },
+        {
+          "start": "2024-04-12",
+          "end_exclusive": "2024-04-19"
+        },
+        {
+          "start": "2024-04-19",
+          "end_exclusive": "2024-04-26"
+        },
+        {
+          "start": "2024-07-26",
+          "end_exclusive": "2024-08-02"
+        },
+        {
+          "start": "2024-08-02",
+          "end_exclusive": "2024-08-09"
+        },
+        {
+          "start": "2024-08-09",
+          "end_exclusive": "2024-08-16"
+        },
+        {
+          "start": "2024-09-27",
+          "end_exclusive": "2024-10-04"
+        },
+        {
+          "start": "2024-10-04",
+          "end_exclusive": "2024-10-11"
+        },
+        {
+          "start": "2024-10-11",
+          "end_exclusive": "2024-10-18"
+        },
+        {
+          "start": "2024-10-18",
+          "end_exclusive": "2024-10-25"
+        },
+        {
+          "start": "2024-10-25",
+          "end_exclusive": "2024-11-01"
+        }
+      ]
+    },
+    "iran_regional_conflict": {
+      "windows": 261,
+      "raw_records": 5580,
+      "unique_records": 5580,
+      "distinct_sources": 775,
+      "capped_windows": [
+        {
+          "start": "2024-01-05",
+          "end_exclusive": "2024-01-12"
+        },
+        {
+          "start": "2024-01-12",
+          "end_exclusive": "2024-01-19"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Google News RSS results are ranked and are not an exhaustive news archive.",
+    "Windows returning 100 records are listed as capped_windows.",
+    "Historical RSS timestamps may be date-like rather than exact publisher times.",
+    "Candidate-topic membership is query based and requires relevance validation.",
+    "Google News URLs and source labels require syndication and duplicate auditing.",
+    "Retrieval and reuse must comply with Google News and publisher terms."
+  ]
+}

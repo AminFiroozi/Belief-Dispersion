@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "sample_start": "2020-05-01",
+  "sample_end": "2025-04-30",
+  "language": "english",
+  "source": "GDELT DOC 2.0 API",
+  "topics": {
+    "russia_ukraine_war": {
+      "query": "(Ukraine OR Ukrainian) (Russia OR Russian OR Kremlin OR Putin)",
+      "description": "Russia-Ukraine war, policy, sanctions, and direct consequences"
+    },
+    "iran_israel_direct_conflict": {
+      "query": "(Iran OR Iranian OR Tehran OR IRGC) (Israel OR Israeli) (attack OR strike OR missile OR drone OR war OR conflict OR retaliation)",
+      "description": "Direct Iran-Israel military confrontation and retaliation"
+    },
+    "iran_regional_conflict": {
+      "query": "(Iran OR Iranian OR Tehran OR IRGC) (Hezbollah OR Houthi OR Gaza OR Lebanon OR Syria OR Iraq OR proxy OR proxies OR Red Sea)",
+      "description": "Iran-related regional conflict, proxy forces, and spillovers"
+    }
+  }
+}
+
