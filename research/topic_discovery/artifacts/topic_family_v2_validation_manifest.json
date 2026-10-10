@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "created_at_utc": "2026-10-09T02:17:13.921885+00:00",
+  "inputs": {
+    "data/topic_family_v2_assignments.parquet": "62155c719042f5bc3917f03c826b0636985e6c71c1214c49c368f4f641d4a413",
+    "research/topic_discovery/taxonomy_v2.json": "aa217ee7df48e09b53d4f48e64ebb9f3e59b3738cbcaccbf8dd80af5d46a3b29"
+  },
+  "headline_sample_size": 180,
+  "headline_machine_topic_counts": {
+    "banking_credit": 6,
+    "climate_transition": 6,
+    "corporate_earnings_deals": 6,
+    "covid_pandemic": 14,
+    "energy_oil_gas": 6,
+    "fiscal_tax_debt": 6,
+    "growth_recession": 6,
+    "inflation_prices": 6,
+    "iran_israel": 11,
+    "israel_gaza": 8,
+    "labor_markets": 6,
+    "market_performance": 6,
+    "monetary_policy": 6,
+    "other_unclear": 41,
+    "red_sea_houthi": 6,
+    "russia_ukraine": 22,
+    "technology_ai_chips": 6,
+    "trade_tariffs": 6,
+    "us_china_relations": 6
+  },
+  "pair_sample_size": 100,
+  "pair_machine_relation_counts": {
+    "same_topic_discourse": 50,
+    "different_topic_discourse": 50
+  },
+  "outputs": {
+    "headline_rater_1": {
+      "path": "data/topic_family_v2_validation_rater_1.csv",
+      "rows": 180,
+      "sha256": "00fb09b299604c6f1c5c636d944ed955f753415de16a61474a44280189bae886"
+    },
+    "headline_rater_2": {
+      "path": "data/topic_family_v2_validation_rater_2.csv",
+      "rows": 180,
+      "sha256": "f5996f1639b6c3d94264bc01aa8815e601c470e7857ba7df00ef4c4a66685e40"
+    },
+    "headline_key": {
+      "path": "data/topic_family_v2_validation_key.csv",
+      "rows": 180,
+      "sha256": "f254f2e1455ac29775cc33806542087932fc0832c4424e3c29acc9463815ec09"
+    },
+    "pair_rater_1": {
+      "path": "data/topic_family_v2_pair_rater_1.csv",
+      "rows": 100,
+      "sha256": "b0a014e3d989a49ec3cd6a179c3fa5afb7898efc5f10adb704f1d3c900f44c31"
+    },
+    "pair_rater_2": {
+      "path": "data/topic_family_v2_pair_rater_2.csv",
+      "rows": 100,
+      "sha256": "8fe15768d270a742a32ca176ce1aad63bb440ce970a130d76c6f9a19a57f67de"
+    },
+    "pair_key": {
+      "path": "data/topic_family_v2_pair_key.csv",
+      "rows": 100,
+      "sha256": "02d35bceeebc19f1315c4246242e4ad8472a180557d9419df88ecea46b0e0860"
+    }
+  },
+  "blinding": {
+    "rater_sheets_include_machine_labels": false,
+    "rater_sheets_include_source_or_date": false,
+    "rater_orders_are_independent": true,
+    "pair_headline_order_is_independently_swapped": true
+  },
+  "market_outcomes_used": false,
+  "status": "fresh blinded candidate validation sample; keys must remain hidden"
+}

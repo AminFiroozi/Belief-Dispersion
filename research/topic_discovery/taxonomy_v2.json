@@ -1,0 +1,145 @@
+{
+  "schema_version": 2,
+  "status": "candidate-not-frozen",
+  "construct": "time-bounded topic discourse; editorial selection of sub-events is part of coverage",
+  "topic_families": {
+    "monetary_policy": {
+      "label": "Monetary policy and central banks",
+      "definition": "Central-bank decisions, guidance, balance sheets, policy rates, and interpretation of monetary-policy stance.",
+      "include_patterns": ["\\bfederal reserve\\b", "\\bfed(?:'s)?\\b", "\\bfomc\\b", "\\bcentral banks?\\b", "\\binterest rates?\\b", "\\brate cuts?\\b", "\\brate hikes?\\b", "\\bmonetary policy\\b", "\\bjerome powell\\b", "\\bquantitative (?:easing|tightening)\\b"],
+      "examples": ["Federal Reserve signals a slower path for rate cuts", "Powell discusses inflation and the policy outlook"]
+    },
+    "inflation_prices": {
+      "label": "Inflation and prices",
+      "definition": "Changes in consumer or producer prices, inflation expectations, and economy-wide cost-of-living pressure.",
+      "include_patterns": ["\\binflation\\b", "\\bconsumer prices?\\b", "\\bproducer prices?\\b", "\\bprice pressures?\\b", "\\bcpi\\b", "\\bpce(?: index)?\\b", "\\bcost of living\\b", "\\bdeflation\\b"],
+      "examples": ["US inflation slows more than economists expected", "Consumer prices rise as housing costs remain elevated"]
+    },
+    "labor_markets": {
+      "label": "Labor markets",
+      "definition": "Employment, unemployment, wages, hiring, layoffs, labor participation, strikes, and economy-wide worker conditions.",
+      "include_patterns": ["\\bjobs? report\\b", "\\bpayrolls?\\b", "\\bunemployment\\b", "\\bjobless\\b", "\\blabou?r market\\b", "\\bhiring\\b", "\\blayoffs?\\b", "\\bwage growth\\b", "\\bworkers? strike", "\\bemployment\\b"],
+      "examples": ["Payroll growth slows while unemployment holds steady", "Technology companies announce another round of layoffs"]
+    },
+    "growth_recession": {
+      "label": "Growth, demand, and recession",
+      "definition": "Macroeconomic growth, recession risk, aggregate demand, production, consumption, and broad business-cycle conditions.",
+      "include_patterns": ["\\bgdp\\b", "\\beconomic growth\\b", "\\brecession\\b", "\\bsoft landing\\b", "\\bconsumer spending\\b", "\\bretail sales\\b", "\\bindustrial production\\b", "\\bmanufacturing (?:activity|output)\\b", "\\beconomic slowdown\\b"],
+      "examples": ["Retail sales point to weakening consumer demand", "Economy avoids recession as quarterly GDP expands"]
+    },
+    "fiscal_tax_debt": {
+      "label": "Fiscal policy, tax, and sovereign debt",
+      "definition": "Government budgets, taxation, public spending, deficits, sovereign borrowing, and debt-limit disputes.",
+      "include_patterns": ["\\bfiscal policy\\b", "\\bgovernment spending\\b", "\\bbudget deficit\\b", "\\bnational debt\\b", "\\bdebt ceiling\\b", "\\bsovereign debt\\b", "\\btax (?:cuts?|rises?|policy|plan)\\b", "\\bgovernment budget\\b", "\\btreasury borrowing\\b"],
+      "examples": ["Debt ceiling negotiations approach their deadline", "Government budget combines tax increases with spending cuts"]
+    },
+    "banking_credit": {
+      "label": "Banking, credit, and financial stability",
+      "definition": "Bank health, bank failures, lending conditions, credit stress, liquidity, and systemic financial stability.",
+      "include_patterns": ["\\bbank failure", "\\bbank run\\b", "\\bbanking crisis\\b", "\\bcredit crunch\\b", "\\bfinancial stability\\b", "\\bliquidity crisis\\b", "\\blending standards?\\b", "\\bdepositors?\\b", "\\bsilicon valley bank\\b", "\\bcredit suisse\\b", "\\bfirst republic\\b"],
+      "examples": ["Regional bank deposit flight raises financial-stability concerns", "Lenders tighten credit standards after bank failures"]
+    },
+    "corporate_earnings_deals": {
+      "label": "Corporate earnings and deals",
+      "definition": "Firm-level earnings, revenue, guidance, mergers, acquisitions, public offerings, and major corporate restructuring.",
+      "include_patterns": ["\\bquarterly earnings\\b", "\\bquarterly results\\b", "\\bprofit warning\\b", "\\bearnings forecast\\b", "\\brevenue forecast\\b", "\\bmerger\\b", "\\bacquisition\\b", "\\btakeover\\b", "\\bipo\\b", "\\binitial public offering\\b"],
+      "examples": ["Company cuts guidance after quarterly profit misses estimates", "Regulators approve the proposed acquisition"]
+    },
+    "market_performance": {
+      "label": "Financial-market performance",
+      "definition": "Observed movements, valuation, liquidity, or positioning in broad equity, bond, currency, volatility, or digital-asset markets.",
+      "include_patterns": ["\\bwall street\\b", "\\bs&p 500\\b", "\\bnasdaq\\b", "\\bdow jones\\b", "\\bstock market\\b", "\\bbond yields?\\b", "\\bmarket rally\\b", "\\bmarket sell-?off\\b", "\\bvix\\b", "\\btreasury yields?\\b", "\\bbitcoin price\\b"],
+      "examples": ["Wall Street falls as Treasury yields climb", "S&P 500 reaches a new high after a broad rally"]
+    },
+    "energy_oil_gas": {
+      "label": "Energy, oil, and gas",
+      "definition": "Oil and gas production, supply, prices, OPEC policy, energy security, and economically material energy-market disruption.",
+      "include_patterns": ["\\boil prices?\\b", "\\bcrude oil\\b", "\\bnatural gas\\b", "\\bopec", "\\benergy prices?\\b", "\\boil production\\b", "\\boil suppl", "\\bgas suppl", "\\bpetroleum\\b", "\\blng\\b"],
+      "examples": ["OPEC agrees to extend oil production cuts", "European natural-gas prices rise after a supply disruption"]
+    },
+    "technology_ai_chips": {
+      "label": "Technology, AI, and semiconductors",
+      "definition": "Artificial intelligence, semiconductors, platform technology, cybersecurity, and economically material technology regulation.",
+      "include_patterns": ["\\bartificial intelligence\\b", "\\bgenerative ai\\b", "\\bai regulation\\b", "\\bsemiconductor", "\\bmicrochips?\\b", "\\bchipmakers?\\b", "\\bbig tech\\b", "\\bcyberattack\\b", "\\bcybersecurity\\b", "\\bdata privacy\\b"],
+      "examples": ["Chipmakers face new export restrictions", "Governments negotiate rules for generative artificial intelligence"]
+    },
+    "trade_tariffs": {
+      "label": "Trade, tariffs, and supply chains",
+      "definition": "International trade restrictions, tariffs, export controls, sanctions used primarily as economic policy, and supply-chain restructuring.",
+      "include_patterns": ["\\btariffs?\\b", "\\btrade war\\b", "\\btrade deficit\\b", "\\bexport controls?\\b", "\\bimport duties\\b", "\\bsupply chains?\\b", "\\btrade agreement\\b", "\\btrade restrictions?\\b", "\\bprotectionis"],
+      "examples": ["United States announces new tariffs on Chinese imports", "Manufacturers move supply chains in response to export controls"]
+    },
+    "covid_pandemic": {
+      "label": "COVID-19 pandemic",
+      "definition": "COVID infections, restrictions, vaccines, treatments, public-health policy, and social or economic consequences of the pandemic.",
+      "include_patterns": ["\\bcovid(?:-19)?\\b", "\\bcoronavirus\\b", "\\bpandemic\\b", "\\blockdown\\b", "\\bcovid vaccine", "\\bvaccine mandate\\b", "\\bsars-cov-2\\b"],
+      "examples": ["COVID restrictions return as infections increase", "Regulator authorizes a new coronavirus vaccine"]
+    },
+    "russia_ukraine": {
+      "label": "Russia-Ukraine war",
+      "definition": "The Russia-Ukraine conflict and its military, political, humanitarian, sanctions, energy, and security consequences.",
+      "include_patterns": ["\\bukrain", "\\brussia(?:n)?(?: invasion| forces| troops| war| sanctions)?\\b", "\\bputin\\b", "\\bzelensk", "\\bkyiv\\b", "\\bcrimea\\b", "\\bdonbas", "\\bkursk\\b"],
+      "examples": ["Ukraine reports a new Russian missile attack", "European governments debate further support for Kyiv"]
+    },
+    "israel_gaza": {
+      "label": "Israel-Gaza conflict",
+      "definition": "The Israel-Gaza war, Hamas, hostages, ceasefire negotiations, humanitarian conditions, and associated political consequences.",
+      "include_patterns": ["\\bgaza\\b", "\\bhamas\\b", "\\bisrael-hamas\\b", "\\bisraeli hostages?\\b", "\\bgaza ceasefire\\b", "\\bpalestinian", "\\brafah\\b"],
+      "examples": ["Ceasefire talks continue as fighting persists in Gaza", "Families call for the release of Israeli hostages"]
+    },
+    "iran_israel": {
+      "label": "Iran-Israel confrontation",
+      "definition": "Direct or proxy confrontation between Iran and Israel, including strikes, retaliation, nuclear tensions, and escalation risk.",
+      "include_patterns": ["\\biran(?:ian)? (?:missile|attack|strike|retaliat|nuclear)", "\\bisrael(?:i)? (?:attack|strike|retaliat).{0,40}\\biran", "\\biran.{0,40}\\bisrael", "\\bisrael.{0,40}\\biran", "\\birgc\\b", "\\biran nuclear\\b"],
+      "examples": ["Iran launches missiles at Israel after an earlier strike", "Israel considers its response to Iran's attack"]
+    },
+    "red_sea_houthi": {
+      "label": "Red Sea and Houthi conflict",
+      "definition": "Houthi attacks, military responses, and disruption to Red Sea or Bab el-Mandeb shipping and trade routes.",
+      "include_patterns": ["\\bhouthis?\\b", "\\bred sea\\b", "\\bbab el-mandeb\\b", "\\byemen(?:i)? (?:rebels?|strike|attack)", "\\bshipping attacks?\\b", "\\bmerchant vessels?\\b"],
+      "examples": ["Houthi attacks divert shipping away from the Red Sea", "US and UK conduct strikes in Yemen after attacks on vessels"]
+    },
+    "us_china_relations": {
+      "label": "U.S.-China relations",
+      "definition": "Strategic, diplomatic, military, and economic competition between the United States and China, excluding purely domestic stories.",
+      "include_patterns": ["\\bu\\.?s\\.?-china\\b", "\\bus-china\\b", "\\bchina-us\\b", "\\bchina.{0,40}\\bunited states\\b", "\\bunited states.{0,40}\\bchina\\b", "\\btaiwan strait\\b", "\\bchinese export controls?\\b"],
+      "examples": ["United States and China resume high-level trade talks", "Tensions rise over military activity near Taiwan"]
+    },
+    "climate_transition": {
+      "label": "Climate policy and energy transition",
+      "definition": "Climate policy, carbon regulation, clean-energy transition, and economically material climate-related disruption.",
+      "include_patterns": ["\\bclimate change\\b", "\\bglobal warming\\b", "\\bcarbon emissions?\\b", "\\bnet zero\\b", "\\benergy transition\\b", "\\brenewable energy\\b", "\\bcarbon tax\\b", "\\bgreen investment\\b"],
+      "examples": ["Government delays parts of its net-zero policy", "Clean-energy investment rises under new climate incentives"]
+    }
+  },
+  "candidate_topic_map": {
+    "russia_ukraine_war": "russia_ukraine",
+    "iran_israel_direct_conflict": "iran_israel"
+  },
+  "topic_priority": [
+    "russia_ukraine", "israel_gaza", "iran_israel", "red_sea_houthi",
+    "covid_pandemic", "monetary_policy", "inflation_prices", "labor_markets",
+    "banking_credit", "energy_oil_gas", "trade_tariffs", "us_china_relations",
+    "technology_ai_chips", "fiscal_tax_debt", "growth_recession",
+    "climate_transition", "corporate_earnings_deals", "market_performance"
+  ],
+  "assignment": {
+    "semantic_weight": 0.6,
+    "rule_weight": 0.4,
+    "candidate_floor": 0.92,
+    "minimum_score": 0.18,
+    "secondary_score": 0.24,
+    "secondary_max_gap": 0.12,
+    "ambiguous_margin": 0.05,
+    "high_confidence_score": 0.48,
+    "medium_confidence_score": 0.28,
+    "random_seed": 1729,
+    "tfidf_max_features": 60000
+  },
+  "window_candidates_trading_sessions": [1, 3, 5],
+  "minimum_coverage_candidates": [
+    {"headlines": 3, "sources": 2},
+    {"headlines": 5, "sources": 3},
+    {"headlines": 8, "sources": 4}
+  ]
+}

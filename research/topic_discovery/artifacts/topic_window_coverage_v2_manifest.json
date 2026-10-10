@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "created_at_utc": "2026-10-09T02:17:19.322331+00:00",
+  "inputs": {
+    "data/topic_family_v2_assignments.parquet": "62155c719042f5bc3917f03c826b0636985e6c71c1214c49c368f4f641d4a413",
+    "data/market_panel.csv": "ab67ec48f22d304b46b5f140ea27a0e65e8f608f0ef61334f2448279bfe541da",
+    "research/topic_discovery/taxonomy_v2.json": "aa217ee7df48e09b53d4f48e64ebb9f3e59b3738cbcaccbf8dd80af5d46a3b29"
+  },
+  "output": "research/topic_discovery/artifacts/topic_window_coverage_v2.csv",
+  "output_sha256": "d096da691cc3486dc84eb7183bf87a540185448f0fe1da86ad7e96b07f5b3583",
+  "market_sessions": 1256,
+  "eligible_headlines": 64347,
+  "topic_families": 18,
+  "window_candidates": [
+    1,
+    3,
+    5
+  ],
+  "minimum_coverage_candidates": [
+    {
+      "headlines": 3,
+      "sources": 2
+    },
+    {
+      "headlines": 5,
+      "sources": 3
+    },
+    {
+      "headlines": 8,
+      "sources": 4
+    }
+  ],
+  "availability_rule": "publication calendar date maps to first market session on or after that date",
+  "selection_rule": "coverage and unique-source diagnostics only; no prices, returns, volatility, or volume inspected",
+  "market_outcomes_used": false,
+  "status": "candidate window coverage; primary window not frozen"
+}

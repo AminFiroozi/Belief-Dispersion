@@ -1,5 +1,24 @@
 # Data directories
 results/
+data/gdelt_geopolitical_cache/
+data/geopolitical_news_gdelt.jsonl
+data/google_news_geopolitical_cache/
+data/geopolitical_news_google.jsonl
+data/topic_discovery_corpus.parquet
+data/topic_discovery_pilot_assignments.csv
+data/topic_discovery_pair_audit.csv
+data/topic_discovery_pair_key.csv
+data/topic_neutral_llm.jsonl
+data/topic_neutral_llm_audit.jsonl
+data/topic_family_v2_assignments.parquet
+data/topic_family_v2_validation_rater_1.csv
+data/topic_family_v2_validation_rater_2.csv
+data/topic_family_v2_validation_key.csv
+data/topic_family_v2_pair_rater_1.csv
+data/topic_family_v2_pair_rater_2.csv
+data/topic_family_v2_pair_key.csv
+data/topic_family_v2_validation_human_verification.csv
+data/topic_family_v2_pair_human_verification.csv
 
 # Python
 __pycache__/

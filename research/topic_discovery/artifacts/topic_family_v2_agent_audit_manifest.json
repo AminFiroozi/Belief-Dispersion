@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-10T18:50:53.248734+00:00",
+  "audit_role": "single Codex machine audit followed by explicit human verification",
+  "agent_inputs": {
+    "data/topic_family_v2_validation_rater_1.csv": "f64bc7f4fce14d8b700ac3c2b079538c8a1789647b18e23b95e3fb7bb9e88c56",
+    "data/topic_family_v2_pair_rater_1.csv": "fff47f1d6805e3379af73cb2ee41771732c3ebe094082c6610d63fe339ac3afa",
+    "research/topic_discovery/taxonomy_v2.json": "aa217ee7df48e09b53d4f48e64ebb9f3e59b3738cbcaccbf8dd80af5d46a3b29"
+  },
+  "verification_outputs": {
+    "data/topic_family_v2_validation_human_verification.csv": "775ceddcc63c2fe75bee975d74788ac14ab68c8ebaeb451b816d42b5cc75d872",
+    "data/topic_family_v2_pair_human_verification.csv": "c7b4bb0e515db06781354993734fea2ed67c78fb60a275d005575b5164ffd8a8"
+  },
+  "headline_rows": 180,
+  "pair_rows": 100,
+  "hidden_keys_opened": false,
+  "market_outcomes_used": false,
+  "human_decision_values": [
+    "accept",
+    "correct",
+    "unclear"
+  ],
+  "status": "agent audit complete only when source audits validate; human verification pending"
+}

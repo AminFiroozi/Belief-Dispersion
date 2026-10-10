@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-09T01:06:18.134262+00:00",
+  "sample_size": 5000,
+  "sample_rule": "deterministic stratification by origin, year, and primary topic",
+  "embedding": {
+    "backend": "tfidf-bigram-truncated-svd",
+    "vocabulary_size": 6188,
+    "dimensions": 128,
+    "explained_variance_ratio": 0.181117
+  },
+  "clustering": {
+    "max_gap_days": 14,
+    "time_half_life_days": 7.0,
+    "semantic_weight": 0.78,
+    "entity_weight": 0.14,
+    "time_weight": 0.08,
+    "assignment_threshold": 0.59,
+    "svd_dimensions": 128,
+    "random_seed": 1729
+  },
+  "clusters": 4398,
+  "singletons": 4027,
+  "multi_item_clusters": 371,
+  "maximum_cluster_size": 23,
+  "median_cluster_size": 1.0,
+  "audit_pairs": 200,
+  "audit_same_cluster_pairs": 100,
+  "audit_different_cluster_pairs": 100,
+  "outputs": {
+    "assignments": {
+      "path": "data/topic_discovery_pilot_assignments.csv",
+      "sha256": "0595dc1979eef57c6e926676ef916c3e0878b0b90c43415200097f07ff113f59"
+    },
+    "audit": {
+      "path": "data/topic_discovery_pair_audit.csv",
+      "sha256": "46655e7ab4c0c467eb4a4b11823cec2c8df9d82c9495ffdf810fdd03930d0ece"
+    },
+    "hidden_key": {
+      "path": "data/topic_discovery_pair_key.csv",
+      "sha256": "ec8ad420c6df754ffa088d4a3713facab374b6bedba67641397bbae1563a8a91"
+    }
+  },
+  "status": "pilot only; thresholds require blinded pair validation"
+}

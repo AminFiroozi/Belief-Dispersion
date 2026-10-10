@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "status": "candidate-not-frozen",
+  "topics": {
+    "monetary_policy": [
+      "\\bfederal reserve\\b", "\\bfomc\\b", "\\bcentral bank", "\\binterest rates?\\b",
+      "\\brate cuts?\\b", "\\brate hikes?\\b", "\\bmonetary policy\\b", "\\bjerome powell\\b"
+    ],
+    "inflation_prices": [
+      "\\binflation\\b", "\\bconsumer prices?\\b", "\\bprice pressures?\\b", "\\bcpi\\b",
+      "\\bcost of living\\b", "\\bproducer prices?\\b"
+    ],
+    "labor_markets": [
+      "\\bjobs? report\\b", "\\bpayrolls?\\b", "\\bunemployment\\b", "\\bjobless\\b",
+      "\\blabou?r market\\b", "\\bhiring\\b", "\\blayoffs?\\b", "\\bwages?\\b"
+    ],
+    "growth_macro": [
+      "\\bgdp\\b", "\\beconomic growth\\b", "\\brecession\\b", "\\bsoft landing\\b",
+      "\\bconsumer spending\\b", "\\bretail sales\\b", "\\bmanufacturing\\b"
+    ],
+    "fiscal_sovereign": [
+      "\\bfiscal\\b", "\\bgovernment spending\\b", "\\bbudget deficit\\b", "\\bnational debt\\b",
+      "\\bdebt ceiling\\b", "\\btreasur(?:y|ies)\\b", "\\bsovereign debt\\b"
+    ],
+    "banking_credit": [
+      "\\bbanks?\\b", "\\bbanking\\b", "\\bcredit markets?\\b", "\\bfinancial stability\\b",
+      "\\bbank failure\\b", "\\bliquidity crisis\\b", "\\bcredit crunch\\b"
+    ],
+    "corporate_firms": [
+      "\\bearnings\\b", "\\bquarterly results\\b", "\\brevenue\\b", "\\bprofit warning\\b",
+      "\\bmerger\\b", "\\bacquisition\\b", "\\bipo\\b", "\\bchief executive\\b"
+    ],
+    "geopolitics_conflict": [
+      "\\bukrain", "\\brussia", "\\biran", "\\bisrael", "\\bgaza\\b", "\\bhamas\\b",
+      "\\bhezbollah\\b", "\\bhouthi", "\\bwar\\b", "\\bmilitary strike\\b", "\\bsanctions?\\b"
+    ],
+    "energy_commodities": [
+      "\\boil\\b", "\\bcrude\\b", "\\bnatural gas\\b", "\\bopec", "\\bgold\\b",
+      "\\bcommodit", "\\benergy prices?\\b", "\\bcopper\\b"
+    ],
+    "technology_regulation": [
+      "\\bartificial intelligence\\b", "\\bai regulation\\b", "\\bsemiconductor", "\\bchips?\\b",
+      "\\bantitrust\\b", "\\bbig tech\\b", "\\bdata privacy\\b", "\\bcyber"
+    ],
+    "market_performance": [
+      "\\bstocks?\\b", "\\bshares?\\b", "\\bequities\\b", "\\bwall street\\b", "\\bs&p 500\\b",
+      "\\bnasdaq\\b", "\\bdow jones\\b", "\\bbond yields?\\b", "\\bmarket rally\\b", "\\bmarket selloff\\b"
+    ],
+    "health_pandemic": [
+      "\\bcovid", "\\bcoronavirus\\b", "\\bpandemic\\b", "\\bvaccine", "\\bpublic health\\b"
+    ]
+  },
+  "candidate_topic_map": {
+    "russia_ukraine_war": "geopolitics_conflict",
+    "iran_israel_direct_conflict": "geopolitics_conflict",
+    "iran_regional_conflict": "geopolitics_conflict"
+  },
+  "topic_priority": [
+    "geopolitics_conflict", "monetary_policy", "inflation_prices", "labor_markets",
+    "banking_credit", "energy_commodities", "technology_regulation", "fiscal_sovereign",
+    "growth_macro", "corporate_firms", "health_pandemic", "market_performance"
+  ],
+  "known_entities": [
+    "Federal Reserve", "FOMC", "Jerome Powell", "United States", "China", "European Union",
+    "Russia", "Ukraine", "Vladimir Putin", "Volodymyr Zelensky", "Iran", "Israel", "Gaza",
+    "Hamas", "Hezbollah", "Houthis", "Red Sea", "OPEC", "NATO", "Treasury", "White House"
+  ],
+  "neutral_replacements": {
+    "\\b(surges?|soars?|jumps?|rall(?:y|ies|ied)|booms?)\\b": "changes",
+    "\\b(plunges?|plummets?|tumbles?|slumps?|crashes?|sell-?off)\\b": "changes",
+    "\\b(gains?|rises?|climbs?|advances?)\\b": "moves",
+    "\\b(falls?|drops?|declines?|slides?|sinks?)\\b": "moves",
+    "\\b(bullish|bearish)\\b": "market outlook",
+    "\\b(optimism|pessimism|fear|panic|euphoria)\\b": "market reaction"
+  },
+  "clustering": {
+    "max_gap_days": 14,
+    "time_half_life_days": 7.0,
+    "semantic_weight": 0.78,
+    "entity_weight": 0.14,
+    "time_weight": 0.08,
+    "assignment_threshold": 0.59,
+    "svd_dimensions": 128,
+    "random_seed": 1729
+  }
+}
+

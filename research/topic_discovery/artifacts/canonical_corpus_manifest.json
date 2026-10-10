@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-09T01:02:55.102635+00:00",
+  "sample_start": "2020-05-01",
+  "sample_end": "2025-04-30",
+  "inputs": {
+    "news.csv": "1b3ffac50e7099df3ec4b55bebee8b5586f88b7d6699f707adad2294a988f94e",
+    "data/geopolitical_news_google.jsonl": "fcebe64a1ceac35e93a947995935c03e96b8d961aa9be4f3c7f58be9545b024c",
+    "research/topic_discovery/taxonomy.json": "91b938a2055c76d558e6944ab9bce26077eb9266276324048df3ee83ba2d7793"
+  },
+  "output": "data/topic_discovery_corpus.parquet",
+  "output_sha256": "2f8cad765dfab704385820ec8882b655bb9a38a7db4074bd2badeceeeb7ba67b",
+  "rows": 172039,
+  "origins": {
+    "student_news": 142213,
+    "google_geopolitical": 29826
+  },
+  "sources": 2074,
+  "primary_topics": {
+    "health_pandemic": 12069,
+    "other_unclear": 99627,
+    "geopolitics_conflict": 50646,
+    "corporate_firms": 514,
+    "banking_credit": 1401,
+    "market_performance": 1562,
+    "energy_commodities": 1030,
+    "technology_regulation": 853,
+    "growth_macro": 600,
+    "monetary_policy": 965,
+    "fiscal_sovereign": 271,
+    "labor_markets": 827,
+    "inflation_prices": 1674
+  },
+  "exact_duplicate_groups_with_multiple_rows": 382,
+  "rows_in_multirow_exact_duplicate_groups": 1066,
+  "timestamp_precision": {
+    "timestamp": 142213,
+    "date": 29826
+  },
+  "status": "outcome-blind candidate corpus; topic rules and duplicate groups are not frozen"
+}

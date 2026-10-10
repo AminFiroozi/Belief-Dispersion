@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "created_at_utc": "2026-10-09T02:17:04.987344+00:00",
+  "construct": "time-bounded topic discourse; editorial selection of sub-events is part of coverage",
+  "inputs": {
+    "data/topic_discovery_corpus.parquet": "2f8cad765dfab704385820ec8882b655bb9a38a7db4074bd2badeceeeb7ba67b",
+    "research/topic_discovery/taxonomy_v2.json": "aa217ee7df48e09b53d4f48e64ebb9f3e59b3738cbcaccbf8dd80af5d46a3b29"
+  },
+  "output": "data/topic_family_v2_assignments.parquet",
+  "output_sha256": "62155c719042f5bc3917f03c826b0636985e6c71c1214c49c368f4f641d4a413",
+  "rows": 172039,
+  "primary_topic_counts": {
+    "covid_pandemic": 12360,
+    "other_unclear": 107692,
+    "iran_israel": 7806,
+    "russia_ukraine": 30277,
+    "us_china_relations": 94,
+    "technology_ai_chips": 349,
+    "corporate_earnings_deals": 571,
+    "growth_recession": 663,
+    "market_performance": 540,
+    "inflation_prices": 1699,
+    "monetary_policy": 1302,
+    "fiscal_tax_debt": 265,
+    "labor_markets": 686,
+    "red_sea_houthi": 1849,
+    "israel_gaza": 4034,
+    "energy_oil_gas": 406,
+    "trade_tariffs": 903,
+    "climate_transition": 341,
+    "banking_credit": 202
+  },
+  "confidence_counts": {
+    "medium": 25508,
+    "unassigned": 107692,
+    "low": 19343,
+    "high": 19496
+  },
+  "method_counts": {
+    "rule_plus_semantic": 35412,
+    "unassigned": 107692,
+    "retrieval_candidate": 24841,
+    "rule": 4074,
+    "semantic": 20
+  },
+  "semantic_representation": {
+    "backend": "tfidf-word-unigram-bigram-topic-prototypes",
+    "vocabulary_size": 60000,
+    "fit_scope": "complete outcome-blind corpus plus frozen topic prototypes"
+  },
+  "assignment_parameters": {
+    "semantic_weight": 0.6,
+    "rule_weight": 0.4,
+    "candidate_floor": 0.92,
+    "minimum_score": 0.18,
+    "secondary_score": 0.24,
+    "secondary_max_gap": 0.12,
+    "ambiguous_margin": 0.05,
+    "high_confidence_score": 0.48,
+    "medium_confidence_score": 0.28,
+    "random_seed": 1729,
+    "tfidf_max_features": 60000
+  },
+  "market_outcomes_used": false,
+  "status": "candidate topic-family assignments; human validation required before freeze"
+}

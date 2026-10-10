@@ -1,496 +1,625 @@
-# Distributional Sentiment Research Plan
+# Distributional News Sentiment Research Plan
+
+Version: 2.2
+Reframed: 2026-10-09
 
 ## 1. Research Objective
 
-This project tests whether the cross-news distribution of sentiment contains
-information about the prevailing information state and possible market
-behavior that is not captured by average tone.
+This project asks whether the distribution of market implications communicated
+by financial news contains information beyond their average implication.
 
-The broad conceptual claim is:
+The central claim is:
 
-> The shape of a topic-conditioned news-sentiment distribution can identify
-> economically distinct information states beyond mean sentiment. Consensus,
-> diffuse uncertainty, polarization, asymmetric concern, and tail dissent may
-> therefore correspond to different patterns of volatility, volume, direction,
-> reversal, or tail risk.
+> News items covering the same broad topic in the same information window can
+> imply different market directions. The shape of those implications, including
+> outlets' choices of which developments and perspectives to cover, may identify
+> information states that mean sentiment alone cannot distinguish.
 
-The first narrow confirmatory test is:
+A neutral average can describe very different states: uniformly neutral news,
+balanced positive and negative interpretations of one event, or unrelated
+topics delivering offsetting signals. The study must distinguish these cases
+rather than calling all of them sentiment dispersion.
 
-> Before scheduled FOMC announcements, does pre-announcement distributional
-> sentiment contain incremental information about subsequent 60-minute
-> volatility after controlling for mean sentiment, news attention, and the
-> market state known before the release?
+The primary research question is:
 
-The FOMC is an event anchor and repeated topic, not a news source. Dispersion is
-constructed from multiple media headlines discussing the approaching policy
-decision. The known schedule supplies a common subject and a clean information
-boundary without selecting events because they produced large realized moves.
+> Does topic-conditioned coverage dispersion in headline-implied market
+> direction improve the description or prediction of subsequent market states
+> after controlling for mean implication, attention, source mix, topic
+> composition, and the market information available at the prediction time?
 
-"Independent" means incremental to mean sentiment and controls. "Useful" means
-improved out-of-sample forecasts or economically meaningful event
-classification, not only an in-sample p-value. "Certain times" will be defined
-before observing outcomes through scheduled-event families or ex-ante news
-attention, not selected after seeing where the market moved.
+"Useful" means a stable association, improved out-of-sample prediction, or an
+economically interpretable state classification. It does not mean merely an
+in-sample p-value. "Independent" means incremental to mean sentiment and the
+pre-specified controls.
 
-The study does not assume that media sentiment is literally the distribution of
-investor beliefs or that headlines cause the subsequent market response. The
-careful interpretation is a news-sentiment distribution or media-implied
-information state that may predict or be associated with market behavior.
+The defensible primary construct is topic-conditioned coverage dispersion: a
+distribution of news-implied market directions that includes editorial
+selection, framing, and interpretation. It is not a directly observed
+distribution of investor beliefs. The adopted rationale and boundaries are
+recorded in `research/topic_discovery/DESIGN_DECISION_TOPIC_WINDOWS.md`.
 
-The broad daily analysis remains supporting evidence. The scheduled-event study
-will be the primary design because it provides coherent topics, exact timing,
-and a substantially cleaner information set.
+## 2. Core Decomposition
 
-## 2. Scope Decisions
+Every headline receives two conceptually independent measurements:
 
-- Use the existing discrete A-E headline sentiment labels for the first study.
-- Keep multidimensional LLM sentiment as a deferred project. Relevance,
-  surprise, horizon, uncertainty, and disagreement may be used as filters,
-  controls, or exploratory moderators, but they are not the central claim.
-- Condition distributions on one event topic at a time. A distribution across
-  unrelated headlines is news-flow heterogeneity, not necessarily disagreement.
-- Treat FOMC as the first controlled case study of the general hypothesis, not
-  as the hypothesis itself. FOMC-specific evidence does not establish
-  usefulness on ordinary days or for unrelated topics.
-- Preserve one confirmatory endpoint for statistical discipline while treating
-  the mapping from particular distribution shapes to volume, direction,
-  reversal, and tail behavior as pre-labeled secondary or exploratory work.
-- Treat the design as event-timed predictive or quasi-experimental evidence.
-  Scheduled timing reduces reverse causality but does not randomly assign
-  sentiment dispersion.
-- More precisely, call the FOMC design an event-timed observational study with
-  quasi-experimental structure, not a full quasi-experiment. Release timing is
-  predetermined, but the news distribution is endogenous and there is no
-  randomized treatment or naturally assigned control group.
-- Treat prolonged unscheduled stories such as COVID-19 or the Russia-Ukraine
-  war as later external-validity case studies. Their evolving information
-  boundaries, overlapping policy responses, and two-way feedback between news
-  and markets make them weaker primary identification settings.
-- Use only information available before each prediction origin in primary
-  models. Post-release information belongs only in mechanism analyses.
+1. Its expected near-term implication for broad U.S. equities.
+2. The broad, predeclared topic discourse to which it belongs.
 
-## 3. Primary Event Sample
+For headline `i` in information window `t`, let `s_it` denote its market-
+implication score and `z_it` its topic assignment.
 
-The initial sample spans 2020-05-01 through 2025-04-30 and pools three official
-U.S. macroeconomic event families:
+The total variance of sentiment can be decomposed as:
 
-1. FOMC policy statements, normally released at 14:00 America/New_York.
-2. Consumer Price Index releases, normally released at 08:30 America/New_York.
-3. Employment Situation/nonfarm payroll releases, normally released at 08:30
-   America/New_York.
+`Var(s) = sum_k p_k Var(s | z=k) + sum_k p_k (mean_k - mean)^2`
 
-GDP releases are a pre-specified expansion candidate if the first three
-families do not provide enough usable events.
+The terms have different interpretations:
 
-Event dates and timestamps must come from official Federal Reserve and Bureau
-of Labor Statistics calendars. Early closes, holidays, unscheduled FOMC
-actions, delayed releases, and timestamp exceptions must be recorded explicitly.
+- **Total dispersion:** heterogeneity across the complete news environment.
+- **Within-topic coverage dispersion:** differing implications produced by the
+  selection, framing, and interpretation of developments inside a broad topic.
+- **Between-topic dispersion:** different subjects delivering different average
+  implications.
+- **Between-source dispersion:** differences among source-level mean
+  implications within a topic-window.
+- **Within-event/story dispersion:** an optional narrower robustness measure
+  for headlines concerning the same specific information object.
 
-### Event Inclusion Rule
+The primary unit is `topic x information_window`. Within-event dispersion can
+help isolate interpretation of common information, but it is not the gatekeeper
+for the primary measure because editorial selection of sub-events is part of
+the hypothesized signal.
 
-The primary article window is the three trading days preceding an event through
-the final headline strictly before the official release timestamp. Robustness
-windows are one and five trading days.
+## 3. Hypotheses And Outcomes
 
-An event enters the primary article-level sample when it has:
+### Confirmatory Hypotheses
 
-- At least eight topic-relevant headlines before the release.
-- At least one valid source and publication timestamp.
-- Complete pre-event controls and post-event market outcomes.
+- **H1, incremental distribution information:** distributional features improve
+  on a baseline containing mean market implication, news volume, topic mix,
+  source mix, and pre-outcome market controls.
+- **H2, topic-conditioned coverage:** within-topic coverage dispersion has
+  incremental information beyond total dispersion, topic composition, and
+  source composition.
+- **H3, source framing and selection:** between-source dispersion in topic-level
+  mean implication contributes incremental information beyond the pooled topic
+  mean.
+- **H4, state rather than direction:** dispersion is more consistently related
+  to subsequent volatility, tail risk, or trading volume than to signed return.
 
-Sensitivity analyses will use minimum counts of 5, 10, and 15. A family is
-individually viable when at least 25 events pass the primary rule. Families
-below that threshold may enter the pooled model with event-family effects but
-will not receive standalone conclusions.
+H2 is the central test of the adopted theory. Specific-event dispersion remains
+a secondary decomposition and supports a narrower common-information claim if
+it works, but its failure does not invalidate topic-conditioned coverage
+dispersion.
 
-## 4. Data Sources And Provenance
+### Primary Outcomes
 
-### Existing Inputs
-
-- `result.csv`: 142,343 timestamped, LLM-labeled NYTimes and Guardian headlines.
-- `news.csv`: corresponding raw headline corpus.
-- `data/spy_1min_data`: SPY minute bars covering 2020-03-24 onward.
-- `data/market_panel.csv`: daily SPX and VIX cache.
-- `distributional_sentiment_v1.ipynb`: current daily proof of concept.
-- `news_analysis.ipynb`: student intraday prototype requiring timing repairs.
-
-### Free Official Inputs
-
-- Federal Reserve FOMC calendars and statements.
-- BLS release calendars and public data API.
-- Cboe daily historical VIX.
-- ALFRED vintages when originally released values are required.
-- New York Fed market-expectations surveys for FOMC robustness.
-
-### Provenance Requirements
-
-Every derived dataset must record source URL, retrieval date, timezone,
-transformation version, and raw-file checksum. The provenance and licensing of
-`spy_1min_data` must be established before it is the sole market-data source in
-a paper. Free Alpaca IEX bars may be used as an independent price check, but not
-as consolidated-volume data.
-
-Raw news and market data remain outside Git. Small official calendars,
-configuration, code, checksums, and aggregate audit tables should be versioned.
-
-## 5. Topic Assignment
-
-Topic membership must be determined without market outcomes.
-
-1. Begin with transparent, high-precision keyword rules for each event family.
-2. Manually review false positives and false negatives in a stratified sample.
-3. Freeze the rules before outcome regressions.
-4. Optionally use an LLM relevance adjudicator only for ambiguous headlines,
-   with prompt, model, and output archived.
-5. Deduplicate exact and near-duplicate headlines before constructing shares.
-
-Primary distributions use only event-relevant headlines. Unrelated headlines
-form a placebo distribution rather than entering the event measure.
-
-## 6. Sentiment Representation
-
-Let `p_A, ..., p_E` be the five daily/event-window class shares. Do not include
-redundant transformations of these shares in the same regression.
-
-### Required Baseline
-
-- Mean sentiment, using signed scores `[-1, -0.5, 0, 0.5, 1]`.
-- Log headline count.
-- Source count or source indicators.
-
-### Primary Distribution Measure
-
-Use the mean-orthogonal quadratic contrast over A-E shares, proportional to
-weights `[2, -1, -2, -1, 2]`. It captures extreme/U-shaped mass relative to
-neutral and moderate mass while being algebraically orthogonal to the linear
-mean contrast.
-
-### Secondary Distribution Measures
-
-- Bipolarity: positive mass multiplied by negative mass.
-- Entropy over the five classes.
-- Mean-orthogonal cubic and quartic contrasts for asymmetry and tail shape.
-- Negative and positive tail masses, tested separately only in labeled
-  secondary specifications.
-
-These measures represent distinct candidate states rather than interchangeable
-definitions of "dispersion." High entropy indicates a diffuse distribution;
-bipolarity identifies simultaneous positive and negative mass; asymmetric
-contrasts identify one-sided concern; and the quadratic contrast emphasizes
-extreme/U-shaped mass. Raw sample skewness and kurtosis are unstable with only
-8-30 headlines and remain robustness measures rather than primary constructs.
-
-Use Dirichlet or empirical-Bayes smoothing when event article counts are small.
-Report unsmoothed estimates as a robustness check. Feature definitions and the
-single primary contrast must be frozen before outcome testing.
-
-## 7. Outcomes And Information Sets
-
-### Primary Outcome
-
-- SPY realized volatility during the first 60 minutes after the release.
+- Future realized volatility.
+- Large absolute-return or tail-event indicators.
 
 ### Secondary Outcomes
 
-- Five- and fifteen-minute realized volatility.
-- Absolute five-, fifteen-, and sixty-minute return.
-- Post-release volume relative to normal volume for that minute of day.
-- Close-to-close absolute return and next-five-day realized volatility.
-- Daily VIX change.
-- Tail-event indicators, subject to adequate event counts.
+- Trading volume or abnormal volume.
+- Signed return.
+- Reversal or continuation.
+- VIX level/change when the timing and data source are suitable.
 
-### Timing Rules
+The first FOMC event study retains 60-minute post-announcement SPY realized
+volatility as its confirmatory pilot outcome. Broader daily and intraday tests
+will be specified separately before they are run.
 
-- Convert every news timestamp from UTC to `America/New_York` before assignment.
-- Begin each reaction window strictly after the official release timestamp.
-- Never floor an article timestamp and then measure a reaction from before the
-  article.
-- Normalize minute outcomes for time-of-day seasonality.
-- Use market controls measured before the release: pre-event return, pre-event
-  realized volatility, latest available VIX, and prior trading volume.
-- Do not use actual announcement surprise in the ex-ante primary model. It may
-  enter a secondary mechanism model after the total predictive effect is shown.
+## 4. Measurement Architecture
 
-## 8. Empirical Specifications
+### 4.1 Universal Market-Implication Label
 
-### Event-Level Forecast
+The market-implication question must be answerable independently of the topic:
 
-Baseline:
+> Considered on its own and using only information available in the headline,
+> what near-term implication for broad U.S. equity-market conditions does this
+> headline communicate?
 
-`post_event_rv ~ mean sentiment + log news count + source controls + pre-event market controls + event-family effects + calendar effects`
+Version 1 retains the discrete scale:
 
-Distribution model:
+- `A`: strongly adverse.
+- `B`: moderately adverse.
+- `C`: neutral, balanced, mixed, or descriptive.
+- `D`: moderately favorable.
+- `E`: strongly favorable.
+- `U`: insufficient information to infer an A-E implication.
 
-`baseline + primary quadratic dispersion contrast`
+The signed numerical baseline is `[-1, -0.5, 0, 0.5, 1]`. The categories are a
+measurement choice, not a claim that sentiment is naturally five-valued.
+Robustness work will compare alternative spacings, class shares, tail masses,
+probability-based models, and continuous scores if a reliable instrument can
+be produced.
 
-Secondary models add one pre-specified shape measure at a time.
+Confidence and ambiguity remain quality-control fields. They are not sentiment
+features and must not be treated as calibrated probabilities without separate
+evidence.
 
-### Pre/Post Event Design
+### 4.2 Topic Identity And Windows
 
-Compare matched pre-release and post-release market windows. Estimate whether
-the post-event increase in volatility or volume is larger when pre-event
-sentiment dispersion is higher. Cluster uncertainty at the event level and
-include event-family and intraday-bin effects as appropriate.
+The primary topic architecture is:
 
-### Inference And Predictive Value
+1. `topic_family`: a continuing economically interpretable discourse, such as
+   Russia-Ukraine, COVID, or monetary policy.
+2. `primary_topic`: the main topic family for the headline.
+3. `secondary_topics`: optional additional families for multi-topic headlines.
+4. `information_window`: the predeclared time interval in which coverage is
+   aggregated.
+5. `topic_centrality`: central, material but secondary, incidental, or unclear.
+6. `event_story_cluster`: optional narrower identity used for deduplication and
+   robustness analysis, not primary inclusion.
 
-- Event-level heteroskedasticity-robust inference.
-- Wild or block bootstrap by event.
-- Permutations within event family and year.
-- Rolling or leave-one-year-out forecasts.
-- Nested-model comparison using RMSE, MAE, OOS R2, and Clark-West or an
-  appropriate nested forecast test.
-- Report effect sizes and confidence intervals, not only significance.
+The provisional broad taxonomy is:
+
+- Monetary policy and central banks.
+- Inflation and prices.
+- Labor markets.
+- Growth and macroeconomic activity.
+- Fiscal policy and sovereign finance.
+- Banking, credit, and financial stability.
+- Corporate earnings and firm-specific developments.
+- Geopolitics, conflict, and trade, subdivided into named continuing conflicts
+  or policy discourses for primary measurement.
+- Energy and commodities.
+- Technology, competition, and regulation.
+- Market structure and observed market performance.
+- Other or unclear.
+
+This taxonomy is provisional. It must be audited against the corpus before it
+is frozen. Headlines may receive a primary and one or more secondary topics,
+but confirmatory within-topic calculations will use a documented primary-topic
+rule or pre-specified fractional membership.
+
+### 4.3 Optional Topic-Specific Stance
+
+Some topics have a meaningful internal axis, such as hawkish/dovish monetary
+policy or escalation/de-escalation in a conflict. These labels may help explain
+mechanisms but are not interchangeable with equity implication. They are
+deferred until the universal market-implication and topic measurements pass
+validation.
+
+## 5. Topic Discovery And Assignment
+
+Topics must be determined without market outcomes. The preferred procedure is
+a hybrid of a predeclared taxonomy and outcome-blind topic discovery. Narrow
+story clustering is secondary.
+
+### Step 1: Build Topic-Neutral Representations
+
+Create a concise representation that preserves entities, actions, policy
+questions, and topic identity while removing bullish/bearish wording and
+observed market-direction language where possible. Store both the original and
+neutralized text.
+
+This step is essential because ordinary semantic embeddings can separate
+positive and negative coverage of the same topic. Such separation would
+mechanically reduce the topic-conditioned dispersion that the study is meant
+to measure.
+
+### Step 2: Assign Broad Topics
+
+Use a transparent multi-label classifier combining seed rules, semantic
+similarity to topic definitions, and a model adjudicator for ambiguous cases.
+The initial taxonomy and examples must be written before inspecting market
+outcomes.
+
+### Step 3: Construct Topic-Windows
+
+Within broad topics, construct candidate daily, three-session, and weekly
+topic-windows. Preserve:
+
+- all eligible headlines and unique sources;
+- primary and secondary topic membership;
+- known scheduled-event identity when applicable;
+- exact, near-duplicate, and syndicated-copy flags;
+- optional event/story clusters for secondary decomposition.
+
+Do not require headlines to describe the same incident. Selection of different
+developments within the same topic-window is part of the primary signal. Do not
+force `other_unclear` into a substantive topic. Topic assignment must respect
+time and prevent future vocabulary from changing historical assignments in
+out-of-sample evaluation.
+
+### Step 4: Audit And Freeze
+
+Validate broad-topic labels and pairwise same-topic-discourse decisions on a
+stratified human-reviewed sample. Freeze the representation prompt/model,
+taxonomy, assignment thresholds, information-window rule, deduplication rule,
+and version hashes before testing market outcomes. Validate optional story
+clusters separately if they are reported.
+
+For forecasting tests, either fit the topic system on the training period and
+assign later observations to frozen topics/centroids, or demonstrate that a
+fixed outcome-blind assignment rule produces equivalent results. Unsupervised
+does not automatically mean free of look-ahead bias.
+
+## 6. Validation Design
+
+Measurement validation is separate from testing the economic hypothesis.
+
+### 6.1 Rater Panel
+
+For subjective market-implication sentiment, the target validation panel is:
+
+- Human rater 1.
+- Human rater 2.
+- One fresh frontier-model rater.
+- The candidate scalable/production model.
+
+The frontier model is a machine benchmark, not a third human and not ground
+truth. Agreement between language models may reflect correlated model errors.
+
+All raters must work independently from headline text alone. They must not see
+event dates, sources, hidden keys, other ratings, market outcomes, or article
+text. Model runs must preserve the exact model/version, prompt, decoding
+settings, timestamp, raw responses, parse failures, input/output hashes, and
+software environment.
+
+The reusable fresh-session frontier prompt is stored at:
+
+`research/prompts/FRONTIER_FOMC_RATER_PROMPT.md`
+
+The present conversation must not be used as the independent frontier audit
+because it has already inspected and discussed the existing LLM output.
+
+Topic-family and same-topic-discourse validation use a lighter protocol adopted
+on 2026-10-10: one blinded Codex machine audit followed by row-level human
+`accept`, `correct`, or `unclear` verification. The human sees the agent answer,
+so this yields an adjudicated human-verified reference rather than independent
+inter-rater agreement. The complete procedure is recorded in
+`research/topic_discovery/DESIGN_DECISION_AGENT_TOPIC_AUDIT.md`.
+
+### 6.2 Agreement And Adjudication
+
+Calculate agreement before adjudication:
+
+- Raw exact and adjacent-class agreement.
+- Weighted Cohen kappa for ordered A-E labels.
+- Krippendorff alpha or an appropriate multi-rater statistic.
+- Class-specific precision, recall, and confusion matrices against the
+  adjudicated human reference.
+- Separate agreement for relevance, topic, market implication, uncertainty,
+  and pairwise same-topic-discourse decisions. Optional same-event decisions
+  are evaluated separately.
+
+For the agent-plus-human topic workflow, report acceptance, correction, and
+unclear rates plus correction confusion by topic. Do not calculate or present
+independent-rater kappa for this workflow.
+
+Two human disagreements are adjudicated after both files are complete and
+checksummed. The adjudicator must remain blind to market outcomes and, where
+feasible, to machine labels. Models are selected for scale according to human
+agreement, stability, cost, and coverage, never downstream market performance.
+
+### 6.3 Existing FOMC Pilot
+
+The frozen 150-headline sample remains useful for validating:
+
+- FOMC relevance under the original rubric.
+- Headline-only A-E equity implication.
+- Confidence and ambiguity behavior.
+
+Its limitations must remain explicit:
+
+- It contains only FOMC candidate headlines and cannot validate the general
+  topic taxonomy.
+- It was sampled from event-conditioned candidates and cannot estimate label
+  quality over the whole news universe.
+- The existing LLM response is structurally valid but currently lacks its
+  companion run metadata and raw-response audit log.
+- Both human sheets remain blank as of this plan revision, so no accuracy or
+  agreement claim is yet available.
+
+After the FOMC pilot, create a second stratified general-news validation sample
+covering years, sources, broad topics, candidate clusters, sentiment classes,
+and difficult/unmatched cases.
+
+## 7. Feature Construction
+
+Construct features only after labels, topic assignment, and deduplication are
+frozen. Every information window must retain headline count, source count,
+topic count, and effective sample size.
+
+### Required Baseline Features
+
+- Mean market implication.
+- Log headline count and source count/mix.
+- Topic composition.
+- Pre-outcome market controls.
+- Calendar and event-family controls where applicable.
+
+### Distribution Features
+
+- Total variance or standard deviation.
+- Within-topic coverage dispersion, aggregated with pre-specified topic weights.
+- Between-topic dispersion.
+- Equally source-weighted within-topic dispersion.
+- Between-source dispersion in source-level mean implication.
+- Within-event/story dispersion as a narrower robustness measure.
+- Entropy over A-E classes.
+- Positive and negative tail mass.
+- Bipolarity: simultaneous positive and negative mass.
+- Neutral and `U`/unidentifiable mass.
+- Mean-orthogonal distribution contrasts.
+
+Raw skewness and kurtosis are exploratory when headline counts are small.
+Dirichlet or empirical-Bayes smoothing may be used, with unsmoothed estimates
+reported as robustness checks. Minimum headline and unique-source counts per
+topic-window must be set
+before outcome testing; thresholds of 5, 8, 10, and 15 will be evaluated in
+coverage audits, not selected by coefficient significance.
+
+Headline-weighted, source-weighted, between-topic, within-topic, between-source,
+and optional within-story features must not be entered together without
+checking their algebraic relationships and design-matrix rank. The variance
+decompositions should be implemented and unit-tested.
+
+## 8. Empirical Designs
+
+### 8.1 FOMC Repeated-Event Pilot
+
+FOMC is the first event family because its timing is scheduled, repeated, and
+supports a strict pre/post information boundary. It is an event-timed
+observational design with quasi-experimental structure, not a randomized or
+fully causal quasi-experiment.
+
+- News window: three completed trading sessions through the last headline
+  strictly before the 14:00 America/New_York announcement.
+- Robustness windows: one and five completed trading sessions.
+- Primary outcome: SPY realized volatility in `[14:00, 15:00)`.
+- Primary comparison: mean-only baseline versus baseline plus validated
+  within-FOMC-event distribution features.
+- Controls: pre-event return/volatility, latest available VIX, prior volume,
+  attention, source mix, and calendar controls.
+
+The FOMC pilot tests whether coverage dispersion inside one repeated topic and
+event family is measurable and useful. It does not establish external validity
+for ordinary days or unrelated topics.
+
+### 8.2 Broad News-Window Design
+
+Construct daily or intraday information windows across the general corpus.
+Compare:
+
+1. Controls plus mean implication and attention.
+2. Baseline plus total dispersion.
+3. Baseline plus headline-weighted within- and between-topic dispersion.
+4. Baseline plus source-balanced and between-source topic dispersion.
+5. Baseline plus optional within-event/story dispersion where coverage permits.
+
+This nested sequence reveals whether predictive value comes from the shape of
+the whole news environment, topic composition, heterogeneous topic coverage,
+or the narrower interpretation of common information.
+
+### 8.3 Inference And Prediction
+
+- Strictly lag all features to the prediction origin.
+- Use heteroskedasticity-robust or event-clustered inference as appropriate.
+- Use block/wild bootstrap and outcome-blind permutations.
+- Use rolling, expanding-window, or leave-one-year-out evaluation.
+- Compare adjusted R2, AIC/BIC where appropriate, RMSE, MAE, OOS R2, and a
+  suitable nested forecast test.
+- Report effect sizes and uncertainty, not only significance.
 - Correct secondary-feature inference for multiple testing.
 
 ## 9. Robustness And Falsification
 
-Required checks:
+Required checks include:
 
-- One-, three-, and five-trading-day article windows.
-- Minimum headline thresholds of 5, 8, 10, and 15.
-- NYTimes-only, Guardian-only, and both-source samples.
-- Leave-one-event-family-out and leave-one-year-out analyses.
-- Exclude COVID crisis months and other pre-specified stress periods.
-- Alternative discrete encodings and unsmoothed versus smoothed shares.
+- Alternative news windows and minimum cluster sizes.
+- Alternative A-E numerical encodings and class-share models.
+- Smoothed and unsmoothed distributions.
+- Exact and near-duplicate removal.
+- Source-only, leave-one-source-out, leave-one-topic-out, and leave-one-year-out
+  samples.
+- Stress-period exclusions specified before modeling.
 - Randomly shifted event dates matched on weekday and release time.
-- Unrelated-topic headline distributions around the same events.
-- Pre-event pseudo-reaction windows as a pre-trend placebo.
-- Label shuffles within source, topic, and year.
-- No conclusion based on a hand-selected individual event.
+- Pre-outcome pseudo-reaction windows.
+- Sentiment shuffles within source, topic, and year.
+- Topic-label and story-cluster perturbation/sensitivity tests.
+- Comparison of original versus topic-neutral embeddings to detect sentiment-
+  driven clustering.
+- No conclusion based on a hand-selected topic, year, or individual event.
 
-## 10. Measurement Validation
+## 10. Data And Reproducibility
 
-Before final inference, draw a stratified validation sample covering event
-families, sources, years, and all sentiment classes.
+Current evidence includes `news.csv`, `result.csv`, the Google News event
+snapshot, SPY minute data, daily market data, the student notebooks, and the
+timing-safe FOMC panel under `research/event_study/`.
 
-For the FOMC pilot, use the frozen 150-headline outcome-blind sample generated
-by `phase3_validation_sample.py`. Every FOMC event is represented, remaining
-slots are allocated proportionally to event coverage, and raters receive only
-random IDs and headline text. Event, date, and source metadata remain in a
-separate hidden key.
+Every derived dataset must record source, retrieval date, timezone,
+transformation version, raw checksum, code version, and licensing status. The
+provenance of the student SPY data and original news acquisition must be
+resolved before paper freeze.
 
-- Two independent human labels where feasible.
-- Weighted kappa and class-specific agreement.
-- Repeated LLM labeling on a subset to measure model stability.
-- FinBERT probabilities as an alternative measurement benchmark, not assumed
-  ground truth.
-- Report class imbalance, disagreement cases, and sensitivity to relabeling.
+The repository currently tracks large raw-data files despite the earlier plan
+to keep them outside ordinary Git. Before further collection, choose and
+document one policy: Git LFS, external immutable storage plus checksums, or a
+small versioned analytical extract. Generated labels must not silently
+overwrite raw or human-audit files.
 
 ## 11. Execution Phases
 
-### Phase 0 - Repository And Design Freeze
+### Phase 0 - Baseline And Repository Reconciliation
 
-Status: complete when the reconciled branch is on `main`, raw data are ignored,
-the roadmap is versioned, and the current proof-of-concept results are preserved.
+Status: complete.
+
+- Preserved both student analyses and the initial daily proof of concept.
+- Reconciled prior development work onto `main`.
+- Recorded the first provenance manifest and research roadmap.
+
+### Phase 1 - Event Calendar And Coverage
+
+Status: complete for the first pass.
+
+- Built official FOMC, CPI, and employment calendars for 2020-2025.
+- Audited existing-corpus coverage.
+- Expanded coverage with an outcome-blind Google News RSS snapshot.
+- Selected FOMC as the first viable repeated-event case study: 31 of 39 events
+  passed the original three-session/eight-headline coverage rule.
+
+### Phase 2 - Timing-Safe FOMC Panel
+
+Status: scaffold complete.
+
+- Constructed strict pre-announcement headline windows.
+- Constructed 5-, 15-, and 60-minute post-announcement outcomes.
+- Added pre-event market controls and missingness rules.
+- Preserved 30 events with both the primary news gate and complete primary
+  market outcome before sentiment validation.
+
+### Phase 3a - Original FOMC Measurement Pilot
+
+Status: in progress.
+
+- Froze a 150-headline, outcome-blind validation sample covering all 39 events.
+- Created two independently ordered human sheets and a hidden provenance key.
+- Implemented a resumable Gemini/Groq labeling notebook.
+- Received one structurally valid 150-row LLM response in `tmp/`.
+- Still required: two human audits, a clean frontier-model audit, machine-run
+  provenance artifacts, agreement analysis, and adjudication.
+
+### Phase 3b - General Topic-Aware Measurement Design
+
+Status: topic-window prototype and blinded Codex audit implemented; human
+verification pending.
+
+An initial outcome-blind geopolitical expansion now covers the matched
+2020-05-01 through 2025-04-30 daily-panel period. Weekly Google News RSS
+queries produced candidate coverage for Russia-Ukraine, direct Iran-Israel,
+and Iran-related regional conflict. The snapshot is stored separately from the
+existing corpus and has not been treated as validated topic membership or
+merged into market features. Historical timestamps are predominantly date-
+level, so the data are currently eligible for daily topic-window analysis, not
+minute-level reaction measurement.
+
+The first implementation is documented in
+`research/topic_discovery/README.md`. It builds a 172,039-record canonical
+corpus, assigns transparent provisional broad-topic candidates, creates
+topic-neutral baseline text, and performs chronological story clustering on a
+deterministic 5,000-record pilot. The pilot produced 4,398 candidate clusters
+and a 200-pair exploratory audit. The first 100 rows have one completed human
+review and are interpreted using the reviewer's broader continuing-topic
+definition. A live one-record AvalAI test confirmed
+that `deepseek-v4.1-flash` can return the required neutral-text/entity schema;
+bulk LLM processing has not been run.
+
+These are measurement-development results, not substantive findings. The
+provisional rules leave 99,627 records as `other_unclear`, and manual inspection
+found actor- and token-driven false joins in residual news. The adopted primary
+construct is now topic-conditioned coverage dispersion over bounded time
+windows; exact story identity is secondary. The taxonomy, topic-assignment
+procedure, information window, and source-balancing rules remain unfrozen.
+Details are recorded in
+`research/topic_discovery/DESIGN_DECISION_TOPIC_WINDOWS.md` and the pilot
+report.
+
+Taxonomy v2 now defines 18 continuing topic families and assigns the full
+172,039-record canonical corpus using transparent rules plus similarity to
+versioned topic prototypes. It assigns 64,347 records and retains 107,692 as
+`other_unclear` instead of forcing coverage. A fresh validation package contains
+180 single-headline topic assignments and 100 same-topic-discourse pairs,
+independently ordered rater sheets, and hidden keys. The rater-1 sheets are
+reserved for the blinded Codex audit followed by separate human verification;
+rater-2 files remain unused fallback artifacts. Candidate 1-, 3-, and 5-session
+windows have been compared using headline and unique-source coverage only; no
+market outcomes were consulted and no primary window has been selected yet.
+
+The blinded Codex audit completed all 180 rater-1 headline assignments and 100
+rater-1 topic-discourse pairs on 2026-10-10 without inspecting hidden keys,
+rater-2 files, source/date metadata, assignments, market data, or web results.
+Separate human-verification sheets preserve the agent judgments and require
+explicit accept/correct/unclear decisions. This is not independent inter-rater
+annotation and will be reported accordingly.
+
+The coverage audit shows a source-universe asymmetry that must constrain the
+design: named geopolitical topics have many Google News sources, whereas most
+economic topics currently rely mainly on the New York Times and Guardian.
+Between-source inference must therefore be reported by topic and cannot assume
+equivalent source breadth without further data expansion.
 
 Deliverables:
 
-- Reconciled `main` branch.
-- This research plan.
-- Baseline notebook and literature report under version control.
-- Data provenance checklist and checksums.
+1. Universal market-implication rubric independent of FOMC relevance.
+2. Versioned broad-topic taxonomy and annotation schema.
+3. Topic-neutral representation procedure.
+4. Outcome-blind topic-family assignment and topic-window construction.
+5. Pairwise same-topic-discourse validation sample.
+6. Stratified general-news sentiment/topic validation sample.
+7. Agreement report and frozen production labeling decision.
 
-### Phase 1 - Official Calendar And Coverage Audit
+No downstream outcome comparison should be used to tune these components.
 
-Build the FOMC, CPI, and payroll event calendar with exact New York timestamps.
-Apply frozen candidate topic rules to the current corpus and calculate headline
-coverage in one-, three-, and five-day pre-event windows.
+### Phase 4 - Feature Registry And Coverage Gate
 
-Gate:
+Implement and unit-test the total/within/between variance decomposition,
+distribution features, effective sample sizes, and smoothing. Produce coverage
+tables before inspecting outcome associations. Freeze one primary dispersion
+measure for the FOMC pilot and one for the broad design.
 
-- Continue with each standalone family only if at least 25 events have eight or
-  more relevant headlines.
-- If the pooled sample is also sparse, expand news coverage before modeling.
+### Phase 5 - FOMC Pilot Models
 
-Deliverables:
+Estimate the mean-only baseline and incremental distribution models for the
+pre-specified 60-minute outcome. Run timing, source, count, placebo, influence,
+and out-of-sample checks. Interpret results as a repeated-event pilot.
 
-- Versioned event calendar and source manifest.
-- Event-level coverage table.
-- False-positive topic audit sample.
-- Written go/no-go recommendation for each event family.
+### Phase 6 - Broad Topic-Aware Models
 
-### Phase 2 - Timing-Safe Event Panel
+Estimate the nested total/between/within design on daily or timing-safe
+intraday windows. Determine whether any result is attributable specifically to
+topic-conditioned coverage dispersion or between-source coverage differences
+rather than general news mixture. Treat within-story dispersion as secondary.
 
-Repair timezone handling, map topic headlines to events, deduplicate stories,
-and construct pre- and post-release SPY outcomes without overlapping the
-information boundary.
+### Phase 7 - Replication And External Validity
 
-Status: the FOMC news-assignment and market-outcome scaffold is complete. The
-sentiment-share portion remains intentionally pending Phase 3 because the
-expanded headline corpus has not yet passed relevance review or received
-documented labels.
+Replicate on additional scheduled-event families and then selected prolonged or
+unscheduled stories such as major conflicts, banking stress, or COVID-era news.
+These extensions require their own timing and feedback-bias analysis.
 
-Deliverables:
+### Phase 8 - Paper Freeze
 
-- One row per event with article counts, sentiment shares, controls, and
-  outcomes.
-- Timing assertions and missingness audit.
-- Independent spot checks against raw minute bars.
+Lock data, prompts, labels, code, tables, and figures. Verify citations and
+licenses, disclose null results and specification changes, and write claims at
+the level supported by the decomposition and validation evidence.
 
-### Phase 3 - Measurement And Feature Validation
+## 12. Decision Rules
 
-Validate sentiment labels, implement orthogonal contrasts and smoothing, and
-freeze the primary feature before looking at outcome tests.
+- Call the primary construct topic-conditioned coverage dispersion, not direct
+  investor-belief dispersion or disagreement about the same fact.
+- Treat editorial selection of different sub-events within one topic-window as
+  part of the signal rather than noise.
+- Keep topic assignment, window selection, and optional clustering blind to
+  market outcomes.
+- Exclude `other_unclear` from primary within-topic calculations without
+  deleting those headlines from total-news measures.
+- Report headline-weighted and equally source-weighted versions.
+- Keep mean implication in every incremental distribution specification.
+- Keep attention, topic composition, and pre-outcome market state in the
+  baseline.
+- Do not equate model agreement with human validity.
+- Do not use this conversation as a clean frontier audit of the existing sample.
+- Do not select labels, topics, clustering parameters, or models because they
+  produce favorable market results.
+- Treat FOMC as the first controlled case study, not the definition of the
+  general theory.
+- Treat predictive evidence as associational unless a stronger identification
+  strategy is established.
 
-Status: the 150-headline human-validation sample and versioned labeling rubric
-are ready. Two independent relevance/sentiment audits and subsequent agreement
-analysis remain pending.
+## 13. Immediate Next Steps
 
-Deliverables:
-
-- Label agreement report.
-- Feature identity/rank tests proving no exact redundancy.
-- Final primary and secondary feature registry.
-
-### Phase 4 - Primary Event Models
-
-Estimate baseline and distribution models for 60-minute realized volatility,
-then perform the pre/post event analysis.
-
-Deliverables:
-
-- Primary coefficient and effect-size table.
-- Baseline-versus-distribution model comparison.
-- Event-family heterogeneity table.
-- Diagnostic residual and influence checks.
-
-### Phase 5 - Robustness And Out-Of-Sample Validation
-
-Run source, year, family, threshold, smoothing, placebo, bootstrap, and rolling
-forecast tests.
-
-Gate:
-
-The central claim advances only if the primary dispersion effect has a stable
-direction, survives event-level inference and key placebos, and improves at
-least one pre-specified OOS metric without depending on one source, year, or
-event family.
-
-### Phase 6 - Broader Daily And Intraday Extensions
-
-Re-estimate the broad daily model using a market-close information set and
-repair the second student's general intraday pipeline. These analyses test
-external validity and mechanisms; they do not replace the primary event design.
-
-### Phase 7 - Paper Finalization
-
-Lock tables and figures, verify citations, document null results, produce a
-reproducibility appendix, and write the paper around the strength of evidence
-actually obtained.
-
-## 12. Decision Log
-
-- Primary endpoint: post-event volatility, not directional return.
-- Broad claim: distributional shape may identify economically distinct
-  media-implied information states beyond average tone.
-- Primary setting: FOMC as a topic-conditioned, ex-ante scheduled case study,
-  not as a news source or a universal definition of consequential news.
-- Primary confirmatory test: incremental prediction of 60-minute volatility.
-- Secondary state mapping: volume, direction, reversal, and tail behavior.
-- Interpretation: predictive/associational, not causal and not automatically a
-  literal distribution of investor beliefs.
-- Identification language: event-timed observational design with
-  quasi-experimental structure; predetermined FOMC timing is not random
-  assignment of sentiment.
-- Primary sentiment measurement: discrete A-E labels.
-- Primary distribution feature: mean-orthogonal quadratic contrast.
-- Multidimensional sentiment: deferred.
-- Existing broad daily and student intraday findings: exploratory until timing
-  and inference are repaired.
-- Paid data: deferred until the free-data coverage gate is evaluated.
-
-## 13. Progress Log
-
-### 2026-08-17 - Phase 0 Complete
-
-- Reconciled the Claude work and research baseline into local `main`.
-- Preserved the existing notebooks and literature report.
-- Excluded raw `data/` inputs from Git and recorded checksums in
-  `research/PROVENANCE.md`.
-- Added the reproducible event-study structure under `research/event_study/`.
-
-### 2026-08-17 - Phase 1 Initial Gate Complete
-
-- Versioned 39 regular FOMC, 60 CPI, and 60 Employment Situation release
-  timestamps from official Federal Reserve and BLS calendars.
-- Applied outcome-blind candidate topic rules using a strict pre-release time
-  boundary and exact-normalized headline deduplication.
-- Under the primary three-session/eight-headline rule, 0 FOMC, 10 CPI, and 1
-  employment events pass. None reaches the 25-event standalone threshold.
-- Decision: do not begin outcome regressions on this event panel yet. First
-  expand U.S. macro-news coverage and rerun the unchanged coverage gate.
-- Candidate topic rules remain explicitly unfrozen. The manual relevance audit
-  must be completed before any broader rule or longer window is adopted.
-
-The generated audit is in
-`research/event_study/artifacts/PHASE1_REPORT.md`. Phase 2 is therefore deferred
-until the Phase 1 coverage problem is resolved; this is a design gate, not a
-null result for the research hypothesis.
-
-### 2026-08-18 - Phase 1b Free-Coverage Expansion
-
-- Corrected the pre-event window to be continuous from the earliest included
-  completed session through the release boundary, so weekend headlines are no
-  longer discarded.
-- Retrieved an outcome-blind historical Google News RSS pilot for all 159
-  events. Raw feeds and headline metadata remain under ignored `data/` paths.
-- Excluded release-day RSS records because historical entries frequently have
-  date-like rather than trustworthy clock timestamps.
-- Added transparent title-level relevance filters and excluded official agency
-  pages. Under the original three-session/eight-headline gate, FOMC passes on
-  31 of 39 events, CPI on 13 of 60, and employment on 6 of 60.
-- Decision: prioritize FOMC as the first case study. Defer CPI and employment.
-  FOMC outcome modeling remains blocked until manual relevance validation,
-  paper-acceptable source/archiving terms, and consistent sentiment labeling
-  are complete.
-
-The aggregate expansion report is in
-`research/event_study/artifacts/GOOGLE_NEWS_EXPANSION_REPORT.md`.
-
-### 2026-08-18 - Phase 2 Timing-Safe FOMC Scaffold
-
-- Built one row for each of the 39 regular FOMC events using the frozen
-  three-session news rule and exact-normalized within-event deduplication.
-- Defined the primary SPY reaction as `[14:00, 15:00)` America/New_York. The
-  14:00 through 14:59 bar returns use the 13:59 close as the boundary price;
-  no missing announcement-window minute is interpolated.
-- Thirty-one events pass the eight-headline gate, 37 have complete pre- and
-  post-release primary market windows, and 30 satisfy both conditions before
-  sentiment validation.
-- Excluded `2021-04-28` and `2022-01-26` from the complete market sample due to
-  missing minute bars. The latter is the only news-qualified event lost to
-  market missingness.
-- Separated volume validity from price validity. One otherwise eligible event,
-  `2023-03-22`, has three zero-volume bars and retains its volatility outcome
-  while its normalized-volume outcome is missing. A second event,
-  `2021-12-15`, has fewer than 15 clean same-clock baseline sessions. Twenty-eight
-  eligible events have a complete normalized-volume outcome.
-- Added lagged SPX/VIX controls, five-, fifteen-, and sixty-minute outcomes, a
-  delayed-window robustness outcome, synthetic timing tests, and raw-bar spot
-  checks. All 17 event-study tests pass.
-- Decision: do not inspect sentiment-outcome associations yet. Phase 3 must
-  manually validate relevance, resolve the news source/archiving decision,
-  label the accepted headlines under a documented protocol, and freeze the
-  primary dispersion feature first.
-
-The generated audit is in
-`research/event_study/artifacts/PHASE2_REPORT.md`. The ignored local working
-files are `data/fomc_phase2_event_panel.csv` and
-`data/fomc_phase2_headline_review.csv`.
-
-### 2026-08-18 - Phase 3a Human Validation Sample
-
-- Froze a headline-only human rubric for FOMC relevance and the expected
-  near-term implication for broad U.S. equities on the A-E scale.
-- Drew 150 unique headlines outcome-blind from the 514 Phase 2 candidates. Each
-  of the 39 FOMC events contributes at least one headline; the remaining slots
-  are allocated proportionally to event-level candidate counts.
-- Created separate rater files with different deterministic orders and no
-  event, date, source, or market fields. A separate hidden key preserves
-  provenance and must not be opened until both raters finish.
-- The sample contains 91 sources, no repeated normalized headline, and one to
-  eight headlines per event. Selection diagnostics and file hashes are stored
-  in `artifacts/phase3_validation_sample_manifest.json`.
-- Decision: calculate raw agreement before adjudication and select any LLM by
-  human-label agreement and stability only, never by downstream market results.
+1. Have the human reviewer mark every agent judgment `accept`, `correct`, or
+   `unclear`, checksum the completed verification files, and calculate
+   acceptance/correction rates and topic-specific correction confusion.
+2. Revise taxonomy rules only from validation errors, rerun the same frozen
+   sample, and freeze a production topic-family assignment version.
+3. Select the primary 1-, 3-, or 5-session window from validated topic
+   reliability, coverage, headline counts, and unique-source counts only.
+4. Decide whether to expand non-geopolitical source coverage before treating
+   between-source dispersion as confirmatory.
+5. Specify and test headline-weighted, equally source-weighted, and
+   between-source topic dispersion estimators, including duplicate and minimum-
+   coverage rules.
+6. In parallel, complete the two human FOMC audits and one clean frontier-model
+   audit, then measure and adjudicate A-E market-implication reliability.
+7. Proceed to Phase 4 only after both topic identity and market implication pass
+   their predeclared measurement gates.
