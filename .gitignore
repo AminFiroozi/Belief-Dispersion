@@ -17,8 +17,6 @@ data/topic_family_v2_validation_key.csv
 data/topic_family_v2_pair_rater_1.csv
 data/topic_family_v2_pair_rater_2.csv
 data/topic_family_v2_pair_key.csv
-data/topic_family_v2_validation_human_verification.csv
-data/topic_family_v2_pair_human_verification.csv
 
 # Python
 __pycache__/
