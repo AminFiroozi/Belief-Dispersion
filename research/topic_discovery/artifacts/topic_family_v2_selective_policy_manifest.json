@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-26T05:04:17.391326+00:00",
+  "status": "candidate selective policy; fresh holdout required before freeze",
+  "policy": {
+    "status": "candidate-requires-fresh-holdout",
+    "minimum_score": 0.28,
+    "minimum_margin": 0.05,
+    "accepted_primary_labels": "all_substantive_topic_families",
+    "retain_other_unclear": true,
+    "development_sample_selected": "topic_family_v2_adjudicated_headlines.csv",
+    "rationale": "Broaden automatic acceptance without topic-specific exclusions; route weaker substantive assignments for outcome-blind review."
+  },
+  "inputs": {
+    "data/topic_family_v2_assignments.parquet": "62155c719042f5bc3917f03c826b0636985e6c71c1214c49c368f4f641d4a413",
+    "data/topic_family_v2_adjudicated_headlines.csv": "9fdef5d73fe3a009412522c330c231841c7d1115ce78976ef443500c9855b6b8",
+    "research/topic_discovery/taxonomy_v2.json": "dd56ecfedf8454e98b27e343c2b49675b9d2d3d1656f7c3f3e4cb5516fc96c2a"
+  },
+  "output": "data/topic_family_v2_selective_assignments.parquet",
+  "output_sha256": "1670001577309a14a4d2a971aedac8d31973490853b38f8f09cf3bb46c5b7fc2",
+  "rows": 172039,
+  "route_counts": {
+    "auto_accept": 44991,
+    "retain_other_unclear": 107692,
+    "model_review": 19356
+  },
+  "route_shares": {
+    "auto_accept": 0.261516,
+    "retain_other_unclear": 0.625974,
+    "model_review": 0.112509
+  },
+  "development_validation": {
+    "resolved_rows": 178,
+    "auto_accept_rows": 53,
+    "auto_accept_correct": 51,
+    "auto_accept_accuracy": 0.962264,
+    "model_review_rows": 85,
+    "retained_other_rows": 40,
+    "retained_other_correct": 24,
+    "retained_other_accuracy": 0.6,
+    "selection_warning": "Thresholds were selected on this development sample; accuracy requires confirmation on a fresh outcome-blind holdout."
+  },
+  "topic_specific_exclusions_added": false,
+  "market_outcomes_used": false
+}

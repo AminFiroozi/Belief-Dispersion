@@ -1,0 +1,242 @@
+{
+  "headline_validation": {
+    "rows": 180,
+    "resolved_rows": 178,
+    "unresolved_rows": 2,
+    "human_decisions": {
+      "accept": 159,
+      "correct": 19,
+      "unclear": 2
+    },
+    "agent_primary_accuracy": 0.893258,
+    "production_primary_accuracy": 0.730337,
+    "production_top2_accuracy": 0.786517,
+    "production_classification_report": {
+      "banking_credit": {
+        "precision": 0.833333,
+        "recall": 1.0,
+        "f1-score": 0.909091,
+        "support": 5
+      },
+      "climate_transition": {
+        "precision": 0.833333,
+        "recall": 1.0,
+        "f1-score": 0.909091,
+        "support": 5
+      },
+      "corporate_earnings_deals": {
+        "precision": 0.666667,
+        "recall": 0.8,
+        "f1-score": 0.727273,
+        "support": 5
+      },
+      "covid_pandemic": {
+        "precision": 0.928571,
+        "recall": 0.928571,
+        "f1-score": 0.928571,
+        "support": 14
+      },
+      "energy_oil_gas": {
+        "precision": 1.0,
+        "recall": 0.857143,
+        "f1-score": 0.923077,
+        "support": 7
+      },
+      "fiscal_tax_debt": {
+        "precision": 0.833333,
+        "recall": 0.625,
+        "f1-score": 0.714286,
+        "support": 8
+      },
+      "growth_recession": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1-score": 0.666667,
+        "support": 3
+      },
+      "inflation_prices": {
+        "precision": 0.5,
+        "recall": 0.375,
+        "f1-score": 0.428571,
+        "support": 8
+      },
+      "iran_israel": {
+        "precision": 0.818182,
+        "recall": 0.45,
+        "f1-score": 0.580645,
+        "support": 20
+      },
+      "israel_gaza": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 8
+      },
+      "labor_markets": {
+        "precision": 0.666667,
+        "recall": 0.666667,
+        "f1-score": 0.666667,
+        "support": 6
+      },
+      "market_performance": {
+        "precision": 0.666667,
+        "recall": 0.8,
+        "f1-score": 0.727273,
+        "support": 5
+      },
+      "monetary_policy": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1-score": 0.857143,
+        "support": 8
+      },
+      "other_unclear": {
+        "precision": 0.6,
+        "recall": 0.648649,
+        "f1-score": 0.623377,
+        "support": 37
+      },
+      "red_sea_houthi": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1-score": 0.857143,
+        "support": 8
+      },
+      "russia_ukraine": {
+        "precision": 0.571429,
+        "recall": 1.0,
+        "f1-score": 0.727273,
+        "support": 12
+      },
+      "technology_ai_chips": {
+        "precision": 0.5,
+        "recall": 0.6,
+        "f1-score": 0.545455,
+        "support": 5
+      },
+      "trade_tariffs": {
+        "precision": 0.833333,
+        "recall": 1.0,
+        "f1-score": 0.909091,
+        "support": 5
+      },
+      "us_china_relations": {
+        "precision": 0.833333,
+        "recall": 0.555556,
+        "f1-score": 0.666667,
+        "support": 9
+      },
+      "accuracy": 0.730337,
+      "macro avg": {
+        "precision": 0.767624,
+        "recall": 0.779294,
+        "f1-score": 0.756177,
+        "support": 178
+      },
+      "weighted avg": {
+        "precision": 0.757046,
+        "recall": 0.730337,
+        "f1-score": 0.726742,
+        "support": 178
+      }
+    },
+    "production_accuracy_by_confidence": [
+      {
+        "topic_assignment_confidence": "high",
+        "rows": 48,
+        "correct": 47,
+        "accuracy": 0.979167
+      },
+      {
+        "topic_assignment_confidence": "low",
+        "rows": 85,
+        "correct": 55,
+        "accuracy": 0.647059
+      },
+      {
+        "topic_assignment_confidence": "medium",
+        "rows": 5,
+        "correct": 4,
+        "accuracy": 0.8
+      },
+      {
+        "topic_assignment_confidence": "unassigned",
+        "rows": 40,
+        "correct": 24,
+        "accuracy": 0.6
+      }
+    ],
+    "production_accuracy_by_method": [
+      {
+        "topic_assignment_method": "retrieval_candidate",
+        "rows": 11,
+        "correct": 10,
+        "accuracy": 0.909091
+      },
+      {
+        "topic_assignment_method": "rule",
+        "rows": 25,
+        "correct": 13,
+        "accuracy": 0.52
+      },
+      {
+        "topic_assignment_method": "rule_plus_semantic",
+        "rows": 100,
+        "correct": 81,
+        "accuracy": 0.81
+      },
+      {
+        "topic_assignment_method": "semantic",
+        "rows": 2,
+        "correct": 2,
+        "accuracy": 1.0
+      },
+      {
+        "topic_assignment_method": "unassigned",
+        "rows": 40,
+        "correct": 24,
+        "accuracy": 0.6
+      }
+    ],
+    "production_error_rows": 48
+  },
+  "pair_validation": {
+    "rows": 100,
+    "resolved_rows": 100,
+    "human_decisions": {
+      "accept": 98,
+      "correct": 2
+    },
+    "final_relation_counts": {
+      "no": 54,
+      "yes": 46
+    },
+    "agent_relation_accuracy": 0.98,
+    "production_relation_accuracy": 0.86,
+    "production_same_topic_precision": 0.82,
+    "production_same_topic_recall": 0.891304,
+    "production_same_topic_f1": 0.854167,
+    "production_different_topic_specificity": 0.833333,
+    "production_confusion": {
+      "true_positive": 41,
+      "false_negative": 5,
+      "false_positive": 9,
+      "true_negative": 45
+    },
+    "production_error_rows": 14
+  },
+  "schema_version": 1,
+  "created_at_utc": "2026-10-25T18:13:38.456477+00:00",
+  "inputs": {
+    "data/topic_family_v2_validation_human_verification.csv": "75c8372747183ea90236009c882ff6b8d9ed1260ab66efa1073422c43fdb47d3",
+    "data/topic_family_v2_validation_key.csv": "f254f2e1455ac29775cc33806542087932fc0832c4424e3c29acc9463815ec09",
+    "data/topic_family_v2_pair_human_verification.csv": "aa886cd279dc57fe79e770fcced94d4e36622d522b9ddb0247625a54e01b4ac9",
+    "data/topic_family_v2_pair_key.csv": "02d35bceeebc19f1315c4246242e4ad8472a180557d9419df88ecea46b0e0860"
+  },
+  "market_outcomes_used": false,
+  "sample_interpretation": "stratified measurement-validation sample; aggregate metrics are not corpus-prevalence estimates",
+  "outputs": {
+    "data/topic_family_v2_adjudicated_headlines.csv": "9fdef5d73fe3a009412522c330c231841c7d1115ce78976ef443500c9855b6b8",
+    "data/topic_family_v2_adjudicated_pairs.csv": "08aaab6090e51405b93a5ddc621ad25a63da2f5bf2255ab1dc701f987ecf84ba"
+  }
+}

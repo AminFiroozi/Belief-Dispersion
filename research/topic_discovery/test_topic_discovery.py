@@ -9,6 +9,10 @@ from research.topic_discovery.assign_topic_families import (
     combine_assignments,
     load_taxonomy_v2,
 )
+from research.topic_discovery.analyze_topic_validation import (
+    derive_headline_reference,
+    derive_pair_reference,
+)
 from research.topic_discovery.build_corpus import (
     assign_topics,
     deterministic_neutral_text,
@@ -30,6 +34,10 @@ from research.topic_discovery.build_human_verification import (
     pair_verification_sheet,
 )
 from research.topic_discovery.topic_window_coverage import map_to_next_session
+from research.topic_discovery.selective_topic_policy import (
+    apply_selective_policy,
+    selective_policy_config,
+)
 
 
 class CanonicalCorpusTests(unittest.TestCase):
@@ -234,6 +242,103 @@ class TopicFamilyV2Tests(unittest.TestCase):
         review = pair_verification_sheet(pair)
         self.assertEqual(review.loc[0, "agent_same_topic_discourse"], "yes")
         self.assertIn("corrected_same_topic_discourse", review.columns)
+
+    def test_headline_adjudication_uses_human_corrections_and_preserves_unresolved(self):
+        review = pd.DataFrame(
+            [
+                {
+                    "human_decision": "accept",
+                    "agent_primary_topic": "monetary_policy",
+                    "agent_secondary_topics": "",
+                    "agent_topic_centrality": "central",
+                    "agent_confidence": "high",
+                    "corrected_primary_topic": "",
+                    "corrected_secondary_topics": "",
+                    "corrected_topic_centrality": "",
+                    "human_confidence": "",
+                },
+                {
+                    "human_decision": "correct",
+                    "agent_primary_topic": "other_unclear",
+                    "agent_secondary_topics": "",
+                    "agent_topic_centrality": "peripheral",
+                    "agent_confidence": "low",
+                    "corrected_primary_topic": "iran_israel",
+                    "corrected_secondary_topics": "energy_oil_gas",
+                    "corrected_topic_centrality": "central",
+                    "human_confidence": "high",
+                },
+                {
+                    "human_decision": "unclear",
+                    "agent_primary_topic": "other_unclear",
+                    "agent_secondary_topics": "",
+                    "agent_topic_centrality": "unclear",
+                    "agent_confidence": "low",
+                    "corrected_primary_topic": "",
+                    "corrected_secondary_topics": "",
+                    "corrected_topic_centrality": "",
+                    "human_confidence": "low",
+                },
+            ]
+        )
+        result = derive_headline_reference(review)
+        self.assertEqual(result.loc[0, "final_primary_topic"], "monetary_policy")
+        self.assertEqual(result.loc[1, "final_primary_topic"], "iran_israel")
+        self.assertEqual(result.loc[1, "final_secondary_topics"], "energy_oil_gas")
+        self.assertEqual(result.loc[2, "adjudication_status"], "unresolved")
+        self.assertEqual(result.loc[2, "final_primary_topic"], "")
+
+    def test_pair_adjudication_uses_corrected_relation(self):
+        review = pd.DataFrame(
+            [
+                {
+                    "human_decision": "correct",
+                    "agent_same_topic_discourse": "yes",
+                    "agent_confidence": "medium",
+                    "corrected_same_topic_discourse": "no",
+                    "human_confidence": "high",
+                }
+            ]
+        )
+        result = derive_pair_reference(review)
+        self.assertEqual(result.loc[0, "adjudication_status"], "human_corrected")
+        self.assertEqual(result.loc[0, "final_same_topic_discourse"], "no")
+        self.assertEqual(result.loc[0, "final_confidence"], "high")
+
+    def test_selective_policy_accepts_by_score_and_margin(self):
+        config = selective_policy_config(self.taxonomy)
+        frame = pd.DataFrame(
+            [
+                {
+                    "record_id": "accepted",
+                    "topic_family_primary": "monetary_policy",
+                    "topic_family_secondary": "inflation_prices",
+                    "topic_assignment_score": 0.28,
+                    "topic_assignment_margin": 0.05,
+                },
+                {
+                    "record_id": "review",
+                    "topic_family_primary": "monetary_policy",
+                    "topic_family_secondary": "",
+                    "topic_assignment_score": 0.27,
+                    "topic_assignment_margin": 0.20,
+                },
+                {
+                    "record_id": "other",
+                    "topic_family_primary": "other_unclear",
+                    "topic_family_secondary": "",
+                    "topic_assignment_score": 0.10,
+                    "topic_assignment_margin": 0.01,
+                },
+            ]
+        )
+        result = apply_selective_policy(frame, config).set_index("record_id")
+        self.assertEqual(result.loc["accepted", "selective_route"], "auto_accept")
+        self.assertEqual(result.loc["accepted", "selective_primary_topic"], "monetary_policy")
+        self.assertEqual(result.loc["review", "selective_route"], "model_review")
+        self.assertEqual(result.loc["review", "selective_primary_topic"], "")
+        self.assertEqual(result.loc["other", "selective_route"], "retain_other_unclear")
+        self.assertEqual(result.loc["other", "selective_primary_topic"], "other_unclear")
 
 
 if __name__ == "__main__":

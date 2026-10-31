@@ -136,6 +136,15 @@
     "random_seed": 1729,
     "tfidf_max_features": 60000
   },
+  "selective_classification": {
+    "status": "candidate-requires-fresh-holdout",
+    "minimum_score": 0.28,
+    "minimum_margin": 0.05,
+    "accepted_primary_labels": "all_substantive_topic_families",
+    "retain_other_unclear": true,
+    "development_sample_selected": "topic_family_v2_adjudicated_headlines.csv",
+    "rationale": "Broaden automatic acceptance without topic-specific exclusions; route weaker substantive assignments for outcome-blind review."
+  },
   "window_candidates_trading_sessions": [1, 3, 5],
   "minimum_coverage_candidates": [
     {"headlines": 3, "sources": 2},

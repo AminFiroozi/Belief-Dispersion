@@ -1,7 +1,7 @@
 # Topic Family V2 Implementation Report
 
-Run date: 2026-10-09
-Status: Codex machine audit complete; human verification pending
+Run date: 2026-10-25
+Status: adjudicated validation complete; production assignment revision pending
 
 ## Implemented Construct
 
@@ -61,10 +61,34 @@ and 100 rater-1 pair rows without opening hidden keys. Headline labels comprise
 144 high-, 34 medium-, and 2 low-confidence judgments. Pair judgments comprise
 45 `yes`, 54 `no`, and 1 `unclear`.
 
-Separate human-verification sheets now preserve each agent answer and request an
-explicit `accept`, `correct`, or `unclear` decision. This is an adjudicated
-machine-plus-human workflow, not two independent raters. The key files must
-remain closed until human verification is complete and checksummed.
+The cleaned human verification accepts 159 headline judgments, corrects 19, and
+leaves 2 unclear. It accepts 98 pair judgments and corrects 2. The taxonomy
+retains `iran_israel`; no additional Iran-regional family is introduced. This is
+an adjudicated machine-plus-human workflow, not two independent raters.
+
+After verification, the hidden keys were opened. Of 180 headline rows, 178
+have resolved adjudicated labels. The Codex audit achieved 89.3% primary-topic
+accuracy. The production assigner achieved 73.0% exact accuracy and 78.7%
+primary-or-second-candidate accuracy. High-confidence production labels were
+47/48 correct (97.9%), compared with 64.7% for low-confidence and 60.0% for
+unassigned rows. On the 100 deliberately balanced pairs, the production rule
+achieved 86.0% accuracy, 82.0% same-topic precision, and 89.1% same-topic
+recall. See `TOPIC_FAMILY_V2_VALIDATION_REPORT.md` for the full interpretation.
+
+## Candidate Selective Policy
+
+The development-sample policy accepts all substantive assignments with score
+at least 0.28 and margin at least 0.05. It deliberately adds no topic-specific
+COVID or Russia exclusions from the two observed errors. The gate accepts
+51/53 development cases correctly (96.2%), 44,991 corpus records in total, and
+69.9% of records already assigned to a substantive topic. It routes 19,356
+weaker substantive assignments for review and retains 107,692 as
+`other_unclear`.
+
+This is a selective-classification candidate, not a frozen estimate. The gate
+was chosen on the same adjudicated sample used to report its accuracy. Also,
+only 24/40 deliberately sampled `other_unclear` rows were confirmed as such,
+so missed substantive topics remain an important recall risk.
 
 ## Candidate Window Coverage
 
@@ -103,8 +127,9 @@ Therefore:
 
 ## Next Gate
 
-Complete both human-verification sheets. Calculate agent acceptance, correction,
-and unclear rates plus topic-specific correction confusion. Revise the taxonomy
-only from those errors, rerun the frozen validation sample, and then select the
-primary information window using validation reliability and coverage without
-consulting market outcomes.
+Validate the candidate selective gate on a fresh blinded holdout and audit
+`other_unclear` recall. Outcome-blindly adjudicate the weaker substantive route
+using active sampling before considering a full model run. Freeze the
+production assignment procedure only after those checks, and then select the primary
+information window using validation reliability and coverage without consulting
+market outcomes.

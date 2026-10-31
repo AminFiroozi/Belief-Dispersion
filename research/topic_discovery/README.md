@@ -29,16 +29,21 @@ This is a pilot, not a frozen measurement system.
 - Taxonomy v2 defines 18 economically coherent topic families, including named
   conflict discourses rather than one generic geopolitics class. The candidate
   assignment run labels 64,347 records and leaves 107,692 as `other_unclear`.
-- A fresh blinded v2 validation set contains 180 single-headline assignments and
-  100 topic-discourse pairs. The rater-1 files now contain one completed Codex
-  machine audit; separate human accept/correct verification sheets are ready.
+- The v2 validation set contains 180 single-headline assignments and 100
+  topic-discourse pairs. Its Codex audit and human verification are complete;
+  the opened keys yield 178 resolved headline references and 100 resolved pair
+  references.
 - Outcome-blind coverage diagnostics compare 1-, 3-, and 5-trading-session
   windows. The primary window remains unfrozen pending human topic validation.
-- The broad rules leave 99,627 corpus records as `other_unclear`. That is an
+- The v2 rules leave 107,692 corpus records as `other_unclear`. That is an
   honest coverage diagnostic, not a class to use as a substantive topic.
-- The first cluster inspection found both coherent event threads and some
-  actor-driven over-merging. The next primary validation target is topic-family
-  assignment rather than exact-story precision.
+- Production exact headline accuracy is 73.0% on the stratified validation
+  sample, while high-confidence assignments are 97.9% accurate. Production
+  pair accuracy is 86.0%; the assignment procedure therefore remains unfrozen.
+- A candidate selective gate accepts substantive assignments with score at
+  least 0.28 and margin at least 0.05. It accepts 44,991 corpus records, routes
+  19,356 weaker substantive assignments for review, and retains 107,692 as
+  `other_unclear`. Its 96.2% development accuracy is not a holdout estimate.
 - AvalAI access with `deepseek-v4.1-flash` has been tested on one record. The
   model is an optional topic-neutralization and entity-extraction instrument;
   it is not permitted to inspect market outcomes or choose clusters according
@@ -56,6 +61,8 @@ This is a pilot, not a frozen measurement system.
 | `assign_topic_families.py` | Hybrid transparent-rule and topic-prototype assignment for taxonomy v2 |
 | `build_topic_validation.py` | Fresh blinded headline and pair sheets with separate hidden keys |
 | `build_human_verification.py` | Validates a completed agent audit and creates explicit accept/correct sheets |
+| `analyze_topic_validation.py` | Derives the adjudicated reference datasets and scores production assignments |
+| `selective_topic_policy.py` | Applies the candidate automatic-acceptance gate and creates explicit review routes |
 | `topic_window_coverage.py` | Source/headline coverage comparison for candidate windows without outcomes |
 | `TOPIC_FAMILY_RATER_GUIDE.md` | Allowed codes and instructions for independent reviewers |
 | `avalai_neutralize.py` | Resumable, opt-in LLM neutralization with raw-response audit logging |
@@ -68,6 +75,9 @@ This is a pilot, not a frozen measurement system.
 | `artifacts/topic_family_v2_assignment_manifest.json` | V2 assignment counts, hashes, and representation settings |
 | `artifacts/topic_family_v2_validation_manifest.json` | Validation sample hashes and blinding checks |
 | `artifacts/topic_family_v2_agent_audit_manifest.json` | Completed Codex audit and blank human-verification hashes |
+| `artifacts/topic_family_v2_validation_metrics.json` | Machine-readable adjudication and production-validation metrics |
+| `artifacts/TOPIC_FAMILY_V2_VALIDATION_REPORT.md` | Human-readable validation results and production decision |
+| `artifacts/topic_family_v2_selective_policy_manifest.json` | Candidate gate, route counts, validation warning, and output hashes |
 | `artifacts/topic_window_coverage_v2.csv` | Topic-level candidate-window coverage diagnostics |
 | `artifacts/topic_window_coverage_v2_manifest.json` | Coverage inputs, assumptions, and hashes |
 
@@ -155,16 +165,15 @@ Codex audit is stored in:
 - `data/topic_family_v2_validation_rater_1.csv`
 - `data/topic_family_v2_pair_rater_1.csv`
 
-The human should review:
+The human verification was completed in:
 
 - `data/topic_family_v2_validation_human_verification.csv`
 - `data/topic_family_v2_pair_human_verification.csv`
 
-Use `TOPIC_FAMILY_RATER_GUIDE.md`. Enter `accept`, `correct`, or `unclear` for
-every row and supply corrected fields only when needed. Do not open the
-corresponding `*_key.csv` files until both verification sheets are complete and
-checksummed. The untouched rater-2 files remain fallback artifacts; they are not
-part of the adopted single-agent-plus-human workflow.
+The hidden keys were opened only after those files were complete and
+checksummed. `analyze_topic_validation.py` derives the adjudicated datasets and
+reports production accuracy. The untouched rater-2 files remain fallback
+artifacts; they are not part of the adopted single-agent-plus-human workflow.
 
 ## Reproduction
 
@@ -175,6 +184,8 @@ Use the project environment directly:
 /home/hamid/.pyenv/versions/fnlp/bin/python -m research.topic_discovery.cluster_stories
 /home/hamid/.pyenv/versions/fnlp/bin/python -m research.topic_discovery.assign_topic_families
 /home/hamid/.pyenv/versions/fnlp/bin/python -m research.topic_discovery.build_topic_validation
+/home/hamid/.pyenv/versions/fnlp/bin/python -m research.topic_discovery.analyze_topic_validation
+/home/hamid/.pyenv/versions/fnlp/bin/python -m research.topic_discovery.selective_topic_policy
 /home/hamid/.pyenv/versions/fnlp/bin/python -m research.topic_discovery.topic_window_coverage
 /home/hamid/.pyenv/versions/fnlp/bin/python -m unittest discover
 ```
@@ -196,8 +207,8 @@ Run a deliberately small live batch only after checking the preview:
 Before topic-aware market models are run:
 
 1. Define candidate topic families and their inclusion/exclusion examples.
-2. Create at least two independent reviews of a stratified topic-assignment and
-   same-topic-discourse sample.
+2. Complete the adopted blinded agent audit plus explicit human verification of
+   a stratified topic-assignment and same-topic-discourse sample.
 3. Report topic precision, recall, confusion, ambiguity, and results by source,
    year, and topic family.
 4. Inspect `other_unclear` and revise topic coverage using outcome-blind
