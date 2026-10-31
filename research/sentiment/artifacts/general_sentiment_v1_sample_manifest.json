@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-30T07:36:02.547032+00:00",
+  "sampling_seed": "general-sentiment-validation-v1-20261030",
+  "sampling": "Deterministic round robin across topic, year, and origin within each route; unique duplicate groups; disjoint from prior topic audit",
+  "sample_size": 240,
+  "route_counts": {
+    "auto_accept": 80,
+    "model_review": 80,
+    "retain_other_unclear": 80
+  },
+  "split_counts": {
+    "development": {
+      "auto_accept": 40,
+      "model_review": 40,
+      "retain_other_unclear": 40
+    },
+    "holdout": {
+      "auto_accept": 40,
+      "model_review": 40,
+      "retain_other_unclear": 40
+    }
+  },
+  "year_counts": {
+    "2020": 47,
+    "2021": 33,
+    "2022": 35,
+    "2023": 40,
+    "2024": 42,
+    "2025": 43
+  },
+  "origin_counts": {
+    "student_news": 161,
+    "google_geopolitical": 79
+  },
+  "topic_counts": {
+    "other_unclear": 80,
+    "iran_israel": 18,
+    "covid_pandemic": 13,
+    "russia_ukraine": 13,
+    "red_sea_houthi": 13,
+    "energy_oil_gas": 12,
+    "israel_gaza": 12,
+    "monetary_policy": 8,
+    "market_performance": 8,
+    "us_china_relations": 8,
+    "trade_tariffs": 7,
+    "labor_markets": 7,
+    "fiscal_tax_debt": 7,
+    "technology_ai_chips": 7,
+    "banking_credit": 6,
+    "corporate_earnings_deals": 6,
+    "inflation_prices": 6,
+    "growth_recession": 5,
+    "climate_transition": 4
+  },
+  "unique_sources": 57,
+  "input_sha256": "1670001577309a14a4d2a971aedac8d31973490853b38f8f09cf3bb46c5b7fc2",
+  "prior_audit_sha256": "9fdef5d73fe3a009412522c330c231841c7d1115ce78976ef443500c9855b6b8",
+  "outputs": {
+    "rater_1": {
+      "path": "data/general_sentiment_v1_rater_1.csv",
+      "sha256": "d31d515635dca283964b81a72506b5a1cbf2f78ed91c2d85350a2e32ff3befab",
+      "bytes": 24044
+    },
+    "rater_2": {
+      "path": "data/general_sentiment_v1_rater_2.csv",
+      "sha256": "fef8c19edf2488708a3bdd604d915888202b51287f8c121d1e3bd13dd9afe8d7",
+      "bytes": 24044
+    },
+    "frontier_input": {
+      "path": "data/general_sentiment_v1_frontier_input.csv",
+      "sha256": "7b0a08ec68f35ecc9e48b3582474fea4b78e1cca31fe148bc39012e189011fbb",
+      "bytes": 24044
+    },
+    "hidden_key": {
+      "path": "data/general_sentiment_v1_key.csv",
+      "sha256": "52e6fe0d3c5c80bf7b3837ea93648bc285946c1801526ee60aed8e8e656282ef",
+      "bytes": 52892
+    }
+  },
+  "blinding": "Raters and frontier see only ID, headline, and blank ratings; sources, dates, topics, routes, and split are confined to the key",
+  "market_outcomes_used": false
+}

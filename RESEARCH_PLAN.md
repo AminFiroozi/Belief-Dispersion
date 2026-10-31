@@ -1,7 +1,7 @@
 # Distributional News Sentiment Research Plan
 
-Version: 2.2
-Reframed: 2026-10-09
+Version: 2.3
+Reframed: 2026-10-26
 
 ## 1. Research Objective
 
@@ -37,6 +37,8 @@ distribution of news-implied market directions that includes editorial
 selection, framing, and interpretation. It is not a directly observed
 distribution of investor beliefs. The adopted rationale and boundaries are
 recorded in `research/topic_discovery/DESIGN_DECISION_TOPIC_WINDOWS.md`.
+The common market-implication axis and model roles are recorded in
+`research/sentiment/DESIGN_DECISION_MARKET_IMPLICATION.md`.
 
 ## 2. Core Decomposition
 
@@ -112,9 +114,26 @@ will be specified separately before they are run.
 
 The market-implication question must be answerable independently of the topic:
 
-> Considered on its own and using only information available in the headline,
-> what near-term implication for broad U.S. equity-market conditions does this
-> headline communicate?
+> Taking the reality described or implied by the headline as true, considered
+> on its own and using only information available in the headline, what
+> near-term implication does it communicate for the S&P 500/SPY as the primary
+> proxy for broad U.S. equity-market conditions?
+
+The universal axis is the market mapping, not the topic-native mechanism. A
+hawkish monetary-policy state and an escalation in a conflict are different
+objects, but each can be mapped to the same bearish/neutral/bullish equity-
+implication axis. The label is not a prediction of the observed return and must
+not use subsequent market behavior. It is the ex ante implication of the
+headline's represented reality, conditional on the headline being true and
+holding omitted information unspecified.
+
+The S&P 500/SPY is the provisional primary target because it is the broadest
+available U.S. equity benchmark in the project. Interest rates and Nasdaq are
+candidate alternative targets for a later design decision. Changing the target
+requires a separate rubric and revalidation; the present labels cannot simply
+be reinterpreted. The primary horizon is
+near term and will be operationalized separately for scheduled-event and daily
+designs; raters do not receive or predict the realized outcome window.
 
 Version 1 retains the discrete scale:
 
@@ -170,13 +189,39 @@ is frozen. Headlines may receive a primary and one or more secondary topics,
 but confirmatory within-topic calculations will use a documented primary-topic
 rule or pre-specified fractional membership.
 
-### 4.3 Optional Topic-Specific Stance
+### 4.3 Topic-Native Mechanisms
 
 Some topics have a meaningful internal axis, such as hawkish/dovish monetary
-policy or escalation/de-escalation in a conflict. These labels may help explain
-mechanisms but are not interchangeable with equity implication. They are
-deferred until the universal market-implication and topic measurements pass
-validation.
+policy or escalation/de-escalation in a conflict. These topic-native states are
+mechanisms through which a headline maps to the universal equity-implication
+axis; they are not separate cross-topic sentiment scales. A later mechanism
+analysis may retain them as structured explanatory labels, but the primary
+dispersion measure compares the resulting A-E market implications within and
+across topics. Topic-native labels are deferred until the universal implication
+instrument passes validation.
+
+### 4.4 Sentiment Model Roles
+
+No model is ground truth. The current measurement plan assigns distinct roles:
+
+- Two independent human raters plus blinded adjudication define the reference
+  for subjective A-E/U market implication.
+- `deepseek-v4.1-flash` through AvalAI is the candidate scalable production
+  labeler because it can apply a conditional market-implication rubric across
+  heterogeneous topics. It must emit discrete labels, not invented continuous
+  precision, and retain complete run provenance.
+- FinBERT is a benchmark and robustness instrument. Its class probabilities can
+  supply a continuous expected-tone score and entropy, but its positive/neutral/
+  negative target may capture textual financial tone rather than the specified
+  implication for SPY.
+- A fresh frontier-model rating is an additional machine benchmark, not a human
+  vote and not an adjudicator.
+
+DeepSeek becomes the production model only if it meets predeclared agreement,
+stability, parse-success, and coverage standards on held-out human labels.
+FinBERT remains a robustness measure unless it performs better on the same
+human reference. Neither model may be chosen because its downstream market
+regressions look stronger.
 
 ## 5. Topic Discovery And Assignment
 
@@ -481,8 +526,8 @@ Status: in progress.
 
 ### Phase 3b - General Topic-Aware Measurement Design
 
-Status: topic-window prototype and blinded Codex audit implemented; human
-verification pending.
+Status: topic-window prototype, blinded Codex audit, human verification, and
+production topic-rule evaluation complete; assignment revision pending.
 
 An initial outcome-blind geopolitical expansion now covers the matched
 2020-05-01 through 2025-04-30 daily-panel period. Weekly Google News RSS
@@ -505,7 +550,7 @@ that `deepseek-v4.1-flash` can return the required neutral-text/entity schema;
 bulk LLM processing has not been run.
 
 These are measurement-development results, not substantive findings. The
-provisional rules leave 99,627 records as `other_unclear`, and manual inspection
+provisional rules leave 107,692 records as `other_unclear`, and manual inspection
 found actor- and token-driven false joins in residual news. The adopted primary
 construct is now topic-conditioned coverage dispersion over bounded time
 windows; exact story identity is secondary. The taxonomy, topic-assignment
@@ -528,9 +573,32 @@ market outcomes were consulted and no primary window has been selected yet.
 The blinded Codex audit completed all 180 rater-1 headline assignments and 100
 rater-1 topic-discourse pairs on 2026-10-10 without inspecting hidden keys,
 rater-2 files, source/date metadata, assignments, market data, or web results.
-Separate human-verification sheets preserve the agent judgments and require
-explicit accept/correct/unclear decisions. This is not independent inter-rater
-annotation and will be reported accordingly.
+The cleaned human verification accepts 159 headline judgments, corrects 19, and
+leaves 2 unclear; it accepts 98 pair judgments and corrects 2. The project keeps
+the existing `iran_israel` family rather than adding an Iran-regional family.
+This is not independent inter-rater annotation and will be reported accordingly.
+
+Opening the hidden keys after verification produced 178 resolved headline
+references and 100 resolved pair references. The Codex audit agreed with the
+final headline topic in 89.3% of resolved cases and with the final pair relation
+in 98.0%. The current production system reached 73.0% exact headline accuracy
+(78.7% when its second candidate counts) and 86.0% pair accuracy. Its 48
+high-confidence headline assignments were 97.9% accurate, while low-confidence
+and unassigned cases were only 64.7% and 60.0% accurate. These are stratified
+validation-sample metrics, not estimates of corpus-wide prevalence or error.
+The taxonomy remains useful, but the current headline assigner is not frozen.
+
+A candidate selective-classification policy now automatically accepts any
+substantive assignment with score at least 0.28 and margin at least 0.05. It
+does not add topic-specific exclusions based on the two observed incidental-
+mention errors. On the development sample, the gate accepts 53 resolved cases
+with 96.2% accuracy. Applied to the corpus, it accepts 44,991 records (69.9% of
+the 64,347 substantively assigned records), routes 19,356 weaker substantive
+assignments for outcome-blind review, and retains 107,692 records as
+`other_unclear`. The thresholds were selected on the existing adjudicated
+sample and therefore require a fresh holdout before freeze. Moreover, only 60%
+of the 40 deliberately sampled `other_unclear` cases were truly outside the
+taxonomy, so missed-topic recall remains a separate measurement risk.
 
 The coverage audit shows a source-universe asymmetry that must constrain the
 design: named geopolitical topics have many Google News sources, whereas most
@@ -549,6 +617,30 @@ Deliverables:
 7. Agreement report and frozen production labeling decision.
 
 No downstream outcome comparison should be used to tune these components.
+
+### Phase 3c - General Market-Implication Measurement
+
+Status: design and 240-headline blinded validation package implemented;
+independent ratings and model benchmark results pending.
+
+The primary sentiment variable is the discrete A-E/U implication of the
+headline's represented reality for the S&P 500/SPY. DeepSeek is the candidate
+scalable instrument; FinBERT supplies a probability-based benchmark and
+continuous-score robustness check. Two independent human ratings, a clean
+frontier-model benchmark, and blinded human adjudication are required before a
+production model is frozen. Topic-native axes such as hawkish/dovish and
+escalation/de-escalation are explanatory mechanisms, not replacements for the
+common market axis.
+
+The validation package samples 80 headlines from each selective topic route:
+automatic substantive assignment, substantive assignment awaiting review,
+and retained `other_unclear`. It excludes the earlier topic audit, removes
+duplicate groups, spans all six corpus years and both origin types, and hides
+source, date, topic, route, and the 120/120 development/holdout split. Two
+independent human sheets, a fresh frontier input, a hidden key, a general
+rubric, persisted model prompt, manifest, and resumable DeepSeek/FinBERT
+benchmark runners are in `research/sentiment/`. No labels have yet been
+collected for this package.
 
 ### Phase 4 - Feature Registry And Coverage Gate
 
@@ -607,19 +699,25 @@ the level supported by the decomposition and validation evidence.
 
 ## 13. Immediate Next Steps
 
-1. Have the human reviewer mark every agent judgment `accept`, `correct`, or
-   `unclear`, checksum the completed verification files, and calculate
-   acceptance/correction rates and topic-specific correction confusion.
-2. Revise taxonomy rules only from validation errors, rerun the same frozen
-   sample, and freeze a production topic-family assignment version.
-3. Select the primary 1-, 3-, or 5-session window from validated topic
+1. Complete the two independent broad-news human ratings and one clean
+   frontier-model rating using the frozen 240-headline package.
+2. Run bounded DeepSeek and FinBERT benchmarks, inspect parse failures and
+   class behavior on development rows, and reserve holdout rows for the final
+   measurement comparison.
+3. Validate the candidate score >= 0.28 and margin >= 0.05 selective gate on a
+   fresh outcome-blind holdout, including a dedicated audit of `other_unclear`
+   false negatives.
+4. Outcome-blindly adjudicate the 19,356 weaker substantive assignments, using
+   active sampling before any full model run; do not force general news into a
+   topic family.
+5. Select the primary 1-, 3-, or 5-session window from validated topic
    reliability, coverage, headline counts, and unique-source counts only.
-4. Decide whether to expand non-geopolitical source coverage before treating
+6. Decide whether to expand non-geopolitical source coverage before treating
    between-source dispersion as confirmatory.
-5. Specify and test headline-weighted, equally source-weighted, and
+7. Specify and test headline-weighted, equally source-weighted, and
    between-source topic dispersion estimators, including duplicate and minimum-
    coverage rules.
-6. In parallel, complete the two human FOMC audits and one clean frontier-model
+8. In parallel, complete the two human FOMC audits and one clean frontier-model
    audit, then measure and adjudicate A-E market-implication reliability.
-7. Proceed to Phase 4 only after both topic identity and market implication pass
+9. Proceed to Phase 4 only after both topic identity and market implication pass
    their predeclared measurement gates.

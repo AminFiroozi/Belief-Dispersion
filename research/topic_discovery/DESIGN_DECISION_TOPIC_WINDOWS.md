@@ -92,6 +92,11 @@ Specific-event or story clustering is retained only as a secondary robustness
 decomposition. It can isolate common-information interpretation, but it is no
 longer the gatekeeper for inclusion in the primary topic-conditioned measure.
 
+The common sentiment axis used inside each topic-window is defined separately
+in `research/sentiment/DESIGN_DECISION_MARKET_IMPLICATION.md`. Topic-native
+states such as hawkish/dovish or escalation/de-escalation are mechanisms that
+map into the shared S&P 500/SPY implication axis; they are not pooled directly.
+
 ## Consequences For Existing Artifacts
 
 The completed first 100 rows of `data/topic_discovery_pair_audit.csv` remain an
